@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantApp — Dark Variants 🔥</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #080808;
+  color: #fff;
+  font-family: 'Archivo', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ══════════════════════════
+   SELECTOR BAR
+══════════════════════════ */
+.selector {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 56px;
+}
+
+.selector-logo {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.3);
+  margin-right: 2rem;
+  flex-shrink: 0;
+  letter-spacing: 2px;
+}
+
+.variant-tabs {
+  display: flex;
+  gap: 0;
+  flex: 1;
+}
+
+.vtab {
+  padding: 0 1.5rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.35);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.vtab:hover { color: rgba(255,255,255,0.7); }
+.vtab .vdot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.vtab[data-v="terminal"].active { color: #00ff41; border-bottom-color: #00ff41; }
+.vtab[data-v="obsidian"].active { color: #c9a84c; border-bottom-color: #c9a84c; }
+.vtab[data-v="quantum"].active { color: #00d4ff; border-bottom-color: #00d4ff; }
+.vtab[data-v="sage"].active { color: #8A9A5B; border-bottom-color: #8A9A5B; }
+
+.vtab[data-v="terminal"] .vdot { background: #00ff41; }
+.vtab[data-v="obsidian"] .vdot { background: #c9a84c; }
+.vtab[data-v="quantum"] .vdot { background: #00d4ff; }
+.vtab[data-v="sage"] .vdot { background: #8A9A5B; }
+
+.hadriel-pick {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+  padding: 0.3rem 0.8rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.hadriel-pick span { color: #8A9A5B; font-weight: 700; }
+
+/* ══════════════════════════
+   VARIANT PANELS
+══════════════════════════ */
+.variant-panel {
+  display: none;
+  min-height: 100vh;
+  padding-top: 56px;
+  animation: fadeUp 0.4s ease forwards;
+}
+.variant-panel.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════
+   VARIANT 1: TERMINAL  — Phosphor green on void
+═══════════════════════════════════════════════ */
+.v-terminal {
+  background: #050505;
+  color: #00ff41;
+  font-family: 'Fira Code', monospace;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* scanline overlay */
+.v-terminal::before {
+  content: '';
+  position: fixed;
+  top: 56px; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,65,0.015) 2px,
+    rgba(0,255,65,0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+/* vignette */
+.v-terminal::after {
+  content: '';
+  position: fixed;
+  top: 56px; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.term-inner { padding: 1.5rem 2rem; position: relative; z-index: 6; }
+
+.term-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(0,255,65,0.3);
+  margin-bottom: 1.2rem;
+  font-size: 0.75rem;
+}
+.term-topbar .t-title { color: #00ff41; letter-spacing: 4px; text-transform: uppercase; }
+.term-topbar .t-status { color: rgba(0,255,65,0.5); }
+.term-blink { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.term-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.term-panel {
+  border: 1px solid rgba(0,255,65,0.25);
+  padding: 1rem;
+  background: rgba(0,255,65,0.02);
+}
+.term-panel-title {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: rgba(0,255,65,0.5);
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(0,255,65,0.15);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.term-stat-row {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+.term-stat .ts-lbl { font-size: 0.6rem; color: rgba(0,255,65,0.4); letter-spacing: 2px; margin-bottom: 0.2rem; }
+.term-stat .ts-val { font-size: 1.3rem; font-weight: 500; }
+.term-stat .ts-val.pos { color: #00ff41; }
+.term-stat .ts-val.neg { color: #ff4141; }
+
+/* ASCII chart */
+.term-chart { font-size: 0.6rem; line-height: 1.3; color: rgba(0,255,65,0.6); letter-spacing: 1px; white-space: pre; }
+
+.term-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.term-table th { color: rgba(0,255,65,0.4); font-weight: 400; text-align: left; padding: 0.4rem 0.6rem; font-size: 0.6rem; letter-spacing: 2px; border-bottom: 1px solid rgba(0,255,65,0.15); }
+.term-table td { padding: 0.45rem 0.6rem; border-bottom: 1px solid rgba(0,255,65,0.07); }
+.term-table tr:hover td { background: rgba(0,255,65,0.04); }
+
+.term-signal-g { color: #00ff41; }
+.term-signal-r { color: #ff4141; }
+.term-signal-n { color: rgba(0,255,65,0.4); }
+
+.term-sidebar-stat { margin-bottom: 1rem; }
+.term-sidebar-stat .ss-lbl { font-size: 0.6rem; color: rgba(0,255,65,0.4); letter-spacing: 2px; margin-bottom: 0.3rem; }
+.term-sidebar-stat .ss-val { font-size: 0.9rem; color: #00ff41; }
+.term-sidebar-stat .ss-bar { height: 2px; background: rgba(0,255,65,0.15); margin-top: 0.4rem; }
+.term-sidebar-stat .ss-fill { height: 2px; background: #00ff41; }
+
+.term-footer {
+  font-size: 0.65rem;
+  color: rgba(0,255,65,0.3);
+  letter-spacing: 2px;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ═══════════════════════════════════════════════
+   VARIANT 2: OBSIDIAN  — Void + Gold, luxury
+═══════════════════════════════════════════════ */
+.v-obsidian {
+  background: #08080d;
+  color: #e8e0cc;
+  font-family: 'DM Mono', monospace;
+  min-height: 100vh;
+  position: relative;
+}
+
+.v-obsidian::before {
+  content: '';
+  position: fixed;
+  top: 56px; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 800px 600px at 10% 20%, rgba(201,168,76,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 800px at 90% 80%, rgba(201,168,76,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.obs-inner { padding: 2rem 2.5rem; position: relative; }
+
+.obs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+}
+.obs-wordmark {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  letter-spacing: 4px;
+  color: #e8e0cc;
+  text-transform: uppercase;
+  font-style: italic;
+}
+.obs-wordmark span { color: #c9a84c; font-style: normal; }
+.obs-nav { display: flex; gap: 2rem; font-size: 0.7rem; letter-spacing: 2px; color: rgba(232,224,204,0.35); text-transform: uppercase; }
+.obs-nav span.active { color: #c9a84c; }
+
+.obs-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(201,168,76,0.1);
+  margin-bottom: 2rem;
+  border: 1px solid rgba(201,168,76,0.1);
+}
+.obs-hero-stat {
+  background: #08080d;
+  padding: 1.5rem;
+}
+.obs-hero-stat .hs-lbl {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.5);
+  margin-bottom: 0.7rem;
+}
+.obs-hero-stat .hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #e8e0cc;
+}
+.obs-hero-stat .hs-val.pos { color: #8db87a; }
+.obs-hero-stat .hs-val.neg { color: #c97a6e; }
+.obs-hero-stat .hs-sub { font-size: 0.65rem; color: rgba(232,224,204,0.3); margin-top: 0.3rem; }
+
+.obs-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.obs-panel {
+  border: 1px solid rgba(201,168,76,0.1);
+  padding: 1.5rem;
+  background: rgba(201,168,76,0.02);
+}
+.obs-panel-title {
+  font-size: 0.58rem;
+  letter-spacing: 4px;
+  color: rgba(201,168,76,0.4);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+}
+.obs-panel-title::after {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: rgba(201,168,76,0.3);
+  align-self: center;
+}
+
+.obs-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.obs-table th {
+  color: rgba(201,168,76,0.35);
+  font-weight: 400;
+  text-align: left;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+.obs-table td { padding: 0.75rem 0.8rem; border-bottom: 1px solid rgba(232,224,204,0.04); }
+.obs-table tr:hover td { background: rgba(201,168,76,0.03); }
+.obs-ticker { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: #e8e0cc; font-style: italic; }
+.obs-badge-g { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.65rem; color: #8db87a; letter-spacing: 1px; }
+.obs-badge-r { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.65rem; color: #c97a6e; letter-spacing: 1px; }
+.obs-dot-g { width: 5px; height: 5px; border-radius: 50%; background: #8db87a; }
+.obs-dot-r { width: 5px; height: 5px; border-radius: 50%; background: #c97a6e; }
+
+.obs-sidebar-item { margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(201,168,76,0.07); }
+.obs-sidebar-item:last-child { border-bottom: none; }
+.obs-si-lbl { font-size: 0.58rem; letter-spacing: 3px; color: rgba(201,168,76,0.4); text-transform: uppercase; margin-bottom: 0.4rem; }
+.obs-si-val { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #e8e0cc; }
+.obs-si-sub { font-size: 0.7rem; color: rgba(232,224,204,0.35); margin-top: 0.2rem; }
+
+.obs-divider { width: 30px; height: 1px; background: rgba(201,168,76,0.3); margin: 1.5rem auto; }
+
+/* ═══════════════════════════════════════════════
+   VARIANT 3: QUANTUM  — Electric cyan, glassmorphism
+═══════════════════════════════════════════════ */
+.v-quantum {
+  background: #050a12;
+  color: #c8dff0;
+  font-family: 'Rajdhani', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.v-quantum::before {
+  content: '';
+  position: fixed;
+  top: 56px; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 700px 500px at 15% 30%, rgba(0,212,255,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 700px at 85% 70%, rgba(123,63,228,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 50% 90%, rgba(0,212,255,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* grid pattern */
+.v-quantum::after {
+  content: '';
+  position: fixed;
+  top: 56px; left: 0; right: 0; bottom: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+.qm-inner { padding: 1.5rem 2rem; position: relative; z-index: 2; }
+
+.qm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.qm-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #00d4ff;
+  text-shadow: 0 0 20px rgba(0,212,255,0.5);
+}
+.qm-logo span { color: rgba(0,212,255,0.4); font-weight: 400; }
+.qm-status {
+  display: flex;
+  gap: 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: rgba(0,212,255,0.4);
+  text-transform: uppercase;
+}
+.qm-status-dot {
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #00d4ff;
+  box-shadow: 0 0 8px #00d4ff;
+  animation: pulse 2s ease-in-out infinite;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.qm-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.qm-stat {
+  background: rgba(0,212,255,0.04);
+  border: 1px solid rgba(0,212,255,0.12);
+  border-radius: 2px;
+  padding: 1rem 1.2rem;
+  position: relative;
+  overflow: hidden;
+}
+.qm-stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+  opacity: 0.5;
+}
+.qm-stat .qs-lbl { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(0,212,255,0.4); margin-bottom: 0.5rem; font-weight: 500; }
+.qm-stat .qs-val { font-family: 'Orbitron', monospace; font-size: 1.2rem; font-weight: 600; color: #c8dff0; }
+.qm-stat .qs-val.pos { color: #00d4ff; text-shadow: 0 0 10px rgba(0,212,255,0.3); }
+.qm-stat .qs-val.neg { color: #ff6b8a; }
+.qm-stat .qs-sub { font-size: 0.68rem; color: rgba(200,223,240,0.35); margin-top: 0.3rem; font-weight: 500; }
+
+.qm-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1rem;
+}
+
+.qm-panel {
+  background: rgba(0,212,255,0.025);
+  border: 1px solid rgba(0,212,255,0.1);
+  border-radius: 2px;
+  padding: 1.2rem;
+  position: relative;
+  overflow: hidden;
+}
+.qm-panel::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent);
+}
+.qm-panel-title {
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(0,212,255,0.5);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.qm-badge-live {
+  font-size: 0.55rem;
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.3);
+  color: #00d4ff;
+  padding: 0.1rem 0.5rem;
+  border-radius: 2px;
+  letter-spacing: 2px;
+}
+
+.qm-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; font-weight: 500; }
+.qm-table th {
+  text-align: left;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(0,212,255,0.3);
+  font-weight: 500;
+  border-bottom: 1px solid rgba(0,212,255,0.1);
+}
+.qm-table td { padding: 0.55rem 0.7rem; border-bottom: 1px solid rgba(0,212,255,0.05); }
+.qm-table tr:hover td { background: rgba(0,212,255,0.04); }
+.qm-ticker { font-family: 'Orbitron', monospace; font-size: 0.72rem; font-weight: 600; color: #c8dff0; letter-spacing: 2px; }
+.qm-sig-g { font-size: 0.65rem; color: #00d4ff; letter-spacing: 2px; font-weight: 600; }
+.qm-sig-r { font-size: 0.65rem; color: #ff6b8a; letter-spacing: 2px; font-weight: 600; }
+.qm-sig-n { font-size: 0.65rem; color: rgba(200,223,240,0.3); letter-spacing: 2px; font-weight: 600; }
+
+.qm-meter { margin-bottom: 1rem; }
+.qm-meter-lbl { display: flex; justify-content: space-between; font-size: 0.65rem; color: rgba(0,212,255,0.4); letter-spacing: 2px; margin-bottom: 0.4rem; font-weight: 500; text-transform: uppercase; }
+.qm-meter-track { height: 3px; background: rgba(0,212,255,0.1); border-radius: 0; }
+.qm-meter-fill { height: 3px; border-radius: 0; }
+.qm-meter-fill.cyan { background: linear-gradient(90deg, #00d4ff, rgba(0,212,255,0.5)); box-shadow: 0 0 8px rgba(0,212,255,0.4); }
+.qm-meter-fill.pink { background: linear-gradient(90deg, #ff6b8a, rgba(255,107,138,0.5)); box-shadow: 0 0 8px rgba(255,107,138,0.4); }
+.qm-meter-fill.purple { background: linear-gradient(90deg, #a78bfa, rgba(167,139,250,0.5)); box-shadow: 0 0 8px rgba(167,139,250,0.4); }
+
+/* ═══════════════════════════════════════════════
+   VARIANT 4: SAGE NOIR  — Wiganz's signature
+═══════════════════════════════════════════════ */
+.v-sage {
+  background: #0b0f0b;
+  color: #d4dcc8;
+  font-family: 'IBM Plex Mono', monospace;
+  min-height: 100vh;
+  position: relative;
+}
+
+.v-sage::before {
+  content: '';
+  position: fixed;
+  top: 56px; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 900px 700px at 0% 0%, rgba(138,154,91,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 600px at 100% 100%, rgba(138,154,91,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.sage-inner { padding: 1.5rem 2rem; position: relative; z-index: 2; }
+
+.sage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.2rem;
+  border-left: 3px solid #8A9A5B;
+  background: rgba(138,154,91,0.04);
+}
+.sage-wordmark { font-size: 0.85rem; font-weight: 500; letter-spacing: 3px; color: #8A9A5B; text-transform: uppercase; }
+.sage-wordmark span { color: rgba(212,220,200,0.4); font-weight: 300; }
+.sage-nav { display: flex; gap: 1.5rem; font-size: 0.7rem; letter-spacing: 2px; color: rgba(212,220,200,0.3); }
+.sage-nav span.on { color: #8A9A5B; }
+
+.sage-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(138,154,91,0.08);
+  border: 1px solid rgba(138,154,91,0.08);
+  margin-bottom: 1.2rem;
+}
+.sage-stat {
+  background: #0b0f0b;
+  padding: 1.2rem;
+}
+.sage-stat .ss-lbl { font-size: 0.58rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(138,154,91,0.5); margin-bottom: 0.5rem; }
+.sage-stat .ss-val { font-size: 1.2rem; font-weight: 500; color: #d4dcc8; }
+.sage-stat .ss-val.pos { color: #8A9A5B; }
+.sage-stat .ss-val.neg { color: #b56666; }
+.sage-stat .ss-change { font-size: 0.65rem; color: rgba(212,220,200,0.3); margin-top: 0.2rem; }
+
+.sage-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1px;
+  background: rgba(138,154,91,0.08);
+  margin-bottom: 1.2rem;
+}
+.sage-panel {
+  background: #0b0f0b;
+  padding: 1.2rem;
+}
+.sage-panel-title {
+  font-size: 0.58rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(138,154,91,0.5);
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(138,154,91,0.1);
+}
+
+.sage-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.sage-table th {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  color: rgba(138,154,91,0.4);
+  font-weight: 400;
+  border-bottom: 1px solid rgba(138,154,91,0.1);
+}
+.sage-table td { padding: 0.55rem 0.6rem; border-bottom: 1px solid rgba(138,154,91,0.05); color: #d4dcc8; }
+.sage-table tr:hover td { background: rgba(138,154,91,0.04); }
+.sage-ticker { color: #8A9A5B; font-weight: 500; letter-spacing: 2px; }
+.sage-g { color: #8A9A5B; font-size: 0.7rem; letter-spacing: 1px; }
+.sage-r { color: #b56666; font-size: 0.7rem; letter-spacing: 1px; }
+
+.sage-metric { margin-bottom: 1rem; }
+.sage-metric-row { display: flex; justify-content: space-between; font-size: 0.7rem; color: rgba(212,220,200,0.4); letter-spacing: 1px; margin-bottom: 0.35rem; }
+.sage-metric-row span:last-child { color: #8A9A5B; font-weight: 500; }
+.sage-track { height: 2px; background: rgba(138,154,91,0.1); margin-bottom: 0.8rem; }
+.sage-fill { height: 2px; background: #8A9A5B; opacity: 0.8; }
+
+.sage-footer {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: rgba(138,154,91,0.25);
+  text-transform: uppercase;
+  margin-top: 1rem;
+  text-align: right;
+}
+
+/* ══════════════════════════
+   INFO CARDS (below variants)
+══════════════════════════ */
+.info-bar {
+  padding: 2rem;
+  display: none;
+}
+.info-bar.active { display: block; }
+
+.info-card {
+  border-radius: 16px;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.ic-section h4 { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; }
+.ic-section p { font-size: 0.88rem; line-height: 1.7; opacity: 0.75; }
+.ic-section ul { list-style: none; }
+.ic-section ul li { font-size: 0.85rem; opacity: 0.75; margin-bottom: 0.4rem; padding-left: 1rem; position: relative; }
+.ic-section ul li::before { content: '—'; position: absolute; left: 0; opacity: 0.4; }
+
+/* Terminal info */
+.info-terminal { background: #050505; border: 1px solid rgba(0,255,65,0.1); color: #00ff41; }
+.info-terminal h4 { color: rgba(0,255,65,0.5); }
+/* Obsidian info */
+.info-obsidian { background: #08080d; border: 1px solid rgba(201,168,76,0.1); color: #e8e0cc; }
+.info-obsidian h4 { color: rgba(201,168,76,0.5); }
+/* Quantum info */
+.info-quantum { background: #050a12; border: 1px solid rgba(0,212,255,0.1); color: #c8dff0; }
+.info-quantum h4 { color: rgba(0,212,255,0.5); }
+/* Sage info */
+.info-sage { background: #0b0f0b; border: 1px solid rgba(138,154,91,0.1); color: #d4dcc8; }
+.info-sage h4 { color: rgba(138,154,91,0.5); }
+
+/* SVG Charts shared */
+.chart-area { width: 100%; overflow: hidden; }
+svg text { font-family: inherit; }
+
+@media (max-width: 700px) {
+  .qm-stats, .sage-stats { grid-template-columns: 1fr 1fr; }
+  .obs-hero { grid-template-columns: 1fr 1fr; }
+  .qm-grid, .sage-grid, .obs-grid, .term-grid { grid-template-columns: 1fr; }
+  .info-card { grid-template-columns: 1fr; }
+  .vtab { padding: 0 0.8rem; font-size: 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- SELECTOR BAR -->
+<div class="selector">
+  <div class="selector-logo">QUANTAPP /</div>
+  <div class="variant-tabs">
+    <div class="vtab active" data-v="terminal" onclick="switchVariant('terminal')">
+      <div class="vdot"></div> Terminal
+    </div>
+    <div class="vtab" data-v="obsidian" onclick="switchVariant('obsidian')">
+      <div class="vdot"></div> Obsidian
+    </div>
+    <div class="vtab" data-v="quantum" onclick="switchVariant('quantum')">
+      <div class="vdot"></div> Quantum
+    </div>
+    <div class="vtab" data-v="sage" onclick="switchVariant('sage')">
+      <div class="vdot"></div> Sage Noir
+    </div>
+  </div>
+  <div class="hadriel-pick">Hadriel picks: <span>Sage Noir ★</span></div>
+</div>
+
+<!-- ══════════════════════════════════════
+     VARIANT 1: TERMINAL
+══════════════════════════════════════ -->
+<div class="variant-panel active" id="panel-terminal">
+  <div class="v-terminal">
+    <div class="term-inner">
+      <div class="term-topbar">
+        <div class="t-title">QUANTAPP v2.1.0 — PORTFOLIO TERMINAL<span class="term-blink">_</span></div>
+        <div class="t-status">CONNECTED · NYSE · 14:32:07 EST</div>
+      </div>
+
+      <div class="term-grid">
+        <div>
+          <div class="term-panel">
+            <div class="term-panel-title">// PORTFOLIO OVERVIEW</div>
+            <div class="term-stat-row">
+              <div class="term-stat">
+                <div class="ts-lbl">TOTAL_VALUE</div>
+                <div class="ts-val">$12,450.00</div>
+              </div>
+              <div class="term-stat">
+                <div class="ts-lbl">UNREALIZED_PNL</div>
+                <div class="ts-val pos">+$2,150.00 [+20.8%]</div>
+              </div>
+              <div class="term-stat">
+                <div class="ts-lbl">POSITIONS</div>
+                <div class="ts-val">4</div>
+              </div>
+            </div>
+
+            <!-- ASCII-style chart -->
+            <div class="term-panel-title" style="margin-top:0.8rem;">// AAPL 90D PRICE CHART</div>
+            <svg width="100%" height="90" viewBox="0 0 520 90" style="display:block;margin-bottom:0.8rem;">
+              <defs>
+                <linearGradient id="tGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#00ff41" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#00ff41" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid -->
+              <line x1="0" y1="20" x2="520" y2="20" stroke="rgba(0,255,65,0.08)" stroke-width="1"/>
+              <line x1="0" y1="45" x2="520" y2="45" stroke="rgba(0,255,65,0.08)" stroke-width="1"/>
+              <line x1="0" y1="70" x2="520" y2="70" stroke="rgba(0,255,65,0.08)" stroke-width="1"/>
+              <!-- Area -->
+              <polygon points="0,75 52,65 104,68 156,55 208,45 260,32 312,18 364,25 416,10 468,6 520,4 520,90 0,90" fill="url(#tGrad)"/>
+              <!-- Price line -->
+              <polyline points="0,75 52,65 104,68 156,55 208,45 260,32 312,18 364,25 416,10 468,6 520,4" fill="none" stroke="#00ff41" stroke-width="1.5" stroke-linejoin="round"/>
+              <!-- MA50 -->
+              <polyline points="0,72 52,68 104,63 156,58 208,52 260,43 312,34 364,28 416,20 468,15 520,12" fill="none" stroke="rgba(0,255,65,0.4)" stroke-width="1" stroke-dasharray="5,3"/>
+              <!-- Labels -->
+              <text x="4" y="19" fill="rgba(0,255,65,0.3)" font-size="8" font-family="Fira Code">$200</text>
+              <text x="4" y="44" fill="rgba(0,255,65,0.3)" font-size="8" font-family="Fira Code">$175</text>
+              <text x="4" y="69" fill="rgba(0,255,65,0.3)" font-size="8" font-family="Fira Code">$150</text>
+            </svg>
+
+            <table class="term-table">
+              <thead>
+                <tr>
+                  <th>SYMBOL</th>
+                  <th>QTY</th>
+                  <th>AVG_COST</th>
+                  <th>CURR_PRICE</th>
+                  <th>PNL</th>
+                  <th>SIGNAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>AAPL</td><td>10</td><td>$150.00</td><td>$185.00</td><td class="term-signal-g">+$350.00</td><td class="term-signal-g">◉ GOLDEN_CROSS</td></tr>
+                <tr><td>NVDA</td><td>5</td><td>$380.00</td><td>$576.00</td><td class="term-signal-g">+$980.00</td><td class="term-signal-g">◉ GOLDEN_CROSS</td></tr>
+                <tr><td>TSLA</td><td>8</td><td>$240.00</td><td>$217.50</td><td class="term-signal-r">-$180.00</td><td class="term-signal-r">◉ DEATH_CROSS</td></tr>
+                <tr><td>MSFT</td><td>4</td><td>$380.00</td><td>$630.00</td><td class="term-signal-g">+$1,000.00</td><td class="term-signal-n">◎ NEUTRAL</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <div class="term-panel" style="height:100%;">
+            <div class="term-panel-title">// SIGNAL SUMMARY</div>
+            <div class="term-sidebar-stat">
+              <div class="ss-lbl">GOLDEN_CROSS_COUNT</div>
+              <div class="ss-val">02 / 04</div>
+              <div class="ss-bar"><div class="ss-fill" style="width:50%;"></div></div>
+            </div>
+            <div class="term-sidebar-stat">
+              <div class="ss-lbl">DEATH_CROSS_COUNT</div>
+              <div class="ss-val" style="color:#ff4141;">01 / 04</div>
+              <div class="ss-bar"><div class="ss-fill" style="width:25%; background:#ff4141;"></div></div>
+            </div>
+            <div class="term-sidebar-stat">
+              <div class="ss-lbl">BEST_PERFORMER</div>
+              <div class="ss-val">NVDA [+980]</div>
+            </div>
+            <div class="term-sidebar-stat">
+              <div class="ss-lbl">WORST_PERFORMER</div>
+              <div class="ss-val" style="color:#ff4141;">TSLA [-180]</div>
+            </div>
+            <div class="term-sidebar-stat">
+              <div class="ss-lbl">MA50_AVG</div>
+              <div class="ss-val">$185.40</div>
+            </div>
+            <div class="term-sidebar-stat">
+              <div class="ss-lbl">MA200_AVG</div>
+              <div class="ss-val">$178.20</div>
+            </div>
+            <div class="term-sidebar-stat">
+              <div class="ss-lbl">PORTFOLIO_SIGNAL</div>
+              <div class="ss-val pos">◉ BULLISH</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="term-footer">
+        <span>DATA: ALPHA VANTAGE API · DJANGO REST · POSTGRESQL</span>
+        <span>REFRESH: 15MIN · NEXT: 14:47:07<span class="term-blink">_</span></span>
+      </div>
+    </div>
+  </div>
+  <div class="info-bar active">
+    <div class="info-card info-terminal">
+      <div class="ic-section">
+        <h4>// Vibe</h4>
+        <p>Bloomberg Terminal meets hacker aesthetic. Phosphor green on void black. Raw, data-forward, intimidating in the best way. Interviewers with finance background sẽ thích ngay.</p>
+      </div>
+      <div class="ic-section">
+        <h4>// Best for</h4>
+        <ul>
+          <li>Finance / quant-focused interviewers</li>
+          <li>Companies dùng Bloomberg Terminal</li>
+          <li>Show "tao biết finance domain"</li>
+        </ul>
+      </div>
+      <div class="ic-section">
+        <h4>// Build difficulty</h4>
+        <ul>
+          <li>CSS: Medium (monospace + scanlines)</li>
+          <li>Không cần nhiều UI library</li>
+          <li>Fira Code font là key</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     VARIANT 2: OBSIDIAN
+══════════════════════════════════════ -->
+<div class="variant-panel" id="panel-obsidian">
+  <div class="v-obsidian">
+    <div class="obs-inner">
+      <div class="obs-header">
+        <div class="obs-wordmark">Quant<span>App</span></div>
+        <div class="obs-nav">
+          <span class="active">Portfolio</span>
+          <span>Signals</span>
+          <span>Transactions</span>
+        </div>
+      </div>
+
+      <div class="obs-hero">
+        <div class="obs-hero-stat">
+          <div class="hs-lbl">Total Portfolio Value</div>
+          <div class="hs-val">$12,450</div>
+          <div class="hs-sub">As of market close</div>
+        </div>
+        <div class="obs-hero-stat">
+          <div class="hs-lbl">Unrealized P&L</div>
+          <div class="hs-val pos">+$2,150</div>
+          <div class="hs-sub">+20.8% all time</div>
+        </div>
+        <div class="obs-hero-stat">
+          <div class="hs-lbl">Best Performer</div>
+          <div class="hs-val" style="color:#c9a84c; font-style:italic;">NVDA</div>
+          <div class="hs-sub">+$980 · +41.3%</div>
+        </div>
+        <div class="obs-hero-stat">
+          <div class="hs-lbl">Active Signals</div>
+          <div class="hs-val pos">2 Golden</div>
+          <div class="hs-sub">1 Death · 1 Neutral</div>
+        </div>
+      </div>
+
+      <div class="obs-grid">
+        <div class="obs-panel">
+          <div class="obs-panel-title">Holdings</div>
+          <table class="obs-table">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Shares</th>
+                <th>Avg Cost</th>
+                <th>Current</th>
+                <th>P&L</th>
+                <th>Signal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="obs-ticker">AAPL</span></td>
+                <td>10</td>
+                <td style="color:rgba(232,224,204,0.4);">$150.00</td>
+                <td>$185.00</td>
+                <td style="color:#8db87a; font-weight:500;">+$350</td>
+                <td><span class="obs-badge-g"><span class="obs-dot-g"></span>Golden</span></td>
+              </tr>
+              <tr>
+                <td><span class="obs-ticker">NVDA</span></td>
+                <td>5</td>
+                <td style="color:rgba(232,224,204,0.4);">$380.00</td>
+                <td>$576.00</td>
+                <td style="color:#8db87a; font-weight:500;">+$980</td>
+                <td><span class="obs-badge-g"><span class="obs-dot-g"></span>Golden</span></td>
+              </tr>
+              <tr>
+                <td><span class="obs-ticker">TSLA</span></td>
+                <td>8</td>
+                <td style="color:rgba(232,224,204,0.4);">$240.00</td>
+                <td>$217.50</td>
+                <td style="color:#c97a6e; font-weight:500;">−$180</td>
+                <td><span class="obs-badge-r"><span class="obs-dot-r"></span>Death</span></td>
+              </tr>
+              <tr>
+                <td><span class="obs-ticker">MSFT</span></td>
+                <td>4</td>
+                <td style="color:rgba(232,224,204,0.4);">$380.00</td>
+                <td>$630.00</td>
+                <td style="color:#8db87a; font-weight:500;">+$1,000</td>
+                <td style="color:rgba(232,224,204,0.3); font-size:0.65rem; letter-spacing:1px;">Neutral</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="obs-divider"></div>
+          <!-- Chart -->
+          <svg width="100%" height="70" viewBox="0 0 500 70">
+            <defs>
+              <linearGradient id="oGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <polygon points="0,65 60,55 120,58 180,45 240,35 300,22 360,14 420,8 480,4 500,3 500,70 0,70" fill="url(#oGrad)"/>
+            <polyline points="0,65 60,55 120,58 180,45 240,35 300,22 360,14 420,8 480,4 500,3" fill="none" stroke="#c9a84c" stroke-width="1" stroke-linejoin="round" opacity="0.6"/>
+            <text x="0" y="68" fill="rgba(201,168,76,0.2)" font-size="8" font-family="DM Mono">AAPL · 6 MONTHS</text>
+          </svg>
+        </div>
+
+        <div class="obs-panel">
+          <div class="obs-panel-title">Analytics</div>
+          <div class="obs-sidebar-item">
+            <div class="obs-si-lbl">Portfolio Beta</div>
+            <div class="obs-si-val">1.24</div>
+            <div class="obs-si-sub">Moderate volatility</div>
+          </div>
+          <div class="obs-sidebar-item">
+            <div class="obs-si-lbl">MA50 vs MA200</div>
+            <div class="obs-si-val" style="color:#8db87a;">$185 / $178</div>
+            <div class="obs-si-sub">+3.9% divergence</div>
+          </div>
+          <div class="obs-sidebar-item">
+            <div class="obs-si-lbl">Day's Change</div>
+            <div class="obs-si-val" style="color:#8db87a;">+$423</div>
+            <div class="obs-si-sub">+3.5% today</div>
+          </div>
+          <div class="obs-sidebar-item">
+            <div class="obs-si-lbl">Last Refreshed</div>
+            <div class="obs-si-val" style="font-size:0.9rem;">14:32 EST</div>
+            <div class="obs-si-sub">Via Alpha Vantage</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="info-bar active">
+    <div class="info-card info-obsidian">
+      <div class="ic-section">
+        <h4>— Vibe</h4>
+        <p>Hedge fund annual report meets luxury product. Gold on obsidian. Playfair Display tickers look like they belong in The Economist. Refined và premium.</p>
+      </div>
+      <div class="ic-section">
+        <h4>— Best for</h4>
+        <ul>
+          <li>Series A–C fintech startups</li>
+          <li>Interviewers với taste tốt</li>
+          <li>"Senior engineer" impression</li>
+        </ul>
+      </div>
+      <div class="ic-section">
+        <h4>— Build difficulty</h4>
+        <ul>
+          <li>CSS: Medium-High (precision spacing)</li>
+          <li>Cần chú ý typography nhiều</li>
+          <li>Playfair Display + DM Mono = key</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     VARIANT 3: QUANTUM
+══════════════════════════════════════ -->
+<div class="variant-panel" id="panel-quantum">
+  <div class="v-quantum">
+    <div class="qm-inner">
+      <div class="qm-header">
+        <div class="qm-logo">QUANT<span>//</span>APP</div>
+        <div class="qm-status">
+          <span><span class="qm-status-dot"></span>LIVE FEED</span>
+          <span>NYSE · 14:32:07</span>
+        </div>
+      </div>
+
+      <div class="qm-stats">
+        <div class="qm-stat">
+          <div class="qs-lbl">Portfolio Value</div>
+          <div class="qs-val">$12,450</div>
+          <div class="qs-sub">4 active positions</div>
+        </div>
+        <div class="qm-stat">
+          <div class="qs-lbl">Total P&L</div>
+          <div class="qs-val pos">+$2,150</div>
+          <div class="qs-sub">+20.8% unrealized</div>
+        </div>
+        <div class="qm-stat">
+          <div class="qs-lbl">Golden Signals</div>
+          <div class="qs-val pos">02</div>
+          <div class="qs-sub">of 4 positions</div>
+        </div>
+        <div class="qm-stat">
+          <div class="qs-lbl">Today's Gain</div>
+          <div class="qs-val pos">+$423</div>
+          <div class="qs-sub">+3.5% session</div>
+        </div>
+      </div>
+
+      <div class="qm-grid">
+        <div class="qm-panel">
+          <div class="qm-panel-title">
+            Holdings Matrix
+            <span class="qm-badge-live">LIVE</span>
+          </div>
+          <table class="qm-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>P&L ($)</th>
+                <th>P&L (%)</th>
+                <th>Signal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="qm-ticker">AAPL</span></td>
+                <td style="color:#00d4ff; font-weight:600;">+350.00</td>
+                <td style="color:#00d4ff;">+23.3%</td>
+                <td><span class="qm-sig-g">◈ GOLDEN</span></td>
+              </tr>
+              <tr>
+                <td><span class="qm-ticker">NVDA</span></td>
+                <td style="color:#00d4ff; font-weight:600;">+980.00</td>
+                <td style="color:#00d4ff;">+41.3%</td>
+                <td><span class="qm-sig-g">◈ GOLDEN</span></td>
+              </tr>
+              <tr>
+                <td><span class="qm-ticker">TSLA</span></td>
+                <td style="color:#ff6b8a; font-weight:600;">−180.00</td>
+                <td style="color:#ff6b8a;">−9.4%</td>
+                <td><span class="qm-sig-r">◈ DEATH</span></td>
+              </tr>
+              <tr>
+                <td><span class="qm-ticker">MSFT</span></td>
+                <td style="color:#00d4ff; font-weight:600;">+1,000</td>
+                <td style="color:#00d4ff;">+65.8%</td>
+                <td><span class="qm-sig-n">◈ NEUTRAL</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Chart -->
+          <div style="margin-top: 1rem;">
+            <svg width="100%" height="60" viewBox="0 0 500 60">
+              <defs>
+                <linearGradient id="qGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <polygon points="0,55 50,45 100,48 150,35 200,25 250,16 300,8 350,11 400,4 450,2 500,1 500,60 0,60" fill="url(#qGrad)"/>
+              <polyline points="0,55 50,45 100,48 150,35 200,25 250,16 300,8 350,11 400,4 450,2 500,1" fill="none" stroke="#00d4ff" stroke-width="1.5" filter="url(#glow)" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="qm-panel">
+          <div class="qm-panel-title">Signal Strength</div>
+          <div class="qm-meter">
+            <div class="qm-meter-lbl"><span>AAPL Golden</span><span style="color:#00d4ff;">+3.9%</span></div>
+            <div class="qm-meter-track"><div class="qm-meter-fill cyan" style="width:78%;"></div></div>
+          </div>
+          <div class="qm-meter">
+            <div class="qm-meter-lbl"><span>NVDA Golden</span><span style="color:#00d4ff;">+8.2%</span></div>
+            <div class="qm-meter-track"><div class="qm-meter-fill cyan" style="width:92%;"></div></div>
+          </div>
+          <div class="qm-meter">
+            <div class="qm-meter-lbl"><span>TSLA Death</span><span style="color:#ff6b8a;">−5.1%</span></div>
+            <div class="qm-meter-track"><div class="qm-meter-fill pink" style="width:45%;"></div></div>
+          </div>
+          <div class="qm-meter">
+            <div class="qm-meter-lbl"><span>MSFT Neutral</span><span style="color:#a78bfa;">0.4%</span></div>
+            <div class="qm-meter-track"><div class="qm-meter-fill purple" style="width:52%;"></div></div>
+          </div>
+          <div style="margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid rgba(0,212,255,0.08);">
+            <div class="qm-meter-lbl" style="margin-bottom: 0.6rem;"><span>MA50</span><span style="color:#00d4ff;">$185.40</span></div>
+            <div class="qm-meter-lbl"><span>MA200</span><span style="color:rgba(0,212,255,0.4);">$178.20</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="info-bar active">
+    <div class="info-card info-quantum">
+      <div class="ic-section">
+        <h4>// Vibe</h4>
+        <p>Sci-fi trading floor. Electric cyan glows, grid patterns, Orbitron font. Trông như app của một AI startup. Eye-catching nhất trong 4 variant.</p>
+      </div>
+      <div class="ic-section">
+        <h4>// Best for</h4>
+        <ul>
+          <li>AI/ML startup interviews</li>
+          <li>Tech-forward companies</li>
+          <li>"Wow factor" maximum</li>
+        </ul>
+      </div>
+      <div class="ic-section">
+        <h4>// Build difficulty</h4>
+        <ul>
+          <li>CSS: High (glows, grids, effects)</li>
+          <li>Orbitron + Rajdhani fonts</li>
+          <li>Cần glassmorphism + box-shadow glow</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     VARIANT 4: SAGE NOIR ★ RECOMMENDED
+══════════════════════════════════════ -->
+<div class="variant-panel" id="panel-sage">
+  <div class="v-sage">
+    <div class="sage-inner">
+      <div class="sage-header">
+        <div class="sage-wordmark">Quant<span>App</span></div>
+        <div class="sage-nav">
+          <span class="on">Portfolio</span>
+          <span>Signals</span>
+          <span>History</span>
+        </div>
+      </div>
+
+      <div class="sage-stats">
+        <div class="sage-stat">
+          <div class="ss-lbl">Portfolio Value</div>
+          <div class="ss-val">$12,450</div>
+          <div class="ss-change">4 positions held</div>
+        </div>
+        <div class="sage-stat">
+          <div class="ss-lbl">Unrealized P&L</div>
+          <div class="ss-val pos">+$2,150</div>
+          <div class="ss-change">+20.8% all time</div>
+        </div>
+        <div class="sage-stat">
+          <div class="ss-lbl">Golden Cross</div>
+          <div class="ss-val pos">2 active</div>
+          <div class="ss-change">MA50 > MA200</div>
+        </div>
+        <div class="sage-stat">
+          <div class="ss-lbl">Best Performer</div>
+          <div class="ss-val" style="color:#a0b070;">NVDA</div>
+          <div class="ss-change">+$980 · +41.3%</div>
+        </div>
+      </div>
+
+      <div class="sage-grid">
+        <div class="sage-panel">
+          <div class="sage-panel-title">Holdings & Signals</div>
+          <table class="sage-table">
+            <thead>
+              <tr>
+                <th>Ticker</th>
+                <th>Qty</th>
+                <th>Avg Cost</th>
+                <th>Price</th>
+                <th>P&L</th>
+                <th>Signal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="sage-ticker">AAPL</span></td>
+                <td>10</td>
+                <td style="color:rgba(212,220,200,0.35);">$150.00</td>
+                <td>$185.00</td>
+                <td style="color:#8A9A5B; font-weight:500;">+$350</td>
+                <td><span class="sage-g">↑ Golden</span></td>
+              </tr>
+              <tr>
+                <td><span class="sage-ticker">NVDA</span></td>
+                <td>5</td>
+                <td style="color:rgba(212,220,200,0.35);">$380.00</td>
+                <td>$576.00</td>
+                <td style="color:#8A9A5B; font-weight:500;">+$980</td>
+                <td><span class="sage-g">↑ Golden</span></td>
+              </tr>
+              <tr>
+                <td><span class="sage-ticker">TSLA</span></td>
+                <td>8</td>
+                <td style="color:rgba(212,220,200,0.35);">$240.00</td>
+                <td>$217.50</td>
+                <td style="color:#b56666; font-weight:500;">−$180</td>
+                <td><span class="sage-r">↓ Death</span></td>
+              </tr>
+              <tr>
+                <td><span class="sage-ticker">MSFT</span></td>
+                <td>4</td>
+                <td style="color:rgba(212,220,200,0.35);">$380.00</td>
+                <td>$630.00</td>
+                <td style="color:#8A9A5B; font-weight:500;">+$1,000</td>
+                <td style="color:rgba(212,220,200,0.25); font-size:0.7rem;">— Neutral</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Chart -->
+          <div style="margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid rgba(138,154,91,0.08);">
+            <div style="font-size:0.55rem; letter-spacing:3px; color:rgba(138,154,91,0.4); text-transform:uppercase; margin-bottom:0.6rem;">AAPL · 6 Month Price</div>
+            <svg width="100%" height="55" viewBox="0 0 500 55">
+              <defs>
+                <linearGradient id="sGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#8A9A5B" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#8A9A5B" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <polygon points="0,50 50,42 100,45 150,33 200,24 250,15 300,7 350,10 400,4 450,2 500,1 500,55 0,55" fill="url(#sGrad)"/>
+              <polyline points="0,50 50,42 100,45 150,33 200,24 250,15 300,7 350,10 400,4 450,2 500,1" fill="none" stroke="#8A9A5B" stroke-width="1.5" stroke-linejoin="round" opacity="0.8"/>
+              <polyline points="0,48 50,46 100,43 150,40 200,36 250,31 300,26 350,22 400,17 450,13 500,11" fill="none" stroke="rgba(138,154,91,0.3)" stroke-width="1" stroke-dasharray="5,3"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="sage-panel">
+          <div class="sage-panel-title">Signal Analysis</div>
+
+          <div class="sage-metric">
+            <div class="sage-metric-row"><span>AAPL · MA50</span><span>$185.40</span></div>
+            <div class="sage-metric-row"><span>AAPL · MA200</span><span>$178.20</span></div>
+            <div class="sage-track"><div class="sage-fill" style="width:72%;"></div></div>
+          </div>
+
+          <div class="sage-metric">
+            <div class="sage-metric-row"><span>NVDA · MA50</span><span>$541.00</span></div>
+            <div class="sage-metric-row"><span>NVDA · MA200</span><span>$499.80</span></div>
+            <div class="sage-track"><div class="sage-fill" style="width:88%;"></div></div>
+          </div>
+
+          <div class="sage-metric">
+            <div class="sage-metric-row"><span>TSLA · MA50</span><span style="color:#b56666;">$220.50</span></div>
+            <div class="sage-metric-row"><span>TSLA · MA200</span><span>$231.40</span></div>
+            <div class="sage-track"><div class="sage-fill" style="width:40%; background:#b56666;"></div></div>
+          </div>
+
+          <div style="margin-top: 0.5rem; padding: 0.8rem; border: 1px solid rgba(138,154,91,0.12); background: rgba(138,154,91,0.03);">
+            <div style="font-size:0.58rem; letter-spacing:3px; color:rgba(138,154,91,0.4); margin-bottom:0.4rem;">PORTFOLIO SIGNAL</div>
+            <div style="color:#8A9A5B; font-size:0.85rem; font-weight:500; letter-spacing:1px;">↑ Bullish — 2/4 Golden</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sage-footer">IBM Plex Mono · #8A9A5B · Built by Wiganz · Django REST + React</div>
+    </div>
+  </div>
+  <div class="info-bar active">
+    <div class="info-card info-sage">
+      <div class="ic-section">
+        <h4>— Vibe</h4>
+        <p>Dark finance nhưng có <em>soul</em>. Sage green `#8A9A5B` là màu riêng của mày — không ai khác có. Trông đủ professional để impress interviewer, đủ unique để được nhớ. Best of both worlds.</p>
+      </div>
+      <div class="ic-section">
+        <h4>— Best for</h4>
+        <ul>
+          <li>Mọi loại startup — versatile nhất</li>
+          <li>Để lại dấu ấn cá nhân</li>
+          <li>Hadriel's top pick ★</li>
+        </ul>
+      </div>
+      <div class="ic-section">
+        <h4>— Build difficulty</h4>
+        <ul>
+          <li>CSS: Medium — dễ nhất trong 4</li>
+          <li>IBM Plex Mono font = character</li>
+          <li>Tailwind CSS compatible 100%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchVariant(v) {
+  document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.variant-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.vtab[data-v="${v}"]`).classList.add('active');
+  document.getElementById(`panel-${v}`).classList.add('active');
+}
+</script>
+</body>
+</html>

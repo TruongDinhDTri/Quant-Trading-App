@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantApp — Artisan Variants 🎨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Cinzel:wght@400;500;600;700;800;900&family=Shippori+Mincho:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;overflow-x:hidden;}
+body{background:#080808;font-family:sans-serif;min-height:100vh;}
+
+/* ══ SELECTOR ══ */
+.sel{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  height:52px;display:flex;align-items:center;
+  background:rgba(6,6,6,0.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:0 1.5rem;gap:0;
+}
+.sel-brand{font-size:0.7rem;letter-spacing:3px;color:rgba(255,255,255,0.2);margin-right:1.5rem;flex-shrink:0;font-family:'Space Mono',monospace;}
+.tabs{display:flex;flex:1;gap:0;overflow-x:auto;}
+.tab{
+  padding:0 1.2rem;height:52px;display:flex;align-items:center;gap:0.5rem;
+  cursor:pointer;font-size:0.72rem;font-weight:500;letter-spacing:1.5px;
+  color:rgba(255,255,255,0.28);border-bottom:2px solid transparent;
+  transition:all 0.2s;text-transform:uppercase;white-space:nowrap;
+  flex-shrink:0;
+}
+.tab:hover{color:rgba(255,255,255,0.6);}
+.tab .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+/* tab accent colors */
+.tab[data-v="codex"].on{color:#c9933a;border-bottom-color:#c9933a;}
+.tab[data-v="jazz"].on{color:#e8a030;border-bottom-color:#e8a030;}
+.tab[data-v="sakura"].on{color:#f4a7b9;border-bottom-color:#f4a7b9;}
+.tab[data-v="cathedral"].on{color:#a78bfa;border-bottom-color:#a78bfa;}
+.tab[data-v="brush"].on{color:#8A9A5B;border-bottom-color:#8A9A5B;}
+
+.tab[data-v="codex"] .dot{background:#c9933a;}
+.tab[data-v="jazz"] .dot{background:#e8a030;}
+.tab[data-v="sakura"] .dot{background:#f4a7b9;}
+.tab[data-v="cathedral"] .dot{background:#a78bfa;}
+.tab[data-v="brush"] .dot{background:#8A9A5B;}
+
+/* ══ PANELS ══ */
+.panel{display:none;min-height:100vh;padding-top:52px;animation:rise 0.45s ease forwards;}
+.panel.on{display:block;}
+@keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ════════════════════════════════════════
+   I. CODEX — Da Vinci's Financial Notebook
+════════════════════════════════════════ */
+.v-codex{
+  background:#100e09;
+  min-height:calc(100vh - 52px);
+  font-family:'EB Garamond',serif;
+  color:#d4b483;
+  position:relative;
+  overflow:hidden;
+}
+/* aged grid paper */
+.v-codex::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(201,147,58,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,147,58,0.05) 1px, transparent 1px);
+  background-size:28px 28px;
+}
+/* vignette */
+.v-codex::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center, transparent 40%, rgba(8,6,2,0.6) 100%);
+  pointer-events:none;
+}
+.codex-wrap{padding:1.8rem 2.2rem;position:relative;z-index:2;}
+
+.codex-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:2rem;padding-bottom:1rem;
+  border-bottom:1px solid rgba(201,147,58,0.2);
+}
+.codex-title{
+  font-size:1.8rem;font-style:italic;color:#c9933a;
+  letter-spacing:1px;line-height:1;
+}
+.codex-subtitle{font-size:0.8rem;color:rgba(212,180,131,0.45);letter-spacing:2px;margin-top:0.3rem;font-style:normal;}
+.codex-obs{
+  font-size:0.72rem;color:rgba(212,180,131,0.35);
+  font-style:italic;text-align:right;line-height:1.5;
+}
+
+.codex-annotation{
+  position:absolute;font-size:0.62rem;font-style:italic;
+  color:rgba(201,147,58,0.3);pointer-events:none;letter-spacing:0.5px;
+}
+
+.codex-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+
+.codex-panel{
+  border:1px solid rgba(201,147,58,0.15);
+  background:rgba(201,147,58,0.02);
+  padding:1.3rem;position:relative;
+}
+.codex-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,147,58,0.4),transparent);
+}
+.codex-panel-title{
+  font-size:0.62rem;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(201,147,58,0.4);margin-bottom:1rem;
+  font-style:normal;font-family:'Space Mono',monospace;
+}
+.codex-stats{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem;}
+.codex-stat .cs-lbl{font-size:0.62rem;color:rgba(212,180,131,0.4);letter-spacing:2px;font-style:normal;font-family:'Space Mono',monospace;}
+.codex-stat .cs-val{font-size:1.4rem;font-style:italic;margin-top:0.2rem;color:#d4b483;}
+.codex-stat .cs-val.pos{color:#c9933a;}
+.codex-stat .cs-val.neg{color:#a05030;}
+
+.codex-divider{
+  display:flex;align-items:center;gap:0.8rem;margin:1rem 0;
+  color:rgba(201,147,58,0.3);font-size:0.7rem;font-style:italic;
+}
+.codex-divider::before,.codex-divider::after{content:'';flex:1;height:1px;background:rgba(201,147,58,0.15);}
+
+.codex-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+.codex-table th{
+  color:rgba(212,180,131,0.35);font-weight:400;font-style:italic;
+  text-align:left;padding:0.4rem 0.6rem;font-size:0.72rem;
+  border-bottom:1px solid rgba(201,147,58,0.15);
+}
+.codex-table td{padding:0.6rem 0.6rem;border-bottom:1px solid rgba(201,147,58,0.07);}
+.codex-table tr:hover td{background:rgba(201,147,58,0.04);}
+.codex-ticker{font-style:italic;font-size:0.95rem;color:#c9933a;}
+.codex-g{color:#7a9a50;font-style:italic;font-size:0.8rem;}
+.codex-r{color:#a05030;font-style:italic;font-size:0.8rem;}
+
+.codex-aside .ca-item{margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid rgba(201,147,58,0.08);}
+.codex-aside .ca-item:last-child{border-bottom:none;}
+.codex-aside .ca-lbl{font-size:0.6rem;letter-spacing:3px;color:rgba(212,180,131,0.35);font-family:'Space Mono',monospace;margin-bottom:0.4rem;}
+.codex-aside .ca-val{font-size:1rem;font-style:italic;color:#d4b483;}
+.codex-aside .ca-note{font-size:0.72rem;color:rgba(212,180,131,0.35);font-style:italic;margin-top:0.2rem;}
+
+/* ════════════════════════════════════════
+   II. JAZZ NOIR — Late-night club finance
+════════════════════════════════════════ */
+.v-jazz{
+  background:#060506;
+  min-height:calc(100vh - 52px);
+  font-family:'Cormorant Garamond',serif;
+  color:#e8d5b4;
+  position:relative;overflow:hidden;
+}
+/* staff lines */
+.v-jazz::before{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    0deg, transparent, transparent 30px,
+    rgba(212,135,10,0.06) 30px, rgba(212,135,10,0.06) 31px
+  );
+}
+/* warm spotlight */
+.v-jazz::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 500px 700px at 30% 40%, rgba(212,135,10,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 80% 20%, rgba(212,135,10,0.04) 0%, transparent 60%);
+  pointer-events:none;
+}
+.jazz-wrap{padding:1.8rem 2.2rem;position:relative;z-index:2;}
+
+.jazz-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:2rem;
+}
+.jazz-logo{
+  font-size:2rem;font-style:italic;font-weight:300;
+  color:#e8a030;letter-spacing:-0.5px;
+}
+.jazz-logo em{font-style:normal;color:rgba(232,160,48,0.4);font-size:0.7em;letter-spacing:3px;display:block;font-family:'Space Mono',monospace;margin-top:-0.3rem;}
+.jazz-time{font-size:0.7rem;color:rgba(232,213,180,0.3);font-family:'Space Mono',monospace;letter-spacing:2px;text-align:right;}
+
+/* piano key element */
+.piano-keys{
+  display:flex;gap:2px;margin-bottom:1.5rem;height:28px;
+}
+.pk-white{
+  flex:1;background:rgba(232,213,180,0.06);
+  border:1px solid rgba(232,213,180,0.08);border-top:none;
+  border-radius:0 0 3px 3px;
+}
+.pk-black{
+  flex:0.6;background:rgba(232,160,48,0.15);
+  border:1px solid rgba(232,160,48,0.1);
+  height:18px;border-radius:0 0 2px 2px;margin-top:0;
+}
+.pk-gap{flex:0.3;background:transparent;}
+
+.jazz-hero-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:rgba(232,160,48,0.08);margin-bottom:1.5rem;
+  border:1px solid rgba(232,160,48,0.08);
+}
+.jhs{background:#060506;padding:1.2rem 1.5rem;}
+.jhs .jhs-lbl{font-size:0.6rem;letter-spacing:3px;color:rgba(232,160,48,0.4);font-family:'Space Mono',monospace;margin-bottom:0.5rem;}
+.jhs .jhs-val{font-size:1.6rem;font-weight:300;font-style:italic;color:#e8d5b4;}
+.jhs .jhs-val.pos{color:#e8a030;}
+.jhs .jhs-val.neg{color:#c05030;}
+.jhs .jhs-sub{font-size:0.72rem;color:rgba(232,213,180,0.3);margin-top:0.2rem;}
+
+.jazz-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:1.5rem;}
+.jazz-panel{
+  border:1px solid rgba(232,160,48,0.08);
+  background:rgba(232,160,48,0.015);padding:1.2rem;
+}
+.jazz-panel-title{
+  font-size:0.6rem;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(232,160,48,0.4);margin-bottom:1rem;
+  font-family:'Space Mono',monospace;
+}
+.jazz-table{width:100%;border-collapse:collapse;font-size:0.9rem;}
+.jazz-table th{
+  color:rgba(232,213,180,0.25);font-weight:400;font-style:italic;
+  text-align:left;padding:0.4rem 0.7rem;font-size:0.75rem;
+  border-bottom:1px solid rgba(232,160,48,0.08);
+}
+.jazz-table td{padding:0.6rem 0.7rem;border-bottom:1px solid rgba(232,160,48,0.05);}
+.jazz-table tr:hover td{background:rgba(232,160,48,0.03);}
+.jazz-ticker{font-style:italic;font-size:1rem;font-weight:300;color:#e8a030;}
+.jazz-g{color:#8db870;font-size:0.78rem;letter-spacing:1px;}
+.jazz-r{color:#c05030;font-size:0.78rem;letter-spacing:1px;}
+
+.jazz-note{
+  font-style:italic;font-size:0.85rem;color:rgba(232,213,180,0.3);
+  padding:1rem;border-left:2px solid rgba(232,160,48,0.2);
+  margin-top:1rem;line-height:1.7;
+}
+
+/* ════════════════════════════════════════
+   III. SAKURA — Japanese night market
+════════════════════════════════════════ */
+.v-sakura{
+  background:#0c0810;
+  min-height:calc(100vh - 52px);
+  font-family:'Shippori Mincho',serif;
+  color:#e0d0e8;
+  position:relative;overflow:hidden;
+}
+/* petals */
+.petal{
+  position:absolute;width:6px;height:10px;
+  background:rgba(244,167,185,0.25);
+  border-radius:50% 0 50% 0;
+  animation:fallPetal linear infinite;
+  pointer-events:none;
+}
+@keyframes fallPetal{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:0.3;}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0;}
+}
+/* gradient bg */
+.v-sakura::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 600px 800px at 80% 10%, rgba(120,60,140,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 400px 500px at 10% 80%, rgba(244,167,185,0.04) 0%, transparent 60%);
+  pointer-events:none;
+}
+.sakura-wrap{padding:2rem;position:relative;z-index:2;}
+
+/* Asymmetric header */
+.sakura-head{
+  display:grid;grid-template-columns:auto 1fr;gap:2rem;
+  margin-bottom:2rem;
+  align-items:start;
+}
+.sakura-kanji{
+  font-size:4rem;color:rgba(244,167,185,0.15);
+  line-height:1;writing-mode:vertical-rl;
+  letter-spacing:0.2em;
+}
+.sakura-head-right{}
+.sakura-title{
+  font-size:1.5rem;font-weight:400;
+  color:#f4a7b9;letter-spacing:4px;margin-bottom:0.3rem;
+}
+.sakura-sub{font-size:0.7rem;color:rgba(224,208,232,0.35);letter-spacing:3px;}
+
+/* Asymmetric layout */
+.sakura-layout{
+  display:grid;
+  grid-template-columns:1fr 1.8fr;
+  grid-template-rows:auto auto;
+  gap:1rem;
+}
+.sk-panel{
+  background:rgba(244,167,185,0.03);
+  border:1px solid rgba(244,167,185,0.08);
+  padding:1.2rem;
+}
+.sk-panel-title{
+  font-size:0.6rem;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(244,167,185,0.4);margin-bottom:1rem;
+}
+.sk-wide{grid-column:2;grid-row:1/3;}
+.sk-tall{grid-column:1;grid-row:1;}
+.sk-bottom{grid-column:1;grid-row:2;}
+
+.sk-stat{margin-bottom:1rem;}
+.sk-stat .sk-lbl{font-size:0.6rem;letter-spacing:3px;color:rgba(224,208,232,0.3);}
+.sk-stat .sk-val{font-size:1.2rem;margin-top:0.2rem;color:#e0d0e8;}
+.sk-stat .sk-val.pos{color:#f4a7b9;}
+.sk-stat .sk-val.neg{color:#c07080;}
+.sk-stat .sk-sub{font-size:0.7rem;color:rgba(224,208,232,0.3);margin-top:0.1rem;}
+
+.sk-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.sk-table th{
+  color:rgba(244,167,185,0.3);font-weight:400;
+  text-align:left;padding:0.4rem 0.6rem;font-size:0.6rem;
+  letter-spacing:3px;border-bottom:1px solid rgba(244,167,185,0.08);
+}
+.sk-table td{padding:0.6rem 0.6rem;border-bottom:1px solid rgba(244,167,185,0.05);}
+.sk-ticker{color:#f4a7b9;font-weight:500;letter-spacing:2px;}
+.sk-g{color:#98c878;font-size:0.72rem;}
+.sk-r{color:#c07080;font-size:0.72rem;}
+
+.sakura-poem{
+  font-style:italic;font-size:0.82rem;
+  color:rgba(244,167,185,0.3);
+  text-align:right;margin-top:1rem;line-height:1.8;
+}
+
+/* ════════════════════════════════════════
+   IV. CATHEDRAL — Stained Glass Finance
+════════════════════════════════════════ */
+.v-cathedral{
+  background:#04060e;
+  min-height:calc(100vh - 52px);
+  font-family:'Cinzel',serif;
+  color:#c8c0d0;
+  position:relative;overflow:hidden;
+}
+/* divine rays */
+.v-cathedral::before{
+  content:'';position:absolute;inset:0;
+  background:
+    conic-gradient(from 270deg at 50% -10%,
+      transparent 0deg,
+      rgba(100,60,180,0.03) 5deg,
+      transparent 10deg,
+      rgba(180,60,60,0.03) 15deg,
+      transparent 20deg,
+      rgba(60,120,60,0.03) 25deg,
+      transparent 30deg,
+      rgba(60,80,180,0.04) 35deg,
+      transparent 40deg,
+      rgba(160,100,40,0.03) 45deg,
+      transparent 50deg
+    );
+  pointer-events:none;
+}
+.cath-wrap{padding:1.8rem 2rem;position:relative;z-index:2;}
+
+.cath-head{
+  text-align:center;margin-bottom:2rem;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid rgba(167,139,250,0.12);
+  position:relative;
+}
+.cath-head::after{
+  content:'✦';position:absolute;bottom:-0.6rem;left:50%;transform:translateX(-50%);
+  color:rgba(167,139,250,0.4);background:#04060e;padding:0 0.8rem;font-size:0.7rem;
+}
+.cath-title{
+  font-size:1.4rem;letter-spacing:6px;color:#a78bfa;
+  text-transform:uppercase;margin-bottom:0.3rem;
+}
+.cath-sub{font-size:0.6rem;letter-spacing:6px;color:rgba(200,192,208,0.3);text-transform:uppercase;}
+
+/* stained glass windows = holding cards */
+.cath-windows{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  margin-bottom:1.5rem;background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.04);
+}
+.cath-window{
+  padding:1.3rem 1rem;text-align:center;position:relative;overflow:hidden;
+}
+.cath-window::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+.cath-window.ruby{background:rgba(155,28,46,0.08);}
+.cath-window.ruby::before{background:linear-gradient(90deg,transparent,#9b1c2e,transparent);}
+.cath-window.emerald{background:rgba(26,92,58,0.08);}
+.cath-window.emerald::before{background:linear-gradient(90deg,transparent,#1a8c4a,transparent);}
+.cath-window.sapphire{background:rgba(26,58,110,0.08);}
+.cath-window.sapphire::before{background:linear-gradient(90deg,transparent,#2a5aae,transparent);}
+.cath-window.amber{background:rgba(139,90,10,0.08);}
+.cath-window.amber::before{background:linear-gradient(90deg,transparent,#8b5a0a,transparent);}
+
+.cw-ticker{font-size:0.9rem;letter-spacing:4px;color:rgba(200,192,208,0.6);margin-bottom:0.7rem;}
+.cw-pnl{font-size:1.3rem;font-weight:600;}
+.cw-pnl.ruby-c{color:#e05070;}
+.cw-pnl.emerald-c{color:#40c070;}
+.cw-pnl.sapphire-c{color:#6090e0;}
+.cw-pnl.amber-c{color:#d09040;}
+.cw-signal{font-size:0.58rem;letter-spacing:3px;color:rgba(200,192,208,0.3);margin-top:0.4rem;text-transform:uppercase;}
+
+/* gothic arch decorative */
+.cath-arch{
+  width:40px;height:50px;margin:0 auto 0.4rem;
+  border:1px solid;border-bottom:none;
+  border-radius:20px 20px 0 0;
+  opacity:0.2;
+}
+.cath-arch.ruby-border{border-color:#9b1c2e;}
+.cath-arch.emerald-border{border-color:#1a8c4a;}
+.cath-arch.sapphire-border{border-color:#2a5aae;}
+.cath-arch.amber-border{border-color:#8b5a0a;}
+
+.cath-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:1px;background:rgba(255,255,255,0.03);}
+.cath-panel{background:#04060e;padding:1.3rem;border:1px solid rgba(167,139,250,0.06);}
+.cath-panel-title{
+  font-size:0.55rem;letter-spacing:5px;text-transform:uppercase;
+  color:rgba(167,139,250,0.35);margin-bottom:1rem;text-align:center;
+}
+
+.cath-scripture{
+  font-size:0.78rem;font-style:italic;letter-spacing:0.5px;
+  color:rgba(200,192,208,0.3);line-height:1.8;
+  border-left:2px solid rgba(167,139,250,0.15);
+  padding-left:1rem;margin-bottom:1rem;
+  font-family:'Lora',serif;
+}
+
+.cath-table{width:100%;border-collapse:collapse;font-size:0.75rem;}
+.cath-table th{
+  color:rgba(167,139,250,0.25);font-weight:400;
+  text-align:left;padding:0.4rem 0.6rem;font-size:0.55rem;
+  letter-spacing:3px;border-bottom:1px solid rgba(167,139,250,0.07);
+}
+.cath-table td{padding:0.55rem 0.6rem;border-bottom:1px solid rgba(167,139,250,0.04);}
+
+.cath-stat{margin-bottom:0.8rem;}
+.cath-stat .c-lbl{font-size:0.55rem;letter-spacing:3px;color:rgba(200,192,208,0.25);margin-bottom:0.3rem;}
+.cath-stat .c-val{font-size:1rem;color:#c8c0d0;}
+.cath-stat .c-val.pos{color:#40c070;}
+.cath-stat .c-val.neg{color:#e05070;}
+
+/* ════════════════════════════════════════
+   V. BRUSHSTROKE — Sumi-e ink painting
+════════════════════════════════════════ */
+.v-brush{
+  background:#050505;
+  min-height:calc(100vh - 52px);
+  font-family:'IBM Plex Mono',monospace;
+  color:#e8e0d4;
+  position:relative;overflow:hidden;
+}
+/* ink wash background */
+.v-brush::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 900px 400px at 50% 0%, rgba(138,154,91,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 800px at 100% 100%, rgba(138,154,91,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse 300px 300px at 0% 50%, rgba(138,154,91,0.04) 0%, transparent 50%);
+  pointer-events:none;
+}
+/* ink drip texture at top */
+.v-brush::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg, #8A9A5B 0%, rgba(138,154,91,0.4) 30%, transparent 60%, rgba(138,154,91,0.2) 80%, #8A9A5B 100%);
+  opacity:0.6;
+}
+.brush-wrap{padding:2rem 2.5rem;position:relative;z-index:2;}
+
+/* Massive brushstroke logo */
+.brush-head{margin-bottom:2.5rem;position:relative;}
+.brush-mark{
+  font-size:3rem;font-weight:300;letter-spacing:-2px;
+  color:#8A9A5B;line-height:1;
+  position:relative;display:inline-block;
+}
+.brush-mark::after{
+  content:'';position:absolute;
+  bottom:-4px;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#8A9A5B,rgba(138,154,91,0.2),transparent);
+}
+.brush-sub{
+  font-size:0.6rem;letter-spacing:5px;color:rgba(232,224,212,0.2);
+  text-transform:uppercase;margin-top:0.8rem;
+}
+
+/* Sparse layout — lots of breathing room */
+.brush-verse{
+  font-size:0.75rem;font-style:italic;
+  color:rgba(138,154,91,0.3);margin-bottom:2rem;
+  letter-spacing:1px;line-height:1.9;
+  font-family:'Lora',serif;
+}
+
+.brush-stats{
+  display:flex;gap:4rem;margin-bottom:2.5rem;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid rgba(138,154,91,0.1);
+}
+.brush-stat .bs-lbl{font-size:0.55rem;letter-spacing:4px;color:rgba(138,154,91,0.4);text-transform:uppercase;margin-bottom:0.4rem;}
+.brush-stat .bs-val{font-size:1.5rem;font-weight:300;color:#e8e0d4;}
+.brush-stat .bs-val.pos{color:#8A9A5B;}
+.brush-stat .bs-val.neg{color:#a06050;}
+
+/* The chart IS the art */
+.brush-chart-wrap{margin-bottom:2.5rem;}
+.brush-chart-label{font-size:0.55rem;letter-spacing:4px;color:rgba(138,154,91,0.3);text-transform:uppercase;margin-bottom:0.8rem;}
+
+/* Holdings — minimal, no borders, just ink on paper */
+.brush-holdings{margin-bottom:2rem;}
+.brush-holding{
+  display:flex;align-items:baseline;gap:1.5rem;
+  padding:0.8rem 0;
+  border-bottom:1px solid rgba(138,154,91,0.06);
+}
+.bh-ticker{font-size:1rem;font-weight:500;color:#8A9A5B;letter-spacing:2px;min-width:60px;}
+.bh-qty{font-size:0.75rem;color:rgba(232,224,212,0.3);min-width:80px;}
+.bh-pnl{font-size:0.9rem;font-weight:300;min-width:80px;}
+.bh-pnl.pos{color:#8A9A5B;}
+.bh-pnl.neg{color:#a06050;}
+.bh-signal{font-size:0.6rem;letter-spacing:2px;color:rgba(232,224,212,0.25);}
+
+.brush-footer{
+  font-size:0.6rem;letter-spacing:3px;color:rgba(138,154,91,0.2);
+  text-transform:uppercase;text-align:right;margin-top:1rem;
+}
+
+/* ══ SHARED SVG CHART STYLES ══ */
+.chart-svg{display:block;width:100%;}
+
+/* ══ INFO PILLS ══ */
+.info-row{
+  padding:1.5rem 2rem;
+  display:none;
+}
+.info-row.on{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;}
+.info-card{border-radius:12px;padding:1.5rem;}
+.ic-title{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.8rem;opacity:0.5;}
+.ic-body{font-size:0.85rem;line-height:1.7;opacity:0.65;}
+.ic-body ul{list-style:none;margin-top:0.6rem;}
+.ic-body ul li{padding-left:1rem;position:relative;margin-bottom:0.3rem;font-size:0.82rem;}
+.ic-body ul li::before{content:'·';position:absolute;left:0;opacity:0.5;}
+
+.info-codex{background:#12100a;color:#d4b483;border:1px solid rgba(201,147,58,0.1);}
+.info-jazz{background:#060506;color:#e8d5b4;border:1px solid rgba(232,160,48,0.1);}
+.info-sakura{background:#0c0810;color:#e0d0e8;border:1px solid rgba(244,167,185,0.1);}
+.info-cathedral{background:#04060e;color:#c8c0d0;border:1px solid rgba(167,139,250,0.1);}
+.info-brush{background:#050505;color:#e8e0d4;border:1px solid rgba(138,154,91,0.1);}
+
+@media(max-width:700px){
+  .codex-grid,.jazz-grid,.sakura-layout,.cath-grid{grid-template-columns:1fr;}
+  .cath-windows{grid-template-columns:1fr 1fr;}
+  .brush-stats{flex-wrap:wrap;gap:1.5rem;}
+  .info-row.on{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- SELECTOR -->
+<div class="sel">
+  <div class="sel-brand">QUANT /</div>
+  <div class="tabs">
+    <div class="tab on" data-v="codex" onclick="sw('codex')"><div class="dot"></div>I. Codex</div>
+    <div class="tab" data-v="jazz" onclick="sw('jazz')"><div class="dot"></div>II. Jazz Noir</div>
+    <div class="tab" data-v="sakura" onclick="sw('sakura')"><div class="dot"></div>III. Sakura</div>
+    <div class="tab" data-v="cathedral" onclick="sw('cathedral')"><div class="dot"></div>IV. Cathedral</div>
+    <div class="tab" data-v="brush" onclick="sw('brush')"><div class="dot"></div>V. Brushstroke ★</div>
+  </div>
+</div>
+
+<!-- ════ I. CODEX ════ -->
+<div class="panel on" id="p-codex">
+<div class="v-codex">
+  <div class="codex-wrap">
+    <!-- floating annotations -->
+    <div class="codex-annotation" style="top:80px;right:3rem;transform:rotate(-4deg);">observatio VII · anno MMXXVI</div>
+    <div class="codex-annotation" style="top:200px;left:1rem;transform:rotate(2deg);">momentum crescit</div>
+    <div class="codex-annotation" style="bottom:120px;right:2rem;transform:rotate(-2deg);">aurum semper movetur</div>
+
+    <div class="codex-head">
+      <div>
+        <div class="codex-title">Quant App</div>
+        <div class="codex-subtitle">Financial Observations · Private Codex</div>
+      </div>
+      <div class="codex-obs">
+        Recorded by the hand of Wiganz<br>
+        14th day of April, 2026<br>
+        <em style="color:rgba(201,147,58,0.4);">Omnia in mensura et numero</em>
+      </div>
+    </div>
+
+    <div class="codex-grid">
+      <div>
+        <div class="codex-panel">
+          <div class="codex-panel-title">Portfolio Record</div>
+          <div class="codex-stats">
+            <div class="codex-stat">
+              <div class="cs-lbl">Total Value</div>
+              <div class="cs-val">$12,450</div>
+            </div>
+            <div class="codex-stat">
+              <div class="cs-lbl">Unrealised Gain</div>
+              <div class="cs-val pos">+$2,150</div>
+            </div>
+          </div>
+          <div class="codex-divider">observations</div>
+          <table class="codex-table">
+            <thead>
+              <tr><th>Symbol</th><th>Qty</th><th>Cost</th><th>Price</th><th>P&L</th><th>Signal</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="codex-ticker">AAPL</span></td><td>10</td><td style="opacity:.45;">$150</td><td>$185</td><td style="color:#7a9a50;">+$350</td><td><span class="codex-g">✦ Golden</span></td></tr>
+              <tr><td><span class="codex-ticker">NVDA</span></td><td>5</td><td style="opacity:.45;">$380</td><td>$576</td><td style="color:#7a9a50;">+$980</td><td><span class="codex-g">✦ Golden</span></td></tr>
+              <tr><td><span class="codex-ticker">TSLA</span></td><td>8</td><td style="opacity:.45;">$240</td><td>$217</td><td style="color:#a05030;">−$180</td><td><span class="codex-r">✧ Death</span></td></tr>
+              <tr><td><span class="codex-ticker">MSFT</span></td><td>4</td><td style="opacity:.45;">$380</td><td>$630</td><td style="color:#7a9a50;">+$1,000</td><td style="opacity:.3;font-style:italic;font-size:0.8rem;">— Neutral</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:1.2rem;">
+            <svg class="chart-svg" height="65" viewBox="0 0 500 65">
+              <defs>
+                <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#c9933a" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#c9933a" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <polygon points="0,60 55,50 110,53 165,40 220,30 275,20 330,10 385,13 440,6 495,3 495,65 0,65" fill="url(#cg)"/>
+              <polyline points="0,60 55,50 110,53 165,40 220,30 275,20 330,10 385,13 440,6 495,3" fill="none" stroke="#c9933a" stroke-width="1.2" stroke-linejoin="round" opacity="0.7"/>
+              <!-- tick marks like a scientific diagram -->
+              <line x1="0" y1="62" x2="0" y2="65" stroke="rgba(201,147,58,0.4)" stroke-width="1"/>
+              <line x1="124" y1="62" x2="124" y2="65" stroke="rgba(201,147,58,0.4)" stroke-width="1"/>
+              <line x1="248" y1="62" x2="248" y2="65" stroke="rgba(201,147,58,0.4)" stroke-width="1"/>
+              <line x1="372" y1="62" x2="372" y2="65" stroke="rgba(201,147,58,0.4)" stroke-width="1"/>
+              <line x1="495" y1="62" x2="495" y2="65" stroke="rgba(201,147,58,0.4)" stroke-width="1"/>
+              <text x="0" y="62" fill="rgba(201,147,58,0.3)" font-size="7" font-family="EB Garamond">Oct</text>
+              <text x="118" y="62" fill="rgba(201,147,58,0.3)" font-size="7" font-family="EB Garamond">Nov</text>
+              <text x="242" y="62" fill="rgba(201,147,58,0.3)" font-size="7" font-family="EB Garamond">Dec</text>
+              <text x="366" y="62" fill="rgba(201,147,58,0.3)" font-size="7" font-family="EB Garamond">Jan</text>
+              <text x="484" y="62" fill="rgba(201,147,58,0.3)" font-size="7" font-family="EB Garamond">Apr</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="codex-aside">
+        <div class="codex-panel" style="height:100%;">
+          <div class="codex-panel-title">Marginal Notes</div>
+          <div class="ca-item"><div class="ca-lbl">Moving Average 50d</div><div class="ca-val" style="font-style:italic;">$185.40</div><div class="ca-note">The recent temperament</div></div>
+          <div class="ca-item"><div class="ca-lbl">Moving Average 200d</div><div class="ca-val" style="font-style:italic;">$178.20</div><div class="ca-note">The long memory</div></div>
+          <div class="ca-item"><div class="ca-lbl">Portfolio Signal</div><div class="ca-val" style="color:#c9933a;font-style:italic;">✦ Golden Cross</div><div class="ca-note">50d surpasses 200d — bullish omen</div></div>
+          <div class="ca-item"><div class="ca-lbl">Last Observed</div><div class="ca-val" style="font-style:italic;">14 Apr 2026</div><div class="ca-note">Via Alpha Vantage Oracle</div></div>
+          <div class="ca-item" style="border:none;margin-bottom:0;padding-bottom:0;">
+            <div class="ca-note" style="font-size:0.8rem;color:rgba(212,180,131,0.3);font-style:italic;line-height:1.7;">
+              "For wisdom is more precious than rubies, and nothing you desire can compare with her."<br>— Proverbs 8:11
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="info-row on">
+  <div class="info-card info-codex"><div class="ic-title">✦ Vibe</div><div class="ic-body">Da Vinci's financial notebook. Aged grid paper, amber ink, italic Garamond. Like you're recording market observations in a Renaissance codex. Unforgettable.</div></div>
+  <div class="info-card info-codex"><div class="ic-title">✦ Says about you</div><div class="ic-body"><ul><li>Scholar + engineer hybrid</li><li>Thinks in metaphors AND math</li><li>Not a copy of anyone else</li></ul></div></div>
+  <div class="info-card info-codex"><div class="ic-title">✦ Build notes</div><div class="ic-body"><ul><li>EB Garamond + Space Mono</li><li>Grid paper via CSS background-image</li><li>Amber #c9933a as soul color</li></ul></div></div>
+</div>
+</div>
+
+<!-- ════ II. JAZZ NOIR ════ -->
+<div class="panel" id="p-jazz">
+<div class="v-jazz">
+  <div class="jazz-wrap">
+    <div class="jazz-head">
+      <div class="jazz-logo">QuantApp<em>Late Session · NYSE</em></div>
+      <div class="jazz-time">14:32:07 EST<br><span style="opacity:0.4;">MARKETS OPEN</span></div>
+    </div>
+
+    <!-- Piano keys -->
+    <div class="piano-keys">
+      <div class="pk-white"></div><div class="pk-black"></div><div class="pk-white"></div>
+      <div class="pk-black"></div><div class="pk-white"></div><div class="pk-white"></div>
+      <div class="pk-black"></div><div class="pk-white"></div><div class="pk-black"></div>
+      <div class="pk-white"></div><div class="pk-black"></div><div class="pk-white"></div>
+      <div class="pk-white"></div><div class="pk-black"></div><div class="pk-white"></div>
+      <div class="pk-black"></div><div class="pk-white"></div><div class="pk-white"></div>
+      <div class="pk-black"></div><div class="pk-white"></div><div class="pk-black"></div>
+      <div class="pk-white"></div><div class="pk-black"></div><div class="pk-white"></div>
+    </div>
+
+    <div class="jazz-hero-stats">
+      <div class="jhs"><div class="jhs-lbl">Portfolio Value</div><div class="jhs-val">$12,450</div><div class="jhs-sub">4 positions</div></div>
+      <div class="jhs"><div class="jhs-lbl">Unrealised P&L</div><div class="jhs-val pos">+$2,150</div><div class="jhs-sub">+20.8%</div></div>
+      <div class="jhs"><div class="jhs-lbl">Session Gain</div><div class="jhs-val pos">+$423</div><div class="jhs-sub">+3.5% today</div></div>
+    </div>
+
+    <div class="jazz-grid">
+      <div class="jazz-panel">
+        <div class="jazz-panel-title">Holdings — Tonight's Set</div>
+        <table class="jazz-table">
+          <thead>
+            <tr><th>Symbol</th><th>P&L</th><th>Change %</th><th>Signal</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="jazz-ticker">AAPL</span></td><td style="color:#e8a030;">+$350</td><td style="color:#e8a030;">+23.3%</td><td><span class="jazz-g">♪ Golden</span></td></tr>
+            <tr><td><span class="jazz-ticker">NVDA</span></td><td style="color:#e8a030;">+$980</td><td style="color:#e8a030;">+41.3%</td><td><span class="jazz-g">♪ Golden</span></td></tr>
+            <tr><td><span class="jazz-ticker">TSLA</span></td><td style="color:#c05030;">−$180</td><td style="color:#c05030;">−9.4%</td><td><span class="jazz-r">♩ Death</span></td></tr>
+            <tr><td><span class="jazz-ticker">MSFT</span></td><td style="color:#e8a030;">+$1,000</td><td style="color:#e8a030;">+65.8%</td><td style="font-style:italic;font-size:0.78rem;color:rgba(232,213,180,0.3);">— Neutral</td></tr>
+          </tbody>
+        </table>
+        <!-- chart as musical waveform -->
+        <div style="margin-top:1.2rem;">
+          <svg class="chart-svg" height="70" viewBox="0 0 500 70">
+            <!-- Staff lines -->
+            <line x1="0" y1="14" x2="500" y2="14" stroke="rgba(232,160,48,0.1)" stroke-width="1"/>
+            <line x1="0" y1="28" x2="500" y2="28" stroke="rgba(232,160,48,0.1)" stroke-width="1"/>
+            <line x1="0" y1="42" x2="500" y2="42" stroke="rgba(232,160,48,0.1)" stroke-width="1"/>
+            <line x1="0" y1="56" x2="500" y2="56" stroke="rgba(232,160,48,0.1)" stroke-width="1"/>
+            <defs>
+              <linearGradient id="jg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e8a030" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#e8a030" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <polygon points="0,63 55,52 110,55 165,42 220,32 275,20 330,10 385,14 440,7 495,4 495,70 0,70" fill="url(#jg)"/>
+            <polyline points="0,63 55,52 110,55 165,42 220,32 275,20 330,10 385,14 440,7 495,4" fill="none" stroke="#e8a030" stroke-width="1.5" stroke-linejoin="round" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="jazz-note">
+          "The market, like jazz, rewards those who listen more than they play.<br>
+          Tonight, two golden notes ring true."
+        </div>
+      </div>
+      <div class="jazz-panel">
+        <div class="jazz-panel-title">Signal Harmony</div>
+        <div style="margin-bottom:1.2rem;">
+          <div style="font-size:0.6rem;letter-spacing:2px;color:rgba(232,160,48,0.3);margin-bottom:0.4rem;">MA 50-day</div>
+          <div style="font-size:1.3rem;font-style:italic;color:#e8a030;">$185.40</div>
+          <div style="font-size:0.6rem;letter-spacing:2px;color:rgba(232,160,48,0.3);margin-top:0.8rem;margin-bottom:0.4rem;">MA 200-day</div>
+          <div style="font-size:1.3rem;font-style:italic;color:rgba(232,213,180,0.4);">$178.20</div>
+        </div>
+        <div style="height:1px;background:rgba(232,160,48,0.1);margin:1rem 0;"></div>
+        <div style="font-size:0.6rem;letter-spacing:2px;color:rgba(232,160,48,0.3);margin-bottom:0.4rem;">Overall Signal</div>
+        <div style="font-size:1rem;font-style:italic;color:#e8a030;">♪ Bullish — 2/4 Golden</div>
+        <div style="height:1px;background:rgba(232,160,48,0.1);margin:1rem 0;"></div>
+        <div style="font-size:0.72rem;font-style:italic;line-height:1.8;color:rgba(232,213,180,0.3);">
+          Data: Alpha Vantage<br>
+          Backend: Django REST<br>
+          Database: PostgreSQL<br>
+          Frontend: React + Recharts
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="info-row on">
+  <div class="info-card info-jazz"><div class="ic-title">♪ Vibe</div><div class="ic-body">Late-night jazz club meets Wall Street. Piano keys as UI element. Staff lines as background texture. Cormorant Garamond italic for that smoky, intimate feeling.</div></div>
+  <div class="info-card info-jazz"><div class="ic-title">♪ Says about you</div><div class="ic-body"><ul><li>Music-driven thinker</li><li>Finds rhythm in patterns</li><li>Deeply personal + creative</li></ul></div></div>
+  <div class="info-card info-jazz"><div class="ic-title">♪ Build notes</div><div class="ic-body"><ul><li>Cormorant Garamond font</li><li>Piano keys in pure CSS divs</li><li>Staff lines via repeating-linear-gradient</li></ul></div></div>
+</div>
+</div>
+
+<!-- ════ III. SAKURA ════ -->
+<div class="panel" id="p-sakura">
+<div class="v-sakura" id="sakura-bg">
+  <!-- JS petals injected here -->
+  <div class="sakura-wrap">
+    <div class="sakura-head">
+      <div class="sakura-kanji">株式</div>
+      <div class="sakura-head-right">
+        <div class="sakura-title">QuantApp</div>
+        <div class="sakura-sub">Portfolio · Spring 2026 · 桜</div>
+        <div style="margin-top:1rem;font-size:0.75rem;font-style:italic;color:rgba(224,208,232,0.3);line-height:1.7;">
+          "Even the falling blossom<br>knows which way the wind blows."
+        </div>
+      </div>
+    </div>
+
+    <div class="sakura-layout">
+      <div class="sk-panel sk-tall">
+        <div class="sk-panel-title">Portfolio</div>
+        <div class="sk-stat">
+          <div class="sk-lbl">Total Value</div>
+          <div class="sk-val">$12,450</div>
+        </div>
+        <div class="sk-stat">
+          <div class="sk-lbl">Unrealised P&L</div>
+          <div class="sk-val pos">+$2,150</div>
+          <div class="sk-sub">+20.8%</div>
+        </div>
+        <div class="sk-stat">
+          <div class="sk-lbl">MA Signal</div>
+          <div class="sk-val pos" style="font-size:0.9rem;">↑ Golden Cross</div>
+        </div>
+        <div class="sakura-poem">
+          2 golden,<br>1 death,<br>1 in stillness.
+        </div>
+      </div>
+
+      <div class="sk-panel sk-wide">
+        <div class="sk-panel-title">Holdings · 保有株式</div>
+        <table class="sk-table">
+          <thead>
+            <tr><th>Symbol</th><th>P&L</th><th>Price</th><th>Signal</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="sk-ticker">AAPL</span></td><td style="color:#f4a7b9;">+$350</td><td>$185</td><td><span class="sk-g">↑ 桜 Golden</span></td></tr>
+            <tr><td><span class="sk-ticker">NVDA</span></td><td style="color:#f4a7b9;">+$980</td><td>$576</td><td><span class="sk-g">↑ 桜 Golden</span></td></tr>
+            <tr><td><span class="sk-ticker">TSLA</span></td><td style="color:#c07080;">−$180</td><td>$217</td><td><span class="sk-r">↓ 枯 Death</span></td></tr>
+            <tr><td><span class="sk-ticker">MSFT</span></td><td style="color:#f4a7b9;">+$1,000</td><td>$630</td><td style="color:rgba(224,208,232,0.25);font-size:0.72rem;">— 静 Neutral</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:1.2rem;">
+          <svg class="chart-svg" height="80" viewBox="0 0 500 80">
+            <defs>
+              <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f4a7b9" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#f4a7b9" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <polygon points="0,72 55,60 110,64 165,50 220,38 275,24 330,12 385,16 440,8 495,5 495,80 0,80" fill="url(#sg)"/>
+            <polyline points="0,72 55,60 110,64 165,50 220,38 275,24 330,12 385,16 440,8 495,5" fill="none" stroke="#f4a7b9" stroke-width="1.5" stroke-linejoin="round" opacity="0.7"/>
+            <!-- petal-like dots at data points -->
+            <circle cx="330" cy="12" r="3" fill="#f4a7b9" opacity="0.5"/>
+            <circle cx="495" cy="5" r="3" fill="#f4a7b9" opacity="0.5"/>
+            <text x="320" y="9" fill="rgba(244,167,185,0.4)" font-size="7" font-family="Shippori Mincho">Golden Cross</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="sk-panel sk-bottom">
+        <div class="sk-panel-title">Moving Averages</div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem;">
+            <span style="color:rgba(224,208,232,0.4);">MA 50</span>
+            <span style="color:#f4a7b9;">$185.40</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem;">
+            <span style="color:rgba(224,208,232,0.4);">MA 200</span>
+            <span style="color:rgba(224,208,232,0.35);">$178.20</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="info-row on">
+  <div class="info-card info-sakura"><div class="ic-title">桜 Vibe</div><div class="ic-body">Japanese night market. Falling cherry blossom petals, asymmetric layout, kanji characters. Ghibli soul meets financial data. Deeply poetic.</div></div>
+  <div class="info-card info-sakura"><div class="ic-title">桜 Says about you</div><div class="ic-body"><ul><li>Soul of an artist</li><li>Finds beauty in impermanence</li><li>East meets West thinker</li></ul></div></div>
+  <div class="info-card info-sakura"><div class="ic-title">桜 Build notes</div><div class="ic-body"><ul><li>Shippori Mincho font</li><li>Petals: JS-animated divs</li><li>Asymmetric CSS grid layout</li></ul></div></div>
+</div>
+</div>
+
+<!-- ════ IV. CATHEDRAL ════ -->
+<div class="panel" id="p-cathedral">
+<div class="v-cathedral">
+  <div class="cath-wrap">
+    <div class="cath-head">
+      <div class="cath-title">QuantApp</div>
+      <div class="cath-sub">Splendor of Numbers · Hadriel · MMXXVI</div>
+    </div>
+
+    <!-- Stained glass windows — one per holding -->
+    <div class="cath-windows">
+      <div class="cath-window ruby">
+        <div class="cath-arch ruby-border"></div>
+        <div class="cw-ticker">TSLA</div>
+        <div class="cw-pnl ruby-c">−$180</div>
+        <div class="cw-signal">Death Cross · Caution</div>
+      </div>
+      <div class="cath-window emerald">
+        <div class="cath-arch emerald-border"></div>
+        <div class="cw-ticker">AAPL</div>
+        <div class="cw-pnl emerald-c">+$350</div>
+        <div class="cw-signal">Golden Cross · Blessed</div>
+      </div>
+      <div class="cath-window sapphire">
+        <div class="cath-arch sapphire-border"></div>
+        <div class="cw-ticker">MSFT</div>
+        <div class="cw-pnl sapphire-c">+$1,000</div>
+        <div class="cw-signal">Neutral · Still Waters</div>
+      </div>
+      <div class="cath-window amber">
+        <div class="cath-arch amber-border"></div>
+        <div class="cw-ticker">NVDA</div>
+        <div class="cw-pnl amber-c">+$980</div>
+        <div class="cw-signal">Golden Cross · Radiant</div>
+      </div>
+    </div>
+
+    <div class="cath-grid">
+      <div class="cath-panel">
+        <div class="cath-panel-title">The Ledger</div>
+        <table class="cath-table">
+          <thead>
+            <tr><th>Symbol</th><th>Qty</th><th>P&L ($)</th><th>P&L (%)</th><th>Signal</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:#40c070;font-size:0.85rem;letter-spacing:2px;">AAPL</td>
+              <td>10</td><td style="color:#40c070;">+$350</td><td style="color:#40c070;">+23.3%</td>
+              <td style="color:#40c070;font-size:0.65rem;letter-spacing:1px;">✦ Golden</td>
+            </tr>
+            <tr>
+              <td style="color:#d09040;font-size:0.85rem;letter-spacing:2px;">NVDA</td>
+              <td>5</td><td style="color:#d09040;">+$980</td><td style="color:#d09040;">+41.3%</td>
+              <td style="color:#d09040;font-size:0.65rem;letter-spacing:1px;">✦ Golden</td>
+            </tr>
+            <tr>
+              <td style="color:#e05070;font-size:0.85rem;letter-spacing:2px;">TSLA</td>
+              <td>8</td><td style="color:#e05070;">−$180</td><td style="color:#e05070;">−9.4%</td>
+              <td style="color:#e05070;font-size:0.65rem;letter-spacing:1px;">✧ Death</td>
+            </tr>
+            <tr>
+              <td style="color:#6090e0;font-size:0.85rem;letter-spacing:2px;">MSFT</td>
+              <td>4</td><td style="color:#6090e0;">+$1,000</td><td style="color:#6090e0;">+65.8%</td>
+              <td style="color:rgba(200,192,208,0.25);font-size:0.65rem;letter-spacing:1px;">— Still</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:1.2rem;">
+          <svg class="chart-svg" height="60" viewBox="0 0 500 60">
+            <defs>
+              <linearGradient id="cathg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <polygon points="0,55 55,46 110,49 165,37 220,28 275,17 330,8 385,11 440,5 495,3 495,60 0,60" fill="url(#cathg)"/>
+            <polyline points="0,55 55,46 110,49 165,37 220,28 275,17 330,8 385,11 440,5 495,3" fill="none" stroke="#a78bfa" stroke-width="1.2" stroke-linejoin="round" opacity="0.6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="cath-panel">
+        <div class="cath-panel-title">Sacred Numbers</div>
+        <div class="cath-stat"><div class="c-lbl">Portfolio Value</div><div class="c-val">$12,450</div></div>
+        <div class="cath-stat"><div class="c-lbl">Total P&L</div><div class="c-val pos">+$2,150</div></div>
+        <div class="cath-stat"><div class="c-lbl">MA 50-day</div><div class="c-val">$185.40</div></div>
+        <div class="cath-stat"><div class="c-lbl">MA 200-day</div><div class="c-val" style="opacity:0.5;">$178.20</div></div>
+        <div style="height:1px;background:rgba(167,139,250,0.08);margin:1rem 0;"></div>
+        <div class="cath-scripture">
+          "For God gave Solomon wisdom and very great insight, and a breadth of understanding as measureless as the sand."<br>— 1 Kings 4:29
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="info-row on">
+  <div class="info-card info-cathedral"><div class="ic-title">✦ Vibe</div><div class="ic-body">Each stock is a stained glass panel. Gothic arches. Divine proportion. Cinzel font used in medieval manuscripts. Your faith made visible in code.</div></div>
+  <div class="info-card info-cathedral"><div class="ic-title">✦ Says about you</div><div class="ic-body"><ul><li>Faith and intellect unified</li><li>Sees structure in everything</li><li>Hadriel = "Splendor of God"</li></ul></div></div>
+  <div class="info-card info-cathedral"><div class="ic-title">✦ Build notes</div><div class="ic-body"><ul><li>Cinzel + Lora fonts</li><li>Gothic arches: CSS border-radius</li><li>Each stock gets a jewel color</li></ul></div></div>
+</div>
+</div>
+
+<!-- ════ V. BRUSHSTROKE ★ ════ -->
+<div class="panel" id="p-brush">
+<div class="v-brush">
+  <div class="brush-wrap">
+    <div class="brush-head">
+      <div class="brush-mark">QuantApp</div>
+      <div class="brush-sub">Sumi-e Finance · Built by Wiganz · 2026</div>
+    </div>
+
+    <div class="brush-verse">
+      "The bamboo bends in the storm but does not break.<br>
+      So too the patient investor watches the long average."
+    </div>
+
+    <div class="brush-stats">
+      <div class="brush-stat">
+        <div class="bs-lbl">Portfolio</div>
+        <div class="bs-val">$12,450</div>
+      </div>
+      <div class="brush-stat">
+        <div class="bs-lbl">Unrealised Gain</div>
+        <div class="bs-val pos">+$2,150</div>
+      </div>
+      <div class="brush-stat">
+        <div class="bs-lbl">Signal</div>
+        <div class="bs-val pos">Golden</div>
+      </div>
+      <div class="brush-stat">
+        <div class="bs-lbl">Positions</div>
+        <div class="bs-val" style="color:rgba(232,224,212,0.5);">4</div>
+      </div>
+    </div>
+
+    <!-- THE BRUSHSTROKE CHART — the centerpiece -->
+    <div class="brush-chart-wrap">
+      <div class="brush-chart-label">AAPL · 6 Month Price Stroke</div>
+      <svg class="chart-svg" height="110" viewBox="0 0 700 110" style="overflow:visible;">
+        <defs>
+          <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8A9A5B" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#8A9A5B" stop-opacity="0"/>
+          </linearGradient>
+          <!-- varying stroke width for brushstroke feel -->
+          <filter id="rough">
+            <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="3" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+        <!-- Area fill -->
+        <polygon points="0,95 70,80 140,84 210,65 280,48 350,28 420,14 490,18 560,8 630,5 700,3 700,110 0,110" fill="url(#bg2)"/>
+        <!-- MA 200 ghost -->
+        <polyline points="0,98 70,92 140,86 210,80 280,72 350,63 420,55 490,48 560,40 630,34 700,30" fill="none" stroke="rgba(138,154,91,0.2)" stroke-width="1" stroke-dasharray="6,4"/>
+        <!-- Main brushstroke — slightly rough -->
+        <path d="M0,95 C20,90 50,82 70,80 C90,78 120,85 140,84 C160,83 190,68 210,65 C230,62 260,50 280,48 C300,46 330,30 350,28 C370,26 400,15 420,14 C440,13 470,19 490,18 C510,17 540,9 560,8 C580,7 610,5 630,5 C650,5 675,3 700,3" fill="none" stroke="#8A9A5B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#rough)" opacity="0.9"/>
+        <!-- Golden Cross annotation -->
+        <circle cx="420" cy="14" r="4" fill="#8A9A5B" opacity="0.7"/>
+        <line x1="420" y1="14" x2="420" y2="0" stroke="rgba(138,154,91,0.3)" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="424" y="10" fill="rgba(138,154,91,0.5)" font-size="8" font-family="IBM Plex Mono">✦ golden cross</text>
+        <!-- Axis -->
+        <line x1="0" y1="108" x2="700" y2="108" stroke="rgba(138,154,91,0.1)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <!-- Holdings — minimal ink style -->
+    <div class="brush-holdings">
+      <div style="font-size:0.55rem;letter-spacing:4px;color:rgba(138,154,91,0.3);text-transform:uppercase;margin-bottom:0.8rem;">Holdings</div>
+      <div class="brush-holding">
+        <div class="bh-ticker">AAPL</div>
+        <div class="bh-qty">10 shares · $150</div>
+        <div class="bh-pnl pos">+$350</div>
+        <div class="bh-signal">↑ golden cross</div>
+      </div>
+      <div class="brush-holding">
+        <div class="bh-ticker">NVDA</div>
+        <div class="bh-qty">5 shares · $380</div>
+        <div class="bh-pnl pos">+$980</div>
+        <div class="bh-signal">↑ golden cross</div>
+      </div>
+      <div class="brush-holding">
+        <div class="bh-ticker">TSLA</div>
+        <div class="bh-qty">8 shares · $240</div>
+        <div class="bh-pnl neg">−$180</div>
+        <div class="bh-signal" style="color:rgba(160,96,80,0.5);">↓ death cross</div>
+      </div>
+      <div class="brush-holding">
+        <div class="bh-ticker">MSFT</div>
+        <div class="bh-qty">4 shares · $380</div>
+        <div class="bh-pnl pos">+$1,000</div>
+        <div class="bh-signal">— neutral</div>
+      </div>
+    </div>
+
+    <div class="brush-footer">
+      IBM Plex Mono · Sage #8A9A5B · Django REST + React · Alpha Vantage · 2026
+    </div>
+  </div>
+</div>
+<div class="info-row on">
+  <div class="info-card info-brush"><div class="ic-title">— Vibe</div><div class="ic-body">Sumi-e ink painting meets quantitative finance. The price chart IS a brushstroke. Sparse negative space. Sage green as the one soul color. Timeless and unmistakably yours.</div></div>
+  <div class="info-card info-brush"><div class="ic-title">— Says about you</div><div class="ic-body"><ul><li>Restraint is a choice, not a limitation</li><li>Every element earns its place</li><li>Hadriel's top pick ★ — most you</li></ul></div></div>
+  <div class="info-card info-brush"><div class="ic-title">— Build notes</div><div class="ic-body"><ul><li>IBM Plex Mono + Lora fonts</li><li>SVG feDisplacementMap for brush texture</li><li>Sage #8A9A5B as the ONLY accent</li></ul></div></div>
+</div>
+</div>
+
+<script>
+function sw(v){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelector(`.tab[data-v="${v}"]`).classList.add('on');
+  document.getElementById(`p-${v}`).classList.add('on');
+}
+
+// Sakura petals
+(function(){
+  var bg = document.getElementById('sakura-bg');
+  for(var i=0;i<18;i++){
+    var p=document.createElement('div');
+    p.className='petal';
+    p.style.cssText=`
+      left:${Math.random()*100}%;
+      top:${Math.random()*-20}%;
+      animation-duration:${8+Math.random()*12}s;
+      animation-delay:${Math.random()*10}s;
+      transform:rotate(${Math.random()*360}deg);
+      opacity:${0.1+Math.random()*0.3};
+      width:${4+Math.random()*6}px;
+      height:${6+Math.random()*9}px;
+    `;
+    bg.appendChild(p);
+  }
+})();
+</script>
+</body>
+</html>

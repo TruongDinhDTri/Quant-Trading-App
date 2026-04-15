@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantApp — Fantasy Art Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=EB+Garamond:ital,wght@0,500;0,600;1,400&family=Bebas+Neue&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#030508;font-family:sans-serif;color:#fff;padding:1.5rem;min-height:100vh;}
+
+h1{
+  text-align:center;font-family:'Syne',sans-serif;font-size:0.9rem;
+  letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,0.15);margin-bottom:0.3rem;
+}
+.sub{text-align:center;font-size:0.65rem;letter-spacing:2px;color:rgba(255,255,255,0.1);margin-bottom:2rem;text-transform:uppercase;}
+
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0.8rem;max-width:1500px;margin:0 auto;}
+
+.card{border-radius:4px;overflow:hidden;cursor:pointer;transition:transform 0.25s,box-shadow 0.25s;border:2px solid transparent;}
+.card:hover{transform:translateY(-8px);}
+.card.selected{border-color:white!important;box-shadow:0 0 0 1px white,0 0 50px rgba(255,255,255,0.1);}
+.card-preview{height:400px;position:relative;overflow:hidden;}
+.card-label{padding:0.8rem 1rem;border-top:1px solid rgba(255,255,255,0.05);background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);}
+.card-name{font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:0.2rem;}
+.card-desc{font-size:0.6rem;color:rgba(255,255,255,0.3);letter-spacing:0.5px;line-height:1.5;}
+
+/* ════════════════════════════════════════════
+   I. DYNASTY
+   Horse rider art × Bloomberg terminal
+   Ink black + vermillion crimson + war gold
+   Cinzel — Roman/Imperial inscription energy
+   Floating birds SVG, ribbon chart lines
+════════════════════════════════════════════ */
+#dynasty .card-preview{background:#050206;}
+#dynasty{border-color:rgba(180,30,30,0.4);}
+#dynasty .card-name{color:#c8922a;}
+
+/* Ink wash sky — the painting's atmosphere */
+.dyn-sky{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%,rgba(30,10,60,0.8) 0%,transparent 60%),
+    radial-gradient(ellipse 80% 50% at 80% 100%,rgba(140,30,0,0.25) 0%,transparent 50%),
+    radial-gradient(ellipse 60% 40% at 20% 80%,rgba(180,60,0,0.15) 0%,transparent 50%);
+  pointer-events:none;
+}
+/* Ink brush horizon line */
+.dyn-horizon{
+  position:absolute;bottom:35%;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(200,146,42,0.15),rgba(200,146,42,0.08),transparent);
+}
+/* Subtle paper grain */
+.dyn-grain{
+  position:absolute;inset:0;opacity:0.6;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1;
+}
+/* Flying birds (SVG paths hand-drawn style) */
+.dyn-birds{position:absolute;top:12%;right:8%;opacity:0.25;animation:birds-drift 8s ease-in-out infinite;}
+@keyframes birds-drift{0%,100%{transform:translateX(0) translateY(0);}50%{transform:translateX(-6px) translateY(-3px);}}
+
+.dyn-content{position:relative;z-index:3;padding:1.1rem;}
+
+/* Cinzel header — imperial decree energy */
+.dyn-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:0.9rem;
+  padding-bottom:0.7rem;
+  border-bottom:1px solid rgba(200,146,42,0.12);
+}
+.dyn-logo{
+  font-family:'Cinzel',serif;font-size:0.9rem;font-weight:700;
+  letter-spacing:4px;text-transform:uppercase;
+  background:linear-gradient(135deg,#f0d080,#c8922a,#a06010);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.dyn-crest{
+  font-family:'Cinzel',serif;font-size:0.45rem;letter-spacing:3px;
+  color:rgba(200,146,42,0.3);text-transform:uppercase;text-align:right;line-height:2;
+}
+
+/* Massive hero — carved in stone */
+.dyn-decree{
+  font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:6px;
+  text-transform:uppercase;color:rgba(200,146,42,0.4);margin-bottom:0.2rem;
+}
+.dyn-num{
+  font-family:'Cinzel+Decorative','Cinzel',serif;
+  font-size:2.8rem;font-weight:900;line-height:0.85;
+  background:linear-gradient(180deg,#ffe080 0%,#d4922a 40%,#8b4010 80%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 20px rgba(200,120,0,0.3));
+  letter-spacing:-1px;
+}
+.dyn-sub{
+  font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:3px;
+  color:rgba(200,146,42,0.35);margin-top:0.4rem;
+}
+.dyn-sub span{color:rgba(100,200,80,0.7);}
+
+/* Vermillion divider — brush stroke */
+.dyn-stroke{
+  height:2px;margin:0.8rem 0;
+  background:linear-gradient(90deg,#8b0000,#c41e3a,rgba(196,30,58,0.3),transparent);
+  box-shadow:0 0 8px rgba(200,0,0,0.3);
+}
+
+/* War table — holdings as battle ledger */
+.dyn-ledger{font-family:'Cinzel',serif;font-size:0.55rem;width:100%;border-collapse:collapse;}
+.dyn-ledger td{padding:0.22rem 0;border-bottom:1px solid rgba(200,146,42,0.06);}
+.dl-tk{letter-spacing:3px;color:rgba(240,208,128,0.6);}
+.dl-bar-wrap{padding:0 0.3rem;}
+.dl-bar{height:1px;background:rgba(200,146,42,0.08);}
+.dl-fill-pos{height:1px;background:linear-gradient(90deg,#c8922a,rgba(200,146,42,0.3));box-shadow:0 0 4px rgba(200,120,0,0.4);}
+.dl-fill-neg{height:1px;background:#8b0000;}
+.dl-pnl{text-align:right;letter-spacing:1px;}
+.dl-pnl.pos{color:#c8922a;}
+.dl-pnl.neg{color:#c41e3a;}
+.dl-badge{font-size:0.42rem;letter-spacing:1.5px;text-align:right;}
+.dl-badge.gold{color:rgba(200,146,42,0.5);}
+.dl-badge.death{color:rgba(180,0,0,0.6);}
+
+/* ════════════════════════════════════════════
+   II. INK WASH
+   Traditional Chinese ink painting energy
+   Sumi ink black + amber + distant mountains
+   Playfair Display — classic elegance
+   Grid: floating ink-wash panels
+════════════════════════════════════════════ */
+#ink .card-preview{background:#040404;}
+#ink{border-color:rgba(210,140,60,0.35);}
+#ink .card-name{color:#d48c3c;}
+
+/* Distant mountains silhouette */
+.ink-mountains{
+  position:absolute;bottom:0;left:0;right:0;height:45%;
+  background:
+    linear-gradient(0deg,rgba(8,4,2,1) 0%,transparent 100%);
+  z-index:2;
+}
+.ink-mtn-svg{position:absolute;bottom:30%;left:0;right:0;opacity:0.12;}
+/* Warm sunrise glow */
+.ink-glow{
+  position:absolute;
+  width:200px;height:200px;border-radius:50%;
+  top:25%;left:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,180,60,0.12) 0%,rgba(220,80,20,0.06) 40%,transparent 70%);
+  animation:ink-glow-breathe 5s ease-in-out infinite;
+}
+@keyframes ink-glow-breathe{0%,100%{opacity:0.7;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}}
+
+.ink-content{position:relative;z-index:3;padding:1.1rem;}
+.ink-brand{
+  font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;
+  font-style:italic;color:rgba(240,200,120,0.8);letter-spacing:2px;margin-bottom:0.2rem;
+}
+.ink-tagline{font-family:'EB Garamond',serif;font-size:0.55rem;font-style:italic;color:rgba(210,160,80,0.35);letter-spacing:2px;margin-bottom:0.9rem;}
+
+.ink-kpi-label{font-family:'Playfair Display',serif;font-size:0.48rem;letter-spacing:5px;color:rgba(210,140,60,0.4);text-transform:uppercase;font-weight:400;margin-bottom:0.2rem;}
+.ink-num{
+  font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;line-height:0.85;
+  color:#e8c070;text-shadow:0 0 30px rgba(220,160,60,0.25),0 4px 20px rgba(0,0,0,0.5);
+  letter-spacing:-1px;
+}
+.ink-sub{font-family:'EB Garamond',serif;font-size:0.6rem;font-style:italic;
+  color:rgba(210,160,80,0.35);margin-top:0.5rem;letter-spacing:1px;}
+.ink-sub span{color:rgba(100,200,80,0.6);font-style:normal;}
+
+/* Ink brush divider */
+.ink-brush{
+  margin:0.8rem 0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(210,140,60,0.4),rgba(210,140,60,0.15),transparent);
+}
+
+/* Floating ink-wash panels */
+.ink-panels{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;}
+.ink-panel{
+  padding:0.5rem 0.6rem;
+  border:1px solid rgba(210,140,60,0.1);
+  background:rgba(255,255,255,0.015);
+  position:relative;overflow:hidden;
+}
+.ink-panel::before{
+  content:'';position:absolute;top:0;left:0;width:2px;height:100%;
+  background:linear-gradient(180deg,transparent,rgba(210,140,60,0.4),transparent);
+}
+.ip-label{font-family:'Playfair Display',serif;font-size:0.45rem;letter-spacing:3px;color:rgba(210,140,60,0.35);text-transform:uppercase;margin-bottom:0.15rem;}
+.ip-val{font-family:'Playfair Display',serif;font-size:0.85rem;font-weight:700;color:#e8c070;}
+.ip-val.neg{color:#c04040;}
+.ip-sub{font-size:0.42rem;color:rgba(210,140,60,0.25);margin-top:0.1rem;font-style:italic;font-family:'EB Garamond',serif;}
+
+/* ════════════════════════════════════════════
+   III. CELESTIAL
+   The rider on a horse at sunset vibe
+   Portfolio as celestial body
+   Deep cobalt #0A0E2A + amber #E8900A + blush
+   Rajdhani — strong, directional
+   Constellation-like dot pattern grid
+════════════════════════════════════════════ */
+#celestial .card-preview{background:#080C20;}
+#celestial{border-color:rgba(232,144,10,0.35);}
+#celestial .card-name{color:#e8900a;}
+
+/* Star field */
+.cel-stars{
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255,200,100,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 15%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 30%, rgba(255,200,100,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 25%, rgba(255,200,100,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 45%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 50%, rgba(255,200,100,0.2) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 8%, rgba(255,220,120,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 82% 40%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 60%, rgba(255,200,100,0.15) 0%, transparent 100%);
+  pointer-events:none;
+}
+/* Sunset horizon rise from bottom */
+.cel-horizon{
+  position:absolute;bottom:0;left:0;right:0;height:55%;
+  background:linear-gradient(0deg,
+    rgba(120,40,0,0.3) 0%,
+    rgba(180,80,0,0.2) 20%,
+    rgba(220,120,10,0.12) 40%,
+    rgba(180,80,30,0.06) 60%,
+    transparent 100%
+  );
+  filter:blur(15px);
+}
+/* Atmospheric rim light at horizon */
+.cel-rim{
+  position:absolute;bottom:30%;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(232,144,10,0.2),rgba(255,160,40,0.3),rgba(232,144,10,0.2),transparent);
+  filter:blur(2px);
+}
+.cel-content{position:relative;z-index:3;padding:1.1rem;font-family:'Rajdhani',sans-serif;}
+.cel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.9rem;}
+.cel-logo{font-size:1rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  background:linear-gradient(135deg,#ffd060,#e8900a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.cel-coords{font-size:0.45rem;letter-spacing:2px;color:rgba(232,144,10,0.25);text-align:right;line-height:2;}
+.cel-decree{font-size:0.48rem;letter-spacing:5px;text-transform:uppercase;color:rgba(232,144,10,0.4);margin-bottom:0.2rem;}
+.cel-num{
+  font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:0.88;
+  background:linear-gradient(180deg,#ffe060 0%,#e8900a 50%,#8b4400 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 16px rgba(232,144,10,0.3));letter-spacing:-1px;
+}
+.cel-sub{font-size:0.6rem;color:rgba(232,144,10,0.3);letter-spacing:2px;margin-top:0.4rem;}
+.cel-sub .pos{color:rgba(120,220,100,0.6);}
+/* Constellation connector lines */
+.cel-const{margin:0.7rem 0;}
+.cel-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(232,144,10,0.3),rgba(232,144,10,0.1),transparent);}
+
+.cel-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(232,144,10,0.06);margin-top:0.6rem;}
+.cg-cell{background:#080C20;padding:0.45rem 0.5rem;}
+.cg-label{font-size:0.45rem;letter-spacing:3px;color:rgba(232,144,10,0.3);text-transform:uppercase;margin-bottom:0.1rem;}
+.cg-val{font-size:0.8rem;font-weight:700;color:#e8900a;letter-spacing:1px;}
+.cg-val.neg{color:#c04030;}
+.cg-val.white{color:rgba(240,220,160,0.7);}
+
+/* ════════════════════════════════════════════
+   IV. GARDEN
+   Woman writing + flowers × modern dark SaaS
+   Soft blush #C4818E + dark jade #0A1A14 + cream
+   Playfair Display italic — poetry and precision
+   Flower petal SVG accents, gentle glow
+════════════════════════════════════════════ */
+#garden .card-preview{background:#080E0B;}
+#garden{border-color:rgba(180,100,110,0.35);}
+#garden .card-name{
+  background:linear-gradient(90deg,#c4818e,#e8b4a0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* Petal-soft ambient */
+.gdn-bloom{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 20%,rgba(196,129,142,0.1) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 70% at 20% 80%,rgba(100,160,100,0.06) 0%,transparent 55%);
+}
+/* Petal decorations — corner */
+.gdn-petal{
+  position:absolute;top:8px;right:8px;
+  opacity:0.12;
+  animation:petal-sway 6s ease-in-out infinite;
+}
+@keyframes petal-sway{0%,100%{transform:rotate(0deg);}50%{transform:rotate(5deg);}}
+
+.gdn-content{position:relative;z-index:2;padding:1.1rem;}
+.gdn-title{
+  font-family:'Playfair Display',serif;font-size:1rem;font-weight:900;
+  font-style:italic;letter-spacing:1px;
+  background:linear-gradient(135deg,#f0c0c8,#c4818e);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:0.15rem;
+}
+.gdn-verse{
+  font-family:'EB Garamond',serif;font-style:italic;font-size:0.55rem;
+  color:rgba(196,129,142,0.35);letter-spacing:1px;margin-bottom:0.9rem;
+}
+
+.gdn-kpi-label{font-family:'EB Garamond',serif;font-style:italic;font-size:0.5rem;letter-spacing:3px;color:rgba(196,129,142,0.4);margin-bottom:0.2rem;}
+.gdn-num{
+  font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;line-height:0.88;
+  background:linear-gradient(135deg,#f5d0d8,#d08090,#a05060);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 20px rgba(180,80,100,0.2));
+}
+.gdn-pnl{font-family:'EB Garamond',serif;font-style:italic;font-size:0.62rem;
+  color:rgba(196,129,142,0.35);margin-top:0.4rem;letter-spacing:1px;}
+.gdn-pnl span{color:rgba(120,200,120,0.6);font-style:normal;}
+
+/* Petal divider */
+.gdn-divide{
+  height:1px;margin:0.8rem 0;
+  background:linear-gradient(90deg,transparent,rgba(196,129,142,0.25),rgba(196,129,142,0.1),transparent);
+}
+
+/* Holdings as a poem — each stock a stanza */
+.gdn-stanza{
+  padding:0.3rem 0;border-bottom:1px solid rgba(196,129,142,0.07);
+  display:grid;grid-template-columns:32px 1fr auto auto;gap:0.4rem;align-items:center;
+}
+.gs-tk{font-family:'Playfair Display',serif;font-size:0.6rem;font-weight:700;font-style:italic;color:rgba(240,192,200,0.6);}
+.gs-bar{height:1px;background:rgba(196,129,142,0.1);}
+.gs-fill-pos{height:1px;background:linear-gradient(90deg,#c4818e,rgba(196,129,142,0.3));}
+.gs-fill-neg{height:1px;background:rgba(120,40,50,0.6);}
+.gs-pnl{font-family:'EB Garamond',serif;font-size:0.6rem;text-align:right;}
+.gs-pnl.pos{color:#c4818e;}
+.gs-pnl.neg{color:#904040;}
+.gs-sig{font-family:'EB Garamond',serif;font-size:0.48rem;font-style:italic;color:rgba(196,129,142,0.25);}
+
+.gdn-footer{
+  margin-top:0.6rem;
+  font-family:'EB Garamond',serif;font-style:italic;font-size:0.5rem;
+  color:rgba(196,129,142,0.2);text-align:center;letter-spacing:1px;
+}
+
+/* ════════════════════════════════════════════
+   V. TEMPEST
+   The most extreme:
+   Epic rider painting full visual language
+   Dark slate #050810 + electric gold + vermillion
+   QuantApp as a WAR ROOM not a dashboard
+   Cinzel for hierarchy, Rajdhani for data
+   SVG ribbon-chart lines, floating birds
+   Split composition: left side = poem, right = data
+════════════════════════════════════════════ */
+#tempest .card-preview{background:#050408;}
+#tempest{border-color:rgba(200,160,40,0.4);}
+#tempest .card-name{
+  background:linear-gradient(90deg,#ffd060,#c8400a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* Dramatic sky gradient — the painting's atmosphere */
+.tmp-sky{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,
+      #050408 0%,
+      rgba(10,5,25,0.98) 20%,
+      rgba(30,15,5,0.95) 55%,
+      rgba(80,20,0,0.4) 80%,
+      rgba(120,40,0,0.25) 100%
+    );
+}
+/* Left: the deep blue distant sky */
+.tmp-left-sky{
+  position:absolute;inset:0 50% 0 0;
+  background:linear-gradient(135deg,rgba(10,15,50,0.4) 0%,transparent 60%);
+}
+/* Right: the warm amber fire horizon */
+.tmp-right-fire{
+  position:absolute;inset:0 0 0 50%;
+  background:linear-gradient(135deg,transparent 0%,rgba(140,50,0,0.2) 60%,rgba(200,80,0,0.12) 100%);
+}
+/* Floating ember/spirit ribbons — the flowing fabric from painting */
+.tmp-ribbon{
+  position:absolute;pointer-events:none;
+  opacity:0.06;
+}
+/* Birds */
+.tmp-birds{
+  position:absolute;top:10%;left:8%;opacity:0.15;
+  animation:tmp-drift 10s ease-in-out infinite;
+}
+@keyframes tmp-drift{0%,100%{transform:translateX(0) translateY(0);}50%{transform:translateX(8px) translateY(-4px);}}
+
+/* Vertical split layout */
+.tmp-content{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1fr 1.3fr;
+  height:100%;
+}
+.tmp-left{
+  padding:1rem;
+  border-right:1px solid rgba(200,150,40,0.08);
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.tmp-right{padding:1rem;}
+
+/* Left side — poetic imperial */
+.tmp-logo{
+  font-family:'Cinzel',serif;font-size:0.7rem;font-weight:700;
+  letter-spacing:4px;text-transform:uppercase;
+  background:linear-gradient(135deg,#ffd060,#c8922a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:0.2rem;
+}
+.tmp-subtitle{
+  font-family:'Cinzel',serif;font-size:0.4rem;letter-spacing:3px;
+  color:rgba(200,150,40,0.25);text-transform:uppercase;margin-bottom:0.9rem;
+}
+.tmp-kpi-label{
+  font-family:'Cinzel',serif;font-size:0.42rem;letter-spacing:4px;
+  color:rgba(200,150,40,0.3);text-transform:uppercase;margin-bottom:0.15rem;
+}
+.tmp-num{
+  font-family:'Cinzel',serif;font-size:2rem;font-weight:900;
+  background:linear-gradient(180deg,#ffe060 0%,#d47010 50%,#8b3000 90%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 12px rgba(200,120,0,0.35));
+  line-height:0.9;letter-spacing:-1px;
+  margin-bottom:0.3rem;
+}
+.tmp-gain{
+  font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:600;
+  color:rgba(200,150,40,0.5);letter-spacing:1px;
+}
+.tmp-gain .val{color:#8fc860;}
+.tmp-stroke{
+  height:2px;margin:0.6rem 0;
+  background:linear-gradient(90deg,#8b0000,rgba(200,30,30,0.3),transparent);
+}
+.tmp-signal{
+  font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:2px;
+  color:rgba(200,150,40,0.3);
+}
+.tmp-signal .gld{color:rgba(200,150,40,0.6);}
+
+/* Right side — data density like a staking dashboard */
+.tmp-data-label{
+  font-family:'Rajdhani',sans-serif;font-size:0.45rem;
+  letter-spacing:4px;text-transform:uppercase;
+  color:rgba(200,150,40,0.25);margin-bottom:0.5rem;
+}
+.tmp-row{
+  display:grid;grid-template-columns:28px 1fr auto;
+  gap:0.3rem;align-items:center;
+  padding:0.22rem 0;
+  border-bottom:1px solid rgba(200,150,40,0.05);
+  font-family:'Rajdhani',sans-serif;font-size:0.6rem;
+}
+.tr-tk{letter-spacing:2px;color:rgba(220,180,80,0.5);font-weight:600;}
+.tr-bar{height:1px;background:rgba(200,150,40,0.08);}
+.tr-fill-pos{height:1px;background:linear-gradient(90deg,#c8922a,rgba(200,150,40,0.2));}
+.tr-fill-neg{height:1px;background:rgba(140,0,0,0.6);}
+.tr-pnl{text-align:right;font-weight:700;font-size:0.6rem;}
+.tr-pnl.pos{color:#c8922a;}
+.tr-pnl.neg{color:#c04030;}
+
+.tmp-mini-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:rgba(200,150,40,0.06);
+  margin-top:0.5rem;
+}
+.tms{background:#050408;padding:0.3rem 0.4rem;}
+.tms-k{font-family:'Rajdhani',sans-serif;font-size:0.42rem;letter-spacing:2px;color:rgba(200,150,40,0.25);text-transform:uppercase;}
+.tms-v{font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:700;color:rgba(220,180,80,0.6);}
+
+/* SVG Ribbon chart */
+.tmp-ribbon-chart{margin-top:0.5rem;border:1px solid rgba(200,150,40,0.08);}
+
+/* ── Selection ── */
+.selection-bar{
+  text-align:center;padding:1rem;margin-top:1.5rem;
+  font-family:'Syne',sans-serif;font-size:0.62rem;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,0.12);transition:color 0.3s;
+}
+</style>
+</head>
+<body>
+<h1>QuantApp — Fantasy Art Edition</h1>
+<p class="sub">Epic fantasy painting × financial dashboard · Click to select</p>
+
+<div class="grid">
+
+  <!-- I. DYNASTY -->
+  <div class="card" id="dynasty" onclick="sel(this,'dynasty')">
+    <div class="card-preview">
+      <div class="dyn-sky"></div>
+      <div class="dyn-grain"></div>
+      <div class="dyn-horizon"></div>
+      <!-- Birds SVG -->
+      <svg class="dyn-birds" width="60" height="24" viewBox="0 0 60 24">
+        <path d="M0,12 Q5,8 10,12 Q15,16 20,12" fill="none" stroke="rgba(200,146,42,0.8)" stroke-width="1.2"/>
+        <path d="M24,8 Q29,4 34,8 Q39,12 44,8" fill="none" stroke="rgba(200,146,42,0.6)" stroke-width="1"/>
+        <path d="M14,3 Q18,0 22,3 Q26,6 30,3" fill="none" stroke="rgba(200,146,42,0.5)" stroke-width="0.8"/>
+      </svg>
+      <div class="dyn-content">
+        <div class="dyn-header">
+          <div class="dyn-logo">QuantApp</div>
+          <div class="dyn-crest">NYSE · OPEN<br>XIV APRILIS · MMXXVI</div>
+        </div>
+        <div class="dyn-decree">Total Portfolio Value</div>
+        <div class="dyn-num">$24,580</div>
+        <div class="dyn-sub">Unrealised: <span>+$4,580 · +22.9%</span></div>
+        <div class="dyn-stroke"></div>
+        <table class="dyn-ledger">
+          <tr>
+            <td class="dl-tk">AAPL</td>
+            <td class="dl-bar-wrap"><div class="dl-bar"><div class="dl-fill-pos" style="width:47%;"></div></div></td>
+            <td class="dl-pnl pos">+$350</td>
+            <td class="dl-badge gold">GOLDEN ↑</td>
+          </tr>
+          <tr>
+            <td class="dl-tk">NVDA</td>
+            <td class="dl-bar-wrap"><div class="dl-bar"><div class="dl-fill-pos" style="width:100%;"></div></div></td>
+            <td class="dl-pnl pos">+$980</td>
+            <td class="dl-badge gold">GOLDEN ↑</td>
+          </tr>
+          <tr>
+            <td class="dl-tk">TSLA</td>
+            <td class="dl-bar-wrap"><div class="dl-bar"><div class="dl-fill-neg" style="width:25%;"></div></div></td>
+            <td class="dl-pnl neg">−$180</td>
+            <td class="dl-badge death">DEATH ↓</td>
+          </tr>
+          <tr>
+            <td class="dl-tk">MSFT</td>
+            <td class="dl-bar-wrap"><div class="dl-bar"><div class="dl-fill-pos" style="width:75%;background:linear-gradient(90deg,rgba(200,146,42,0.3),transparent);"></div></div></td>
+            <td class="dl-pnl pos" style="color:rgba(200,146,42,0.4);">+$1k</td>
+            <td class="dl-badge gold" style="opacity:0.4;">HOLD —</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">I. Dynasty</div>
+      <div class="card-desc">Ink black + war gold + vermillion · Cinzel imperial · Bird motif · Battle ledger</div>
+    </div>
+  </div>
+
+  <!-- II. INK WASH -->
+  <div class="card" id="ink" onclick="sel(this,'ink')">
+    <div class="card-preview">
+      <div class="ink-glow"></div>
+      <div class="ink-mountains"></div>
+      <div class="ink-content">
+        <div class="ink-brand">QuantApp</div>
+        <div class="ink-tagline">— portfolio of record —</div>
+        <div class="ink-kpi-label">Total Portfolio Value</div>
+        <div class="ink-num">$24,580</div>
+        <div class="ink-sub">Unrealised: <span>+$4,580</span> · Daily +$847</div>
+        <div class="ink-brush"></div>
+        <div class="ink-panels">
+          <div class="ink-panel">
+            <div class="ip-label">AAPL · Signal</div>
+            <div class="ip-val">+$350</div>
+            <div class="ip-sub">↑ Golden Cross</div>
+          </div>
+          <div class="ink-panel">
+            <div class="ip-label">NVDA · Signal</div>
+            <div class="ip-val">+$980</div>
+            <div class="ip-sub">↑ Golden Cross</div>
+          </div>
+          <div class="ink-panel">
+            <div class="ip-label">TSLA · Signal</div>
+            <div class="ip-val neg">−$180</div>
+            <div class="ip-sub">↓ Death Cross</div>
+          </div>
+          <div class="ink-panel">
+            <div class="ip-label">MSFT · Signal</div>
+            <div class="ip-val" style="color:rgba(210,160,80,0.5);">+$1k</div>
+            <div class="ip-sub">— Neutral Hold</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">II. Ink Wash</div>
+      <div class="card-desc">Sumi ink + amber sun · Playfair italic · Traditional painting atmosphere</div>
+    </div>
+  </div>
+
+  <!-- III. CELESTIAL -->
+  <div class="card" id="celestial" onclick="sel(this,'celestial')">
+    <div class="card-preview">
+      <div class="cel-stars"></div>
+      <div class="cel-horizon"></div>
+      <div class="cel-rim"></div>
+      <div class="cel-content">
+        <div class="cel-header">
+          <div class="cel-logo">QuantApp</div>
+          <div class="cel-coords">NYSE · LIVE<br>15°N 108°E</div>
+        </div>
+        <div class="cel-decree">Total Portfolio Value</div>
+        <div class="cel-num">$24,580</div>
+        <div class="cel-sub">P&L: <span class="pos">+$4,580 (+22.9%)</span></div>
+        <div class="cel-sep" style="margin:0.7rem 0;"></div>
+        <div class="cel-grid">
+          <div class="cg-cell"><div class="cg-label">AAPL</div><div class="cg-val">+$350</div></div>
+          <div class="cg-cell"><div class="cg-label">NVDA</div><div class="cg-val">+$980</div></div>
+          <div class="cg-cell"><div class="cg-label">TSLA</div><div class="cg-val neg">−$180</div></div>
+          <div class="cg-cell"><div class="cg-label">MSFT</div><div class="cg-val white">+$1k</div></div>
+        </div>
+        <!-- Ribbon-like chart from the painting's flowing fabric -->
+        <div style="margin-top:0.6rem;border:1px solid rgba(232,144,10,0.08);padding:0.3rem;">
+          <svg width="100%" height="32" viewBox="0 0 200 32">
+            <defs>
+              <linearGradient id="cg" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="rgba(30,60,160,0.3)"/>
+                <stop offset="60%" stop-color="#e8900a"/>
+                <stop offset="100%" stop-color="#ffe060"/>
+              </linearGradient>
+            </defs>
+            <!-- Ribbon paths — multiple flowing lines like fabric -->
+            <path d="M0,28 C30,28 40,20 60,16 S100,8 140,5 S180,3 200,2" fill="none" stroke="url(#cg)" stroke-width="2" opacity="0.8"/>
+            <path d="M0,30 C30,30 40,24 60,20 S100,14 140,10 S180,7 200,6" fill="none" stroke="rgba(232,144,10,0.3)" stroke-width="1"/>
+            <polygon points="0,28 60,16 140,5 200,2 200,32 0,32" fill="url(#cg)" opacity="0.06"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">III. Celestial</div>
+      <div class="card-desc">Cobalt sky + amber sunset · Bebas Neue · Star field · Ribbon chart lines</div>
+    </div>
+  </div>
+
+  <!-- IV. GARDEN -->
+  <div class="card" id="garden" onclick="sel(this,'garden')">
+    <div class="card-preview">
+      <div class="gdn-bloom"></div>
+      <!-- Petal SVG decoration -->
+      <svg class="gdn-petal" width="50" height="50" viewBox="0 0 50 50">
+        <ellipse cx="25" cy="12" rx="6" ry="12" fill="rgba(196,129,142,0.3)" transform="rotate(0,25,25)"/>
+        <ellipse cx="25" cy="12" rx="6" ry="12" fill="rgba(196,129,142,0.2)" transform="rotate(45,25,25)"/>
+        <ellipse cx="25" cy="12" rx="6" ry="12" fill="rgba(196,129,142,0.25)" transform="rotate(90,25,25)"/>
+        <ellipse cx="25" cy="12" rx="6" ry="12" fill="rgba(196,129,142,0.2)" transform="rotate(135,25,25)"/>
+        <ellipse cx="25" cy="12" rx="6" ry="12" fill="rgba(196,129,142,0.15)" transform="rotate(180,25,25)"/>
+        <ellipse cx="25" cy="12" rx="6" ry="12" fill="rgba(196,129,142,0.2)" transform="rotate(225,25,25)"/>
+        <ellipse cx="25" cy="12" rx="6" ry="12" fill="rgba(196,129,142,0.25)" transform="rotate(270,25,25)"/>
+        <ellipse cx="25" cy="12" rx="6" ry="12" fill="rgba(196,129,142,0.2)" transform="rotate(315,25,25)"/>
+        <circle cx="25" cy="25" r="4" fill="rgba(240,200,160,0.3)"/>
+      </svg>
+      <div class="gdn-content">
+        <div class="gdn-title">QuantApp</div>
+        <div class="gdn-verse">"where wealth blooms in silence"</div>
+        <div class="gdn-kpi-label">Total Portfolio Value</div>
+        <div class="gdn-num">$24,580</div>
+        <div class="gdn-pnl">Unrealised: <span>+$4,580 (+22.9%)</span></div>
+        <div class="gdn-divide"></div>
+        <div class="gdn-stanza">
+          <div class="gs-tk">AAPL</div>
+          <div class="gs-bar"><div class="gs-fill-pos" style="width:47%;"></div></div>
+          <div class="gs-pnl pos">+$350</div>
+          <div class="gs-sig">golden ↑</div>
+        </div>
+        <div class="gdn-stanza">
+          <div class="gs-tk">NVDA</div>
+          <div class="gs-bar"><div class="gs-fill-pos" style="width:100%;"></div></div>
+          <div class="gs-pnl pos">+$980</div>
+          <div class="gs-sig">golden ↑</div>
+        </div>
+        <div class="gdn-stanza">
+          <div class="gs-tk">TSLA</div>
+          <div class="gs-bar"><div class="gs-fill-neg" style="width:25%;"></div></div>
+          <div class="gs-pnl neg">−$180</div>
+          <div class="gs-sig">death ↓</div>
+        </div>
+        <div class="gdn-stanza">
+          <div class="gs-tk">MSFT</div>
+          <div class="gs-bar"><div class="gs-fill-pos" style="width:75%;background:linear-gradient(90deg,rgba(196,129,142,0.25),transparent);"></div></div>
+          <div class="gs-pnl pos" style="color:rgba(196,129,142,0.4);">+$1k</div>
+          <div class="gs-sig">hold —</div>
+        </div>
+        <div class="gdn-footer">— April 2026 · NYSE Open —</div>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">IV. Garden</div>
+      <div class="card-desc">Dark jade + blush rose · Playfair italic · Flower petals · Poetry meets precision</div>
+    </div>
+  </div>
+
+  <!-- V. TEMPEST -->
+  <div class="card" id="tempest" onclick="sel(this,'tempest')">
+    <div class="card-preview">
+      <div class="tmp-sky"></div>
+      <div class="tmp-left-sky"></div>
+      <div class="tmp-right-fire"></div>
+      <!-- Ribbon fabric SVG -->
+      <svg class="tmp-ribbon" width="100%" height="100%" viewBox="0 0 200 400" preserveAspectRatio="none">
+        <path d="M-10,100 Q60,80 80,150 Q100,220 160,200 Q200,190 220,250" fill="none" stroke="rgba(200,120,0,0.15)" stroke-width="8"/>
+        <path d="M-10,120 Q60,100 80,170 Q100,240 160,220" fill="none" stroke="rgba(200,120,0,0.08)" stroke-width="4"/>
+      </svg>
+      <!-- Birds -->
+      <svg class="tmp-birds" width="70" height="28" viewBox="0 0 70 28">
+        <path d="M0,14 Q6,10 12,14 Q18,18 24,14" fill="none" stroke="rgba(200,160,40,0.9)" stroke-width="1.2"/>
+        <path d="M28,9 Q34,5 40,9 Q46,13 52,9" fill="none" stroke="rgba(200,160,40,0.7)" stroke-width="1"/>
+        <path d="M18,3 Q22,0 26,3 Q30,6 34,3" fill="none" stroke="rgba(200,160,40,0.6)" stroke-width="0.8"/>
+        <path d="M46,18 Q50,15 54,18 Q58,21 62,18" fill="none" stroke="rgba(200,160,40,0.4)" stroke-width="0.7"/>
+      </svg>
+      <div class="tmp-content">
+        <!-- Left: Imperial decree -->
+        <div class="tmp-left">
+          <div>
+            <div class="tmp-logo">QuantApp</div>
+            <div class="tmp-subtitle">War Room · Portfolio Command</div>
+            <div class="tmp-kpi-label">Total Value</div>
+            <div class="tmp-num">$24,580</div>
+            <div class="tmp-gain">Gain: <span class="val">+$4,580</span></div>
+          </div>
+          <div>
+            <div class="tmp-stroke"></div>
+            <div class="tmp-signal">Status: <span class="gld">GOLDEN CROSS ↑</span></div>
+          </div>
+        </div>
+        <!-- Right: Data density -->
+        <div class="tmp-right">
+          <div class="tmp-data-label">Holdings · Battle Status</div>
+          <div class="tmp-row">
+            <div class="tr-tk">AAPL</div>
+            <div class="tr-bar"><div class="tr-fill-pos" style="width:47%;"></div></div>
+            <div class="tr-pnl pos">+$350</div>
+          </div>
+          <div class="tmp-row">
+            <div class="tr-tk">NVDA</div>
+            <div class="tr-bar"><div class="tr-fill-pos" style="width:100%;"></div></div>
+            <div class="tr-pnl pos">+$980</div>
+          </div>
+          <div class="tmp-row">
+            <div class="tr-tk">TSLA</div>
+            <div class="tr-bar"><div class="tr-fill-neg" style="width:25%;"></div></div>
+            <div class="tr-pnl neg">−$180</div>
+          </div>
+          <div class="tmp-row">
+            <div class="tr-tk">MSFT</div>
+            <div class="tr-bar"><div class="tr-fill-pos" style="width:75%;background:rgba(200,150,40,0.2);"></div></div>
+            <div class="tr-pnl pos" style="color:rgba(200,150,40,0.4);">+$1k</div>
+          </div>
+          <div class="tmp-mini-stats">
+            <div class="tms"><div class="tms-k">Daily</div><div class="tms-v">+$847</div></div>
+            <div class="tms"><div class="tms-k">Session</div><div class="tms-v">+3.5%</div></div>
+          </div>
+          <!-- Ribbon chart -->
+          <div class="tmp-ribbon-chart">
+            <svg width="100%" height="28" viewBox="0 0 160 28">
+              <defs>
+                <linearGradient id="tg" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="rgba(40,60,160,0.6)"/>
+                  <stop offset="70%" stop-color="#c8922a"/>
+                  <stop offset="100%" stop-color="#ffe060"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,24 C20,24 30,18 50,14 S90,7 120,5 S150,3 160,2" fill="none" stroke="url(#tg)" stroke-width="1.5" opacity="0.9"/>
+              <path d="M0,26 C20,26 30,21 50,18 S90,12 120,9 S150,7 160,6" fill="none" stroke="rgba(200,150,40,0.2)" stroke-width="1"/>
+              <polygon points="0,24 50,14 120,5 160,2 160,28 0,28" fill="url(#tg)" opacity="0.06"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">V. Tempest</div>
+      <div class="card-desc">Split war room · Birds + ribbons · Cobalt sky → amber fire · Cinzel + Rajdhani</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="selection-bar" id="sel-bar">Click to select your favorites · Tell me in the terminal</div>
+
+<script>
+const picks = new Set();
+function sel(el, id) {
+  el.classList.toggle('selected');
+  picks.has(id) ? picks.delete(id) : picks.add(id);
+  const bar = document.getElementById('sel-bar');
+  if (!picks.size) {
+    bar.textContent = 'Click to select your favorites · Tell me in the terminal';
+    bar.style.color = '';
+  } else {
+    bar.textContent = '🔥 ' + [...picks].map(s=>s.toUpperCase()).join(' + ') + ' — drop it in the terminal';
+    bar.style.color = 'rgba(255,220,100,0.7)';
+  }
+  if (window.__superpowers_select) window.__superpowers_select(id, el.classList.contains('selected') ? 'select' : 'deselect');
+}
+</script>
+</body>
+</html>

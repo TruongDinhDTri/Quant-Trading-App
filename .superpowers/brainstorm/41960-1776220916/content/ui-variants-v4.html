@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantApp — Rich Dashboard Variants</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:#080808;font-family:'Outfit',sans-serif;color:#fff;padding:1.5rem;min-height:100vh;}
+
+h1{text-align:center;font-family:'Syne',sans-serif;font-size:0.9rem;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,0.15);margin-bottom:0.3rem;}
+.sub{text-align:center;font-size:0.65rem;letter-spacing:2px;color:rgba(255,255,255,0.1);margin-bottom:2rem;text-transform:uppercase;}
+
+/* 3 on top, 2 centered on bottom */
+.grid-top{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;max-width:1500px;margin:0 auto 0.8rem;}
+.grid-bot{display:grid;grid-template-columns:repeat(2,1fr);gap:0.8rem;max-width:1010px;margin:0 auto;}
+
+.card{border-radius:6px;overflow:hidden;cursor:pointer;transition:transform 0.25s,box-shadow 0.25s;border:2px solid transparent;}
+.card:hover{transform:translateY(-6px);}
+.card.selected{border-color:white!important;box-shadow:0 0 0 1px white,0 0 50px rgba(255,255,255,0.1);}
+.card-preview{height:480px;position:relative;overflow:hidden;}
+.card-label{padding:0.75rem 1rem;border-top:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);}
+.card-name{font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:0.2rem;}
+.card-desc{font-size:0.6rem;color:rgba(255,255,255,0.3);letter-spacing:0.5px;line-height:1.5;}
+
+/* ═══════════════════════════════════════════
+   I. NEXUS
+   Image 7 + 12 vibe
+   Navy #0D1117 + multi-accent sidebar
+   Crypto staking yield cards + bar chart
+═══════════════════════════════════════════ */
+#nexus .card-preview{background:#0D1117;}
+#nexus{border-color:rgba(88,166,255,0.3);}
+#nexus .card-name{color:#58a6ff;}
+
+.nex-wrap{display:grid;grid-template-columns:46px 1fr;height:100%;}
+/* Sidebar */
+.nex-sidebar{
+  background:#0D1117;border-right:1px solid rgba(48,54,61,0.8);
+  display:flex;flex-direction:column;align-items:center;padding:0.7rem 0;gap:0.4rem;
+}
+.nex-logo-icon{
+  width:28px;height:28px;border-radius:6px;
+  background:linear-gradient(135deg,#7c3aed,#58a6ff);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;font-weight:800;color:#fff;margin-bottom:0.3rem;
+  font-family:'Syne',sans-serif;
+}
+.nex-nav-icon{
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.65rem;color:rgba(255,255,255,0.25);
+  cursor:pointer;transition:all 0.15s;
+}
+.nex-nav-icon.on{background:rgba(88,166,255,0.12);color:#58a6ff;}
+/* Main */
+.nex-main{display:flex;flex-direction:column;overflow:hidden;}
+.nex-topbar{
+  padding:0.5rem 0.75rem;border-bottom:1px solid rgba(48,54,61,0.8);
+  display:flex;justify-content:space-between;align-items:center;flex-shrink:0;
+}
+.nex-page-title{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;color:#e6edf3;letter-spacing:1px;}
+.nex-topbar-right{display:flex;gap:0.4rem;align-items:center;}
+.nex-btn{font-size:0.52rem;padding:0.2rem 0.55rem;border-radius:4px;font-weight:600;letter-spacing:0.5px;cursor:pointer;}
+.nex-btn.primary{background:#238636;color:#fff;}
+.nex-btn.secondary{background:rgba(88,166,255,0.1);color:#58a6ff;border:1px solid rgba(88,166,255,0.2);}
+.nex-time{font-size:0.5rem;color:rgba(139,148,158,0.6);font-family:'JetBrains Mono',monospace;letter-spacing:1px;}
+
+.nex-body{padding:0.6rem 0.75rem;flex:1;overflow:hidden;}
+/* Yield cards row — like Image 7's staking cards */
+.nex-yield-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.6rem;}
+.nex-yield-card{
+  padding:0.6rem 0.65rem;border-radius:6px;
+  position:relative;overflow:hidden;
+}
+.nyc-a{background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.12);}
+.nyc-b{background:rgba(63,185,80,0.06);border:1px solid rgba(63,185,80,0.12);}
+.nyc-c{background:rgba(255,123,114,0.06);border:1px solid rgba(255,123,114,0.12);}
+.nyc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;}
+.nyc-ticker{font-size:0.55rem;font-weight:700;letter-spacing:2px;color:rgba(230,237,243,0.5);font-family:'Syne',sans-serif;}
+.nyc-dot-a{width:5px;height:5px;border-radius:50%;background:#58a6ff;box-shadow:0 0 5px #58a6ff;}
+.nyc-dot-b{width:5px;height:5px;border-radius:50%;background:#3fb950;box-shadow:0 0 5px #3fb950;}
+.nyc-dot-c{width:5px;height:5px;border-radius:50%;background:#ff7b72;box-shadow:0 0 5px #ff7b72;}
+.nyc-pct{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;line-height:1;letter-spacing:0;}
+.nyc-pct.a{color:#58a6ff;}
+.nyc-pct.b{color:#3fb950;}
+.nyc-pct.c{color:#ff7b72;}
+.nyc-label{font-size:0.48rem;color:rgba(139,148,158,0.6);letter-spacing:1px;margin-top:0.1rem;}
+/* Mini sparkline */
+.nyc-spark{margin-top:0.3rem;}
+
+/* Main data area */
+.nex-data-row{display:grid;grid-template-columns:1.5fr 1fr;gap:0.5rem;margin-bottom:0.5rem;}
+.nex-panel{border:1px solid rgba(48,54,61,0.8);border-radius:6px;padding:0.55rem 0.65rem;background:rgba(22,27,34,0.6);}
+.nex-panel-title{font-size:0.5rem;letter-spacing:3px;text-transform:uppercase;color:rgba(139,148,158,0.5);margin-bottom:0.5rem;font-family:'Syne',sans-serif;}
+/* Holdings table */
+.nex-tbl{width:100%;font-size:0.58rem;border-collapse:collapse;}
+.nex-tbl th{padding:0.2rem 0.3rem;text-align:left;color:rgba(139,148,158,0.4);font-size:0.48rem;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid rgba(48,54,61,0.6);font-weight:500;}
+.nex-tbl td{padding:0.28rem 0.3rem;border-bottom:1px solid rgba(48,54,61,0.3);}
+.nex-tk-a{color:#58a6ff;font-weight:700;letter-spacing:1px;}
+.nex-tk-b{color:#3fb950;font-weight:700;letter-spacing:1px;}
+.nex-tk-c{color:#ff7b72;font-weight:700;letter-spacing:1px;}
+.nex-tk-d{color:#d2a8ff;font-weight:700;letter-spacing:1px;}
+.nex-pos{color:#3fb950;}
+.nex-neg{color:#ff7b72;}
+.nex-badge{font-size:0.44rem;padding:0.08rem 0.3rem;border-radius:3px;font-weight:600;letter-spacing:0.5px;}
+.nb-golden{background:rgba(63,185,80,0.1);color:#3fb950;border:1px solid rgba(63,185,80,0.2);}
+.nb-death{background:rgba(255,123,114,0.1);color:#ff7b72;border:1px solid rgba(255,123,114,0.2);}
+.nb-hold{color:rgba(139,148,158,0.4);border:1px solid rgba(139,148,158,0.1);}
+/* Portfolio hero in side panel */
+.nex-hero{margin-bottom:0.4rem;}
+.nex-hero-label{font-size:0.45rem;letter-spacing:3px;color:rgba(139,148,158,0.4);text-transform:uppercase;}
+.nex-hero-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;color:#e6edf3;}
+.nex-hero-sub{font-size:0.5rem;color:#3fb950;margin-top:0.1rem;}
+/* Bar chart */
+.nex-bars{display:flex;align-items:flex-end;gap:3px;height:40px;margin-top:0.4rem;}
+.nb-bar{flex:1;border-radius:2px 2px 0 0;min-width:4px;}
+
+/* ═══════════════════════════════════════════
+   II. INFERNO
+   Image 8 — near-black, orange glow, world map
+   Gauge dial, red/orange bar chart
+═══════════════════════════════════════════ */
+#inferno .card-preview{background:#090909;}
+#inferno{border-color:rgba(255,80,0,0.35);}
+#inferno .card-name{color:#ff5000;}
+
+/* World map silhouette */
+.inf-mapbg{
+  position:absolute;top:0;right:0;bottom:40%;left:20%;
+  opacity:0.06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'%3E%3Cellipse cx='200' cy='200' rx='80' ry='120' fill='%23ff5500'/%3E%3Cellipse cx='420' cy='180' rx='140' ry='90' fill='%23ff5500'/%3E%3Cellipse cx='580' cy='200' rx='60' ry='80' fill='%23ff5500'/%3E%3Cellipse cx='700' cy='220' rx='100' ry='70' fill='%23ff5500'/%3E%3Cellipse cx='850' cy='200' rx='50' ry='60' fill='%23ff5500'/%3E%3C/svg%3E");
+  background-size:cover;
+}
+.inf-ambient{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 35%,rgba(255,80,0,0.08) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 70% 70%,rgba(255,30,0,0.06) 0%,transparent 50%);
+}
+.inf-content{position:relative;z-index:2;display:grid;grid-template-columns:50px 1fr;height:100%;}
+/* Mini icon sidebar */
+.inf-sidebar{
+  background:rgba(14,6,0,0.8);border-right:1px solid rgba(255,80,0,0.08);
+  display:flex;flex-direction:column;align-items:center;padding:0.6rem 0;gap:0.5rem;
+}
+.inf-icon{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;}
+.inf-icon.on{background:rgba(255,80,0,0.15);color:#ff5000;}
+.inf-icon.off{color:rgba(255,255,255,0.15);}
+.inf-logo-sq{width:28px;height:28px;border-radius:5px;background:linear-gradient(135deg,#ff5000,#8b0000);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:0.65rem;font-weight:700;margin-bottom:0.3rem;}
+
+.inf-main{display:flex;flex-direction:column;padding:0.55rem 0.65rem;}
+.inf-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.55rem;padding-bottom:0.4rem;border-bottom:1px solid rgba(255,80,0,0.08);}
+.inf-title{font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#fff;}
+.inf-live{display:flex;align-items:center;gap:0.3rem;font-family:'JetBrains Mono',monospace;font-size:0.48rem;color:rgba(255,80,0,0.5);}
+.inf-live-dot{width:5px;height:5px;border-radius:50%;background:#ff5000;animation:idot 1.5s ease-in-out infinite;}
+@keyframes idot{0%,100%{box-shadow:0 0 4px #ff5000;}50%{box-shadow:0 0 10px #ff5000,0 0 20px rgba(255,80,0,0.3);}}
+
+/* Top metrics strip */
+.inf-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,80,0,0.06);margin-bottom:0.55rem;border:1px solid rgba(255,80,0,0.06);}
+.inf-metric{background:#090909;padding:0.4rem 0.5rem;}
+.im-k{font-family:'Rajdhani',sans-serif;font-size:0.45rem;letter-spacing:3px;color:rgba(255,80,0,0.35);text-transform:uppercase;}
+.im-v{font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#fff;}
+.im-v.hi{color:#ff5000;text-shadow:0 0 8px rgba(255,80,0,0.3);}
+.im-v.pos{color:#4caf50;}
+.im-v.neg{color:#ff3333;}
+
+/* Two-col layout: gauge + chart */
+.inf-midrow{display:grid;grid-template-columns:100px 1fr;gap:0.5rem;margin-bottom:0.5rem;}
+/* Gauge dial */
+.inf-gauge-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid rgba(255,80,0,0.08);padding:0.4rem;}
+.inf-gauge-label{font-size:0.42rem;letter-spacing:2px;color:rgba(255,80,0,0.35);text-align:center;text-transform:uppercase;font-family:'Rajdhani',sans-serif;margin-top:0.3rem;}
+.inf-gauge-val{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#ff5000;text-align:center;line-height:1;margin-top:0.1rem;}
+
+/* Bar chart panel */
+.inf-chart-panel{border:1px solid rgba(255,80,0,0.08);padding:0.45rem 0.55rem;}
+.inf-chart-title{font-family:'Rajdhani',sans-serif;font-size:0.45rem;letter-spacing:3px;color:rgba(255,80,0,0.35);text-transform:uppercase;margin-bottom:0.4rem;}
+.inf-bar-group{display:flex;align-items:flex-end;gap:2px;height:50px;}
+.ibg-bar{flex:1;border-radius:1px 1px 0 0;min-width:3px;}
+
+/* Bottom table */
+.inf-table-wrap{border:1px solid rgba(255,80,0,0.06);padding:0.45rem 0.5rem;}
+.inf-table{width:100%;font-family:'JetBrains Mono',monospace;font-size:0.52rem;border-collapse:collapse;}
+.inf-table th{padding:0.15rem 0.3rem;font-size:0.43rem;letter-spacing:2px;color:rgba(255,80,0,0.3);border-bottom:1px solid rgba(255,80,0,0.06);text-transform:uppercase;}
+.inf-table td{padding:0.22rem 0.3rem;border-bottom:1px solid rgba(255,80,0,0.04);}
+.it-pos{color:#4caf50;}
+.it-neg{color:#ff3333;}
+.it-gold{color:rgba(255,120,0,0.6);font-size:0.44rem;}
+.it-death{color:rgba(255,30,0,0.5);font-size:0.44rem;}
+
+/* ═══════════════════════════════════════════
+   III. AMBER MACHINE
+   Image 9 — dark brown-black, amber circles
+   Circular clock element, bar charts, organic
+═══════════════════════════════════════════ */
+#amber .card-preview{background:#0E0C08;}
+#amber{border-color:rgba(232,130,10,0.35);}
+#amber .card-name{color:#e8820a;}
+
+.amb-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;height:100%;gap:0;}
+.amb-left{padding:0.65rem 0.7rem;border-right:1px solid rgba(232,130,10,0.07);display:flex;flex-direction:column;gap:0.5rem;}
+.amb-right{padding:0.65rem 0.7rem;display:flex;flex-direction:column;gap:0.5rem;}
+
+/* Header */
+.amb-header{display:flex;justify-content:space-between;align-items:flex-start;}
+.amb-logo{font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:800;letter-spacing:2px;
+  background:linear-gradient(135deg,#ffc060,#e8820a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.amb-date{font-family:'JetBrains Mono',monospace;font-size:0.42rem;color:rgba(232,130,10,0.25);letter-spacing:1px;text-align:right;line-height:2;}
+
+/* Circular clock/gauge — Image 9's centrepiece */
+.amb-clock-wrap{display:flex;flex-direction:column;align-items:center;}
+.amb-clock-label{font-size:0.42rem;letter-spacing:3px;color:rgba(232,130,10,0.35);text-transform:uppercase;font-family:'Syne',sans-serif;margin-bottom:0.25rem;}
+.amb-clock{position:relative;width:80px;height:80px;margin:0 auto;}
+.amb-clock-val{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  text-align:center;
+}
+.amb-clock-num{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#e8820a;line-height:1;filter:drop-shadow(0 0 6px rgba(232,130,10,0.4));}
+.amb-clock-sub{font-size:0.38rem;color:rgba(232,130,10,0.3);letter-spacing:1px;font-family:'Syne',sans-serif;}
+
+/* Bar chart with amber bars */
+.amb-bars-label{font-size:0.42rem;letter-spacing:3px;color:rgba(232,130,10,0.35);text-transform:uppercase;font-family:'Syne',sans-serif;}
+.amb-bars{display:flex;align-items:flex-end;gap:3px;height:44px;margin-top:0.3rem;}
+.abb{flex:1;border-radius:2px 2px 0 0;}
+
+/* Mini stat pairs */
+.amb-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;}
+.amb-stat{border:1px solid rgba(232,130,10,0.08);padding:0.35rem 0.4rem;border-radius:3px;background:rgba(232,130,10,0.02);}
+.as-k{font-size:0.4rem;letter-spacing:2px;color:rgba(232,130,10,0.3);text-transform:uppercase;font-family:'Syne',sans-serif;}
+.as-v{font-family:'Bebas Neue',sans-serif;font-size:1rem;line-height:1;}
+.as-v.amb{color:#e8820a;}
+.as-v.pos{color:#70c060;}
+.as-v.neg{color:#c04030;}
+
+/* Organic plant decoration — Image 9 had a plant! */
+.amb-plant{
+  position:absolute;bottom:0;right:0;width:60px;height:80px;
+  opacity:0.12;
+  background:radial-gradient(ellipse 30px 60px at 50% 80%,rgba(80,160,80,0.6) 0%,transparent 70%);
+  border-radius:50%;
+  filter:blur(8px);
+}
+
+/* Table on right */
+.amb-tbl-label{font-size:0.42rem;letter-spacing:3px;color:rgba(232,130,10,0.35);text-transform:uppercase;font-family:'Syne',sans-serif;}
+.amb-tbl{width:100%;font-size:0.55rem;border-collapse:collapse;font-family:'JetBrains Mono',monospace;margin-top:0.3rem;}
+.amb-tbl td{padding:0.24rem 0.3rem;border-bottom:1px solid rgba(232,130,10,0.05);}
+.at-tk{color:rgba(255,200,100,0.6);letter-spacing:1px;}
+.at-pos{color:#e8820a;text-align:right;}
+.at-neg{color:#c04030;text-align:right;}
+.at-sig{font-size:0.42rem;text-align:right;color:rgba(232,130,10,0.3);}
+
+/* Horizon chart */
+.amb-horizon{border:1px solid rgba(232,130,10,0.08);padding:0.35rem 0.4rem;margin-top:auto;}
+.ah-label{font-size:0.4rem;letter-spacing:2px;color:rgba(232,130,10,0.3);margin-bottom:0.25rem;font-family:'Syne',sans-serif;}
+
+/* ═══════════════════════════════════════════
+   IV. CANOPY
+   Images 10 + 11 — forest green, nature
+   Mountain landscape panels, green data
+═══════════════════════════════════════════ */
+#canopy .card-preview{background:#080E09;}
+#canopy{border-color:rgba(34,197,94,0.3);}
+#canopy .card-name{color:#22c55e;}
+
+/* Forest mist atmospheric background */
+.can-forest{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(8,30,10,0.95) 0%,rgba(5,20,8,0.9) 40%,rgba(10,40,12,0.85) 70%,rgba(8,25,10,0.95) 100%),
+    /* Mountain silhouettes */
+    radial-gradient(ellipse 200% 60% at 50% 120%,rgba(15,50,15,0.6) 0%,transparent 50%);
+}
+/* Mountain ridge lines */
+.can-ridges{
+  position:absolute;bottom:25%;left:0;right:0;
+  opacity:0.12;
+}
+/* Fog layer */
+.can-fog{
+  position:absolute;bottom:20%;left:0;right:0;height:20%;
+  background:linear-gradient(0deg,rgba(15,60,20,0.15),transparent);
+  filter:blur(10px);
+}
+.can-content{position:relative;z-index:2;display:grid;grid-template-columns:52px 1fr;height:100%;}
+
+.can-sidebar{
+  background:rgba(5,15,7,0.9);border-right:1px solid rgba(34,197,94,0.07);
+  display:flex;flex-direction:column;align-items:center;padding:0.6rem 0;gap:0.4rem;
+}
+.can-logo-sq{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#16a34a,#22c55e);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:0.6rem;font-weight:800;color:#fff;margin-bottom:0.2rem;}
+.can-nav{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;}
+.can-nav.on{background:rgba(34,197,94,0.12);color:#22c55e;}
+.can-nav.off{color:rgba(255,255,255,0.15);}
+
+.can-main{display:flex;flex-direction:column;padding:0.6rem 0.7rem;}
+.can-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.55rem;}
+.can-title{font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:800;color:#dcfce7;letter-spacing:1px;}
+.can-live{display:flex;align-items:center;gap:0.3rem;font-size:0.48rem;color:rgba(34,197,94,0.5);font-family:'JetBrains Mono',monospace;}
+.can-pulse{width:5px;height:5px;border-radius:50%;background:#22c55e;animation:cpulse 2s ease-in-out infinite;}
+@keyframes cpulse{0%,100%{box-shadow:0 0 3px #22c55e;}50%{box-shadow:0 0 10px #22c55e,0 0 20px rgba(34,197,94,0.3);}}
+
+/* Nature panel cards — like Image 10 showing landscape in card */
+.can-nature-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;margin-bottom:0.5rem;}
+.can-nature-card{
+  border-radius:5px;overflow:hidden;position:relative;border:1px solid rgba(34,197,94,0.1);
+  height:60px;
+}
+.cnc-bg{position:absolute;inset:0;}
+.cnc-bg-a{
+  background:linear-gradient(135deg,#062010,#0a3015);
+  /* Simulated forest horizon */
+}
+.cnc-bg-b{background:linear-gradient(135deg,#041a08,#082510);}
+.cnc-bg-c{background:linear-gradient(135deg,#071508,#0a2010);}
+/* Tree silhouette in card */
+.cnc-tree{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:1px;height:35px;background:rgba(34,197,94,0.15);
+}
+.cnc-tree::before,.cnc-tree::after{
+  content:'';position:absolute;top:5px;
+  border:solid rgba(34,197,94,0.12);
+  border-width:12px 10px 0 10px;
+  border-color:rgba(34,197,94,0.12) transparent transparent transparent;
+  width:0;height:0;
+  left:-10px;
+}
+.cnc-tree::after{top:15px;border-width:10px 8px 0 8px;left:-8px;border-color:rgba(34,197,94,0.15) transparent transparent transparent;}
+.cnc-content{position:relative;z-index:2;padding:0.35rem 0.4rem;}
+.cnc-ticker{font-family:'Syne',sans-serif;font-size:0.5rem;font-weight:800;letter-spacing:2px;margin-bottom:0.1rem;}
+.cnc-ticker.a{color:#22c55e;}
+.cnc-ticker.b{color:#4ade80;}
+.cnc-ticker.c{color:#86efac;}
+.cnc-val{font-family:'Bebas Neue',sans-serif;font-size:1rem;line-height:1;}
+.cnc-val.pos{color:#22c55e;}
+.cnc-val.neg{color:#f87171;}
+.cnc-change{font-size:0.42rem;color:rgba(34,197,94,0.45);margin-top:0.05rem;}
+
+/* Main data grid */
+.can-data-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:0.4rem;margin-bottom:0.4rem;}
+.can-panel{border:1px solid rgba(34,197,94,0.08);border-radius:4px;padding:0.45rem 0.5rem;background:rgba(5,20,8,0.5);}
+.can-panel-title{font-size:0.45rem;letter-spacing:3px;color:rgba(34,197,94,0.3);text-transform:uppercase;font-family:'Syne',sans-serif;margin-bottom:0.4rem;}
+
+/* Portfolio hero */
+.can-hero-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#dcfce7;line-height:1;}
+.can-hero-sub{font-size:0.5rem;color:#22c55e;margin-top:0.2rem;}
+
+/* Green bar chart — area chart */
+.can-area-chart{margin-top:0.3rem;}
+
+/* Signal panel */
+.can-signal{font-size:0.55rem;}
+.can-sig-item{display:flex;justify-content:space-between;align-items:center;padding:0.22rem 0;border-bottom:1px solid rgba(34,197,94,0.05);}
+.csi-tk{color:rgba(186,230,210,0.6);font-weight:600;letter-spacing:1px;}
+.csi-badge-gold{font-size:0.44rem;padding:0.06rem 0.25rem;background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.15);border-radius:2px;}
+.csi-badge-death{font-size:0.44rem;padding:0.06rem 0.25rem;background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.15);border-radius:2px;}
+.csi-badge-hold{font-size:0.44rem;color:rgba(186,230,210,0.2);border:1px solid rgba(186,230,210,0.08);padding:0.06rem 0.25rem;border-radius:2px;}
+
+/* Bottom total bar */
+.can-total-bar{border:1px solid rgba(34,197,94,0.08);border-radius:4px;padding:0.4rem 0.5rem;background:rgba(5,20,8,0.5);display:flex;justify-content:space-between;align-items:center;}
+.ctb-label{font-size:0.45rem;letter-spacing:3px;color:rgba(34,197,94,0.3);text-transform:uppercase;font-family:'Syne',sans-serif;}
+.ctb-val{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:#22c55e;}
+.ctb-pnl{font-size:0.55rem;color:rgba(34,197,94,0.6);}
+
+/* ═══════════════════════════════════════════
+   V. VIVID
+   Image 12 (Ethoreal) — colorful gradient cards
+   Purple + emerald + teal fintech dashboard
+═══════════════════════════════════════════ */
+#vivid .card-preview{background:#0D0E1A;}
+#vivid{border-color:rgba(168,85,247,0.3);}
+#vivid .card-name{
+  background:linear-gradient(90deg,#a855f7,#10b981,#06b6d4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.viv-wrap{display:grid;grid-template-columns:50px 1fr;height:100%;}
+.viv-sidebar{
+  background:rgba(8,9,20,0.9);border-right:1px solid rgba(255,255,255,0.04);
+  display:flex;flex-direction:column;align-items:center;padding:0.65rem 0;gap:0.4rem;
+}
+.viv-logo-sq{
+  width:28px;height:28px;border-radius:6px;margin-bottom:0.2rem;
+  background:linear-gradient(135deg,#a855f7,#06b6d4);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:0.6rem;font-weight:800;color:#fff;
+}
+.viv-nav{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.62rem;}
+.viv-nav.on{background:rgba(168,85,247,0.15);color:#a855f7;}
+.viv-nav.off{color:rgba(255,255,255,0.12);}
+
+.viv-main{display:flex;flex-direction:column;padding:0.6rem 0.7rem;}
+.viv-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.55rem;}
+.viv-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.85rem;font-weight:800;color:#fff;}
+.viv-actions{display:flex;gap:0.3rem;}
+.viv-btn-sm{font-size:0.5rem;padding:0.2rem 0.5rem;border-radius:20px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;}
+.viv-btn-sm.purple{background:rgba(168,85,247,0.15);color:#a855f7;border:1px solid rgba(168,85,247,0.2);}
+.viv-btn-sm.teal{background:rgba(6,182,212,0.1);color:#06b6d4;border:1px solid rgba(6,182,212,0.2);}
+
+/* Top gradient cards row — Image 12's hero cards */
+.viv-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;margin-bottom:0.45rem;}
+.viv-card{border-radius:8px;padding:0.55rem 0.6rem;position:relative;overflow:hidden;}
+.vc-purple{background:linear-gradient(135deg,rgba(88,28,135,0.6),rgba(168,85,247,0.15));border:1px solid rgba(168,85,247,0.2);}
+.vc-emerald{background:linear-gradient(135deg,rgba(6,95,70,0.6),rgba(16,185,129,0.15));border:1px solid rgba(16,185,129,0.2);}
+.vc-teal{background:linear-gradient(135deg,rgba(14,116,144,0.5),rgba(6,182,212,0.15));border:1px solid rgba(6,182,212,0.15);}
+.vc-label{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.45rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.2rem;opacity:0.6;}
+.vc-purple .vc-label{color:#d8b4fe;}
+.vc-emerald .vc-label{color:#6ee7b7;}
+.vc-teal .vc-label{color:#67e8f9;}
+.vc-val{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;line-height:1;letter-spacing:0;}
+.vc-purple .vc-val{color:#e9d5ff;}
+.vc-emerald .vc-val{color:#a7f3d0;}
+.vc-teal .vc-val{color:#cffafe;}
+.vc-sub{font-size:0.45rem;margin-top:0.1rem;font-family:'Plus Jakarta Sans',sans-serif;}
+.vc-purple .vc-sub{color:rgba(216,180,254,0.5);}
+.vc-emerald .vc-sub{color:rgba(110,231,183,0.5);}
+.vc-teal .vc-sub{color:rgba(103,232,249,0.5);}
+/* Glow orb in card */
+.vc-orb{
+  position:absolute;top:-10px;right:-10px;width:50px;height:50px;border-radius:50%;
+  filter:blur(15px);opacity:0.3;
+}
+.vc-purple .vc-orb{background:#a855f7;}
+.vc-emerald .vc-orb{background:#10b981;}
+.vc-teal .vc-orb{background:#06b6d4;}
+
+/* Revenue flow bars — Image 12's horizontal bar group */
+.viv-midrow{display:grid;grid-template-columns:1.4fr 1fr;gap:0.4rem;margin-bottom:0.4rem;}
+.viv-panel{border:1px solid rgba(255,255,255,0.05);border-radius:6px;padding:0.45rem 0.5rem;background:rgba(255,255,255,0.018);}
+.viv-panel-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.45rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:0.4rem;}
+
+/* Grouped vertical bars — revenue flow */
+.viv-flow{display:flex;align-items:flex-end;justify-content:space-between;height:55px;gap:2px;}
+.viv-flow-group{display:flex;align-items:flex-end;gap:1px;flex:1;}
+.vfg-bar{flex:1;border-radius:1px 1px 0 0;min-width:3px;}
+.vfg-bar.purple{background:#a855f7;}
+.vfg-bar.teal{background:#06b6d4;opacity:0.6;}
+
+/* Holdings compact */
+.viv-holdings{font-family:'Plus Jakarta Sans',sans-serif;}
+.vh-item{display:flex;justify-content:space-between;align-items:center;padding:0.22rem 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.vhi-left{display:flex;align-items:center;gap:0.3rem;}
+.vhi-dot{width:6px;height:6px;border-radius:50%;}
+.vhi-tk{font-size:0.55rem;font-weight:700;letter-spacing:1px;}
+.vhi-pnl{font-size:0.55rem;font-weight:600;}
+
+/* Bottom row */
+.viv-bottom{display:grid;grid-template-columns:repeat(2,1fr);gap:0.4rem;}
+.viv-mini-panel{border:1px solid rgba(255,255,255,0.05);border-radius:6px;padding:0.35rem 0.45rem;background:rgba(255,255,255,0.018);}
+.vmp-k{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.42rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+.vmp-v{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;margin-top:0.1rem;}
+.vmp-v.purple{color:#a855f7;}
+.vmp-v.teal{color:#06b6d4;}
+
+/* ── Selection bar ── */
+.selection-bar{
+  text-align:center;padding:1rem;margin-top:1.5rem;
+  font-family:'Syne',sans-serif;font-size:0.62rem;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,0.12);transition:color 0.3s;
+}
+</style>
+</head>
+<body>
+<h1>QuantApp — Rich Layout Variants</h1>
+<p class="sub">Full sidebar · Multi-panel · Chart-dense · Click to select</p>
+
+<div class="grid-top">
+
+  <!-- I. NEXUS -->
+  <div class="card" id="nexus" onclick="sel(this,'nexus')">
+    <div class="card-preview">
+      <div class="nex-wrap">
+        <div class="nex-sidebar">
+          <div class="nex-logo-icon">Q</div>
+          <div class="nex-nav-icon on">⊞</div>
+          <div class="nex-nav-icon">◈</div>
+          <div class="nex-nav-icon">≋</div>
+          <div class="nex-nav-icon">◎</div>
+          <div class="nex-nav-icon">⟁</div>
+          <div class="nex-nav-icon" style="margin-top:auto;">⚙</div>
+        </div>
+        <div class="nex-main">
+          <div class="nex-topbar">
+            <div class="nex-page-title">Portfolio Overview</div>
+            <div class="nex-topbar-right">
+              <div class="nex-time">14:32 EST · APR 15</div>
+              <div class="nex-btn secondary">Refresh</div>
+              <div class="nex-btn primary">+ Add</div>
+            </div>
+          </div>
+          <div class="nex-body">
+            <!-- Yield cards -->
+            <div class="nex-yield-row">
+              <div class="nex-yield-card nyc-a">
+                <div class="nyc-header"><div class="nyc-ticker">AAPL</div><div class="nyc-dot-a"></div></div>
+                <div class="nyc-pct a">+$350</div>
+                <div class="nyc-label">P&L · Golden Cross ↑</div>
+                <div class="nyc-spark">
+                  <svg width="100%" height="18" viewBox="0 0 80 18"><polyline points="0,14 15,12 30,10 45,7 60,5 75,3" fill="none" stroke="#58a6ff" stroke-width="1.5" opacity="0.7"/></svg>
+                </div>
+              </div>
+              <div class="nex-yield-card nyc-b">
+                <div class="nyc-header"><div class="nyc-ticker">NVDA</div><div class="nyc-dot-b"></div></div>
+                <div class="nyc-pct b">+$980</div>
+                <div class="nyc-label">P&L · Golden Cross ↑</div>
+                <div class="nyc-spark">
+                  <svg width="100%" height="18" viewBox="0 0 80 18"><polyline points="0,16 15,13 30,10 45,7 60,4 75,2" fill="none" stroke="#3fb950" stroke-width="1.5" opacity="0.7"/></svg>
+                </div>
+              </div>
+              <div class="nex-yield-card nyc-c">
+                <div class="nyc-header"><div class="nyc-ticker">TSLA</div><div class="nyc-dot-c"></div></div>
+                <div class="nyc-pct c">−$180</div>
+                <div class="nyc-label">P&L · Death Cross ↓</div>
+                <div class="nyc-spark">
+                  <svg width="100%" height="18" viewBox="0 0 80 18"><polyline points="0,4 15,6 30,8 45,10 60,13 75,16" fill="none" stroke="#ff7b72" stroke-width="1.5" opacity="0.7"/></svg>
+                </div>
+              </div>
+            </div>
+            <!-- Data row -->
+            <div class="nex-data-row">
+              <div class="nex-panel">
+                <div class="nex-panel-title">Holdings</div>
+                <table class="nex-tbl">
+                  <thead><tr><th>TICKER</th><th>VALUE</th><th>P&L</th><th>SIGNAL</th></tr></thead>
+                  <tbody>
+                    <tr><td class="nex-tk-a">AAPL</td><td style="color:rgba(230,237,243,0.5);font-size:0.52rem;">$8,450</td><td class="nex-pos">+$350</td><td><span class="nex-badge nb-golden">GOLDEN</span></td></tr>
+                    <tr><td class="nex-tk-b">NVDA</td><td style="color:rgba(230,237,243,0.5);font-size:0.52rem;">$6,200</td><td class="nex-pos">+$980</td><td><span class="nex-badge nb-golden">GOLDEN</span></td></tr>
+                    <tr><td class="nex-tk-c">TSLA</td><td style="color:rgba(230,237,243,0.5);font-size:0.52rem;">$3,580</td><td class="nex-neg">−$180</td><td><span class="nex-badge nb-death">DEATH</span></td></tr>
+                    <tr><td class="nex-tk-d">MSFT</td><td style="color:rgba(230,237,243,0.5);font-size:0.52rem;">$6,350</td><td class="nex-pos" style="color:#d2a8ff;">+$1,000</td><td><span class="nex-badge nb-hold">HOLD</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="nex-panel">
+                <div class="nex-panel-title">Portfolio</div>
+                <div class="nex-hero">
+                  <div class="nex-hero-label">Total Value</div>
+                  <div class="nex-hero-val">$24,580</div>
+                  <div class="nex-hero-sub">+$4,580 · +22.9% unrealised</div>
+                </div>
+                <div class="nex-bars">
+                  <div class="nb-bar" style="height:55%;background:#58a6ff;opacity:0.8;"></div>
+                  <div class="nb-bar" style="height:70%;background:#58a6ff;"></div>
+                  <div class="nb-bar" style="height:60%;background:#3fb950;opacity:0.8;"></div>
+                  <div class="nb-bar" style="height:85%;background:#3fb950;"></div>
+                  <div class="nb-bar" style="height:100%;background:#3fb950;"></div>
+                  <div class="nb-bar" style="height:90%;background:#3fb950;"></div>
+                  <div class="nb-bar" style="height:95%;background:#58a6ff;"></div>
+                  <div class="nb-bar" style="height:100%;background:#a371f7;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">I. Nexus</div>
+      <div class="card-desc">#0D1117 GitHub-dark · Multi-color accents · Sidebar + yield cards + chart · Outfit</div>
+    </div>
+  </div>
+
+  <!-- II. INFERNO -->
+  <div class="card" id="inferno" onclick="sel(this,'inferno')">
+    <div class="card-preview">
+      <div class="inf-mapbg"></div>
+      <div class="inf-ambient"></div>
+      <div class="inf-content">
+        <div class="inf-sidebar">
+          <div class="inf-logo-sq">Q</div>
+          <div class="inf-icon on">⊞</div>
+          <div class="inf-icon off">◈</div>
+          <div class="inf-icon off">≋</div>
+          <div class="inf-icon off">◎</div>
+          <div class="inf-icon off" style="margin-top:auto;">⚙</div>
+        </div>
+        <div class="inf-main">
+          <div class="inf-header">
+            <div class="inf-title">QuantApp</div>
+            <div class="inf-live"><div class="inf-live-dot"></div>NYSE · LIVE · 14:32</div>
+          </div>
+          <div class="inf-metrics">
+            <div class="inf-metric"><div class="im-k">Portfolio</div><div class="im-v hi">$24,580</div></div>
+            <div class="inf-metric"><div class="im-k">Unrealised</div><div class="im-v pos">+$4,580</div></div>
+            <div class="inf-metric"><div class="im-k">Daily</div><div class="im-v pos">+$847</div></div>
+            <div class="inf-metric"><div class="im-k">Signal</div><div class="im-v" style="color:#ff5000;font-size:0.65rem;">GOLDEN ↑</div></div>
+          </div>
+          <div class="inf-midrow">
+            <!-- Gauge dial -->
+            <div class="inf-gauge-wrap">
+              <svg width="70" height="70" viewBox="0 0 70 70">
+                <circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,80,0,0.08)" stroke-width="6"/>
+                <circle cx="35" cy="35" r="28" fill="none" stroke="#ff5000" stroke-width="6" stroke-dasharray="105 70" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-210 35 35)" opacity="0.8"/>
+                <circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,80,0,0.2)" stroke-width="2" stroke-dasharray="8 6" transform="rotate(-210 35 35)"/>
+                <text x="35" y="32" text-anchor="middle" fill="#ff5000" font-family="Bebas Neue,sans-serif" font-size="10" filter="url(#glow)">60%</text>
+                <text x="35" y="41" text-anchor="middle" fill="rgba(255,80,0,0.4)" font-family="Rajdhani,sans-serif" font-size="5" letter-spacing="1">HEALTH</text>
+              </svg>
+              <div class="inf-gauge-label">Portfolio Score</div>
+            </div>
+            <!-- Bar chart -->
+            <div class="inf-chart-panel">
+              <div class="inf-chart-title">P&L by Position</div>
+              <div class="inf-bar-group">
+                <div class="ibg-bar" style="height:36%;background:rgba(255,80,0,0.3);"></div>
+                <div class="ibg-bar" style="height:55%;background:#ff5000;"></div>
+                <div class="ibg-bar" style="height:100%;background:#ff6020;box-shadow:0 0 6px rgba(255,80,0,0.5);"></div>
+                <div class="ibg-bar" style="height:80%;background:#ff5000;"></div>
+                <div class="ibg-bar" style="height:60%;background:rgba(255,80,0,0.6);"></div>
+                <div class="ibg-bar" style="height:40%;background:rgba(255,80,0,0.4);"></div>
+                <div class="ibg-bar" style="height:20%;background:#ff3333;"></div>
+                <div class="ibg-bar" style="height:8%;background:#cc2200;"></div>
+              </div>
+              <svg width="100%" height="20" viewBox="0 0 160 20" style="margin-top:3px;">
+                <polyline points="0,18 20,16 40,12 60,8 80,5 100,4 120,3 140,4 160,4" fill="none" stroke="#ff5000" stroke-width="1.2" opacity="0.6"/>
+                <polygon points="0,18 20,16 40,12 60,8 80,5 100,4 120,3 140,4 160,4 160,20 0,20" fill="#ff5000" opacity="0.04"/>
+              </svg>
+            </div>
+          </div>
+          <div class="inf-table-wrap">
+            <table class="inf-table">
+              <thead><tr><th>TICKER</th><th>PRICE</th><th>P&L $</th><th>P&L %</th><th>SIGNAL</th></tr></thead>
+              <tbody>
+                <tr><td>AAPL</td><td style="color:rgba(255,255,255,0.4);">$185.20</td><td class="it-pos">+$350</td><td class="it-pos">+4.3%</td><td class="it-gold">GOLDEN ↑</td></tr>
+                <tr><td>NVDA</td><td style="color:rgba(255,255,255,0.4);">$820.50</td><td class="it-pos">+$980</td><td class="it-pos">+13.8%</td><td class="it-gold">GOLDEN ↑</td></tr>
+                <tr><td>TSLA</td><td style="color:rgba(255,255,255,0.4);">$178.30</td><td class="it-neg">−$180</td><td class="it-neg">−5.1%</td><td class="it-death">DEATH ↓</td></tr>
+                <tr><td>MSFT</td><td style="color:rgba(255,255,255,0.4);">$415.80</td><td class="it-pos">+$1,000</td><td class="it-pos">+18.7%</td><td style="font-size:0.44rem;color:rgba(255,255,255,0.2);">HOLD —</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">II. Inferno</div>
+      <div class="card-desc">#090909 · Orange #FF5000 · World map bg · Gauge dial + bar chart · Rajdhani</div>
+    </div>
+  </div>
+
+  <!-- III. AMBER MACHINE -->
+  <div class="card" id="amber" onclick="sel(this,'amber')">
+    <div class="card-preview" style="position:relative;">
+      <div class="amb-plant"></div>
+      <div class="amb-content">
+        <!-- LEFT -->
+        <div class="amb-left">
+          <div class="amb-header">
+            <div class="amb-logo">QuantApp</div>
+            <div class="amb-date">APR 15 · 14:32<br>NYSE OPEN</div>
+          </div>
+          <!-- Circular clock gauge -->
+          <div class="amb-clock-wrap">
+            <div class="amb-clock-label">Portfolio Value</div>
+            <div class="amb-clock">
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <!-- Outer dashes -->
+                <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(232,130,10,0.06)" stroke-width="1" stroke-dasharray="4 4"/>
+                <!-- Progress arc -->
+                <circle cx="40" cy="40" r="28" fill="none" stroke="rgba(232,130,10,0.08)" stroke-width="5"/>
+                <circle cx="40" cy="40" r="28" fill="none" stroke="#e8820a" stroke-width="5" stroke-dasharray="110 66" stroke-linecap="round" transform="rotate(-90 40 40)" opacity="0.85" filter="url(#ag)"/>
+                <!-- Inner ring -->
+                <circle cx="40" cy="40" r="20" fill="none" stroke="rgba(232,130,10,0.06)" stroke-width="1"/>
+                <!-- Glow filter -->
+                <defs><filter id="ag"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+              </svg>
+              <div class="amb-clock-val">
+                <div class="amb-clock-num">$24k</div>
+                <div class="amb-clock-sub">TOTAL</div>
+              </div>
+            </div>
+          </div>
+          <!-- Bar charts -->
+          <div>
+            <div class="amb-bars-label">Session Performance</div>
+            <div class="amb-bars">
+              <div class="abb" style="height:40%;background:rgba(232,130,10,0.3);border-radius:2px 2px 0 0;"></div>
+              <div class="abb" style="height:55%;background:rgba(232,130,10,0.4);border-radius:2px 2px 0 0;"></div>
+              <div class="abb" style="height:70%;background:#e8820a;border-radius:2px 2px 0 0;box-shadow:0 0 4px rgba(232,130,10,0.4);"></div>
+              <div class="abb" style="height:60%;background:rgba(232,130,10,0.5);border-radius:2px 2px 0 0;"></div>
+              <div class="abb" style="height:80%;background:#e8820a;border-radius:2px 2px 0 0;box-shadow:0 0 4px rgba(232,130,10,0.4);"></div>
+              <div class="abb" style="height:90%;background:#ffc060;border-radius:2px 2px 0 0;box-shadow:0 0 6px rgba(255,180,80,0.5);"></div>
+              <div class="abb" style="height:100%;background:#ffc060;border-radius:2px 2px 0 0;box-shadow:0 0 8px rgba(255,180,80,0.6);"></div>
+              <div class="abb" style="height:85%;background:#e8820a;border-radius:2px 2px 0 0;"></div>
+            </div>
+          </div>
+          <!-- Stats -->
+          <div class="amb-stat-row">
+            <div class="amb-stat"><div class="as-k">Unrealised</div><div class="as-v amb">+$4.5k</div></div>
+            <div class="amb-stat"><div class="as-k">Daily</div><div class="as-v pos">+$847</div></div>
+          </div>
+        </div>
+        <!-- RIGHT -->
+        <div class="amb-right">
+          <div class="amb-tbl-label">Holdings</div>
+          <table class="amb-tbl">
+            <tr>
+              <td class="at-tk">AAPL</td>
+              <td style="color:rgba(240,200,100,0.4);font-size:0.5rem;">$185.20</td>
+              <td class="at-pos">+$350</td>
+              <td class="at-sig">GOLDEN ↑</td>
+            </tr>
+            <tr>
+              <td class="at-tk">NVDA</td>
+              <td style="color:rgba(240,200,100,0.4);font-size:0.5rem;">$820.50</td>
+              <td class="at-pos">+$980</td>
+              <td class="at-sig">GOLDEN ↑</td>
+            </tr>
+            <tr>
+              <td class="at-tk">TSLA</td>
+              <td style="color:rgba(240,200,100,0.4);font-size:0.5rem;">$178.30</td>
+              <td class="at-neg">−$180</td>
+              <td class="at-sig" style="color:rgba(180,30,0,0.5);">DEATH ↓</td>
+            </tr>
+            <tr>
+              <td class="at-tk">MSFT</td>
+              <td style="color:rgba(240,200,100,0.4);font-size:0.5rem;">$415.80</td>
+              <td class="at-pos" style="color:rgba(232,130,10,0.45);">+$1k</td>
+              <td class="at-sig">HOLD —</td>
+            </tr>
+          </table>
+          <!-- Second circular element — smaller, like Image 9's secondary dials -->
+          <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center;">
+            <svg width="50" height="50" viewBox="0 0 50 50">
+              <circle cx="25" cy="25" r="20" fill="none" stroke="rgba(232,130,10,0.07)" stroke-width="4"/>
+              <circle cx="25" cy="25" r="20" fill="none" stroke="#e8820a" stroke-width="4" stroke-dasharray="75 51" stroke-linecap="round" transform="rotate(-90 25 25)" opacity="0.7"/>
+              <text x="25" y="28" text-anchor="middle" fill="rgba(232,130,10,0.8)" font-family="Bebas Neue,sans-serif" font-size="9">22%</text>
+            </svg>
+            <div>
+              <div style="font-size:0.42rem;letter-spacing:2px;color:rgba(232,130,10,0.3);font-family:'Syne',sans-serif;text-transform:uppercase;">Gain Rate</div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:#e8820a;">+22.9%</div>
+            </div>
+            <svg width="50" height="50" viewBox="0 0 50 50" style="margin-left:0.2rem;">
+              <circle cx="25" cy="25" r="20" fill="none" stroke="rgba(232,130,10,0.07)" stroke-width="4"/>
+              <circle cx="25" cy="25" r="20" fill="none" stroke="#70c060" stroke-width="4" stroke-dasharray="60 66" stroke-linecap="round" transform="rotate(-90 25 25)" opacity="0.7"/>
+              <text x="25" y="28" text-anchor="middle" fill="rgba(112,192,96,0.8)" font-family="Bebas Neue,sans-serif" font-size="9">3/4</text>
+            </svg>
+            <div>
+              <div style="font-size:0.42rem;letter-spacing:2px;color:rgba(112,192,96,0.3);font-family:'Syne',sans-serif;text-transform:uppercase;">Winning</div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:#70c060;">3 of 4</div>
+            </div>
+          </div>
+          <!-- Horizon sparkline -->
+          <div class="amb-horizon">
+            <div class="ah-label">30-Day Portfolio Trend</div>
+            <svg width="100%" height="30" viewBox="0 0 140 30">
+              <defs>
+                <linearGradient id="amg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#e8820a" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#e8820a" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <polygon points="0,28 15,26 30,24 45,22 60,18 75,14 90,10 105,7 120,5 140,3 140,30 0,30" fill="url(#amg)"/>
+              <polyline points="0,28 15,26 30,24 45,22 60,18 75,14 90,10 105,7 120,5 140,3" fill="none" stroke="#e8820a" stroke-width="1.5" opacity="0.8"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">III. Amber Machine</div>
+      <div class="card-desc">#0E0C08 · Amber + gold · Syne · Dual clock gauges · Organic plant accent</div>
+    </div>
+  </div>
+
+</div><!-- end grid-top -->
+
+<div class="grid-bot">
+
+  <!-- IV. CANOPY -->
+  <div class="card" id="canopy" onclick="sel(this,'canopy')">
+    <div class="card-preview">
+      <div class="can-forest"></div>
+      <!-- Mountain ridge SVG -->
+      <svg class="can-ridges" width="100%" height="60" viewBox="0 0 500 60" preserveAspectRatio="none">
+        <polygon points="0,60 60,30 100,45 160,15 220,40 280,10 340,35 400,20 460,38 500,25 500,60" fill="rgba(10,40,12,0.5)"/>
+        <polygon points="0,60 40,40 90,55 150,28 210,50 270,22 330,45 390,30 450,48 500,35 500,60" fill="rgba(8,25,10,0.7)"/>
+      </svg>
+      <div class="can-fog"></div>
+      <div class="can-content">
+        <div class="can-sidebar">
+          <div class="can-logo-sq">Q</div>
+          <div class="can-nav on">⊞</div>
+          <div class="can-nav off">◈</div>
+          <div class="can-nav off">≋</div>
+          <div class="can-nav off">◎</div>
+          <div class="can-nav off">⟁</div>
+          <div class="can-nav off" style="margin-top:auto;">⚙</div>
+        </div>
+        <div class="can-main">
+          <div class="can-header">
+            <div class="can-title">Portfolio · Canopy</div>
+            <div class="can-live"><div class="can-pulse"></div>NYSE LIVE</div>
+          </div>
+          <!-- Nature landscape cards -->
+          <div class="can-nature-cards">
+            <div class="can-nature-card">
+              <div class="cnc-bg cnc-bg-a"></div>
+              <div class="cnc-tree"></div>
+              <div class="cnc-content">
+                <div class="cnc-ticker a">AAPL</div>
+                <div class="cnc-val pos">+$350</div>
+                <div class="cnc-change">↑ Golden Cross</div>
+              </div>
+            </div>
+            <div class="can-nature-card">
+              <div class="cnc-bg cnc-bg-b"></div>
+              <div class="cnc-tree"></div>
+              <div class="cnc-content">
+                <div class="cnc-ticker b">NVDA</div>
+                <div class="cnc-val pos" style="color:#4ade80;">+$980</div>
+                <div class="cnc-change" style="color:rgba(74,222,128,0.4);">↑ Golden Cross</div>
+              </div>
+            </div>
+            <div class="can-nature-card">
+              <div class="cnc-bg cnc-bg-c" style="background:linear-gradient(135deg,#180808,#250a0a);"></div>
+              <div class="cnc-content">
+                <div class="cnc-ticker" style="color:#f87171;">TSLA</div>
+                <div class="cnc-val neg">−$180</div>
+                <div class="cnc-change" style="color:rgba(248,113,113,0.4);">↓ Death Cross</div>
+              </div>
+            </div>
+          </div>
+          <!-- Data grid -->
+          <div class="can-data-grid">
+            <div class="can-panel">
+              <div class="can-panel-title">Portfolio Value</div>
+              <div class="can-hero-val">$24,580</div>
+              <div class="can-hero-sub">+$4,580 unrealised (+22.9%)</div>
+              <!-- Area chart -->
+              <div class="can-area-chart">
+                <svg width="100%" height="40" viewBox="0 0 200 40">
+                  <defs>
+                    <linearGradient id="cag" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <polygon points="0,36 25,32 50,28 75,22 100,16 125,12 150,8 175,5 200,3 200,40 0,40" fill="url(#cag)"/>
+                  <polyline points="0,36 25,32 50,28 75,22 100,16 125,12 150,8 175,5 200,3" fill="none" stroke="#22c55e" stroke-width="1.5" opacity="0.8"/>
+                  <!-- MA line -->
+                  <polyline points="0,38 25,35 50,32 75,28 100,24 125,20 150,16 175,13 200,11" fill="none" stroke="rgba(34,197,94,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+                </svg>
+              </div>
+            </div>
+            <div class="can-panel">
+              <div class="can-panel-title">Signals</div>
+              <div class="can-signal">
+                <div class="can-sig-item">
+                  <div class="csi-tk">AAPL</div>
+                  <span class="csi-badge-gold">GOLDEN ↑</span>
+                </div>
+                <div class="can-sig-item">
+                  <div class="csi-tk">NVDA</div>
+                  <span class="csi-badge-gold">GOLDEN ↑</span>
+                </div>
+                <div class="can-sig-item">
+                  <div class="csi-tk">TSLA</div>
+                  <span class="csi-badge-death">DEATH ↓</span>
+                </div>
+                <div class="can-sig-item">
+                  <div class="csi-tk">MSFT</div>
+                  <span class="csi-badge-hold">HOLD —</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Total bar -->
+          <div class="can-total-bar">
+            <div><div class="ctb-label">Total P&L Unrealised</div><div class="ctb-pnl">+22.9% since entry</div></div>
+            <div class="ctb-val">+$4,580</div>
+            <div>
+              <svg width="80" height="24" viewBox="0 0 80 24">
+                <polyline points="0,20 12,18 24,15 36,11 48,7 60,5 72,3 80,2" fill="none" stroke="#22c55e" stroke-width="1.5" opacity="0.7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">IV. Canopy</div>
+      <div class="card-desc">#080E09 · Forest green · Mountain silhouette + fog · Nature card panels · Syne</div>
+    </div>
+  </div>
+
+  <!-- V. VIVID -->
+  <div class="card" id="vivid" onclick="sel(this,'vivid')">
+    <div class="card-preview">
+      <div class="viv-wrap">
+        <div class="viv-sidebar">
+          <div class="viv-logo-sq">Q</div>
+          <div class="viv-nav on">⊞</div>
+          <div class="viv-nav off">◈</div>
+          <div class="viv-nav off">≋</div>
+          <div class="viv-nav off">◎</div>
+          <div class="viv-nav off">↗</div>
+          <div class="viv-nav off" style="margin-top:auto;">⚙</div>
+        </div>
+        <div class="viv-main">
+          <div class="viv-topbar">
+            <div class="viv-title">My Dashboard</div>
+            <div class="viv-actions">
+              <div class="viv-btn-sm teal">Refresh</div>
+              <div class="viv-btn-sm purple">+ Add Stock</div>
+            </div>
+          </div>
+          <!-- Gradient cards — Image 12 style -->
+          <div class="viv-cards">
+            <div class="viv-card vc-purple">
+              <div class="vc-orb"></div>
+              <div class="vc-label">Total Balance</div>
+              <div class="vc-val">$24,580</div>
+              <div class="vc-sub">+$4,580 unrealised</div>
+            </div>
+            <div class="viv-card vc-emerald">
+              <div class="vc-orb"></div>
+              <div class="vc-label">Best Performer</div>
+              <div class="vc-val">NVDA</div>
+              <div class="vc-sub">+$980 · +13.8%</div>
+            </div>
+            <div class="viv-card vc-teal">
+              <div class="vc-orb"></div>
+              <div class="vc-label">Daily Gain</div>
+              <div class="vc-val">+$847</div>
+              <div class="vc-sub">Session +3.5%</div>
+            </div>
+          </div>
+          <!-- Mid row -->
+          <div class="viv-midrow">
+            <div class="viv-panel">
+              <div class="viv-panel-title">Revenue Flow</div>
+              <div class="viv-flow">
+                <div class="viv-flow-group"><div class="vfg-bar purple" style="height:40%;"></div><div class="vfg-bar teal" style="height:25%;"></div></div>
+                <div class="viv-flow-group"><div class="vfg-bar purple" style="height:55%;"></div><div class="vfg-bar teal" style="height:35%;"></div></div>
+                <div class="viv-flow-group"><div class="vfg-bar purple" style="height:70%;"></div><div class="vfg-bar teal" style="height:50%;"></div></div>
+                <div class="viv-flow-group"><div class="vfg-bar purple" style="height:60%;"></div><div class="vfg-bar teal" style="height:40%;"></div></div>
+                <div class="viv-flow-group"><div class="vfg-bar purple" style="height:85%;"></div><div class="vfg-bar teal" style="height:60%;"></div></div>
+                <div class="viv-flow-group"><div class="vfg-bar purple" style="height:100%;"></div><div class="vfg-bar teal" style="height:75%;"></div></div>
+                <div class="viv-flow-group"><div class="vfg-bar purple" style="height:90%;"></div><div class="vfg-bar teal" style="height:65%;"></div></div>
+                <div class="viv-flow-group"><div class="vfg-bar purple" style="height:95%;"></div><div class="vfg-bar teal" style="height:70%;"></div></div>
+              </div>
+              <svg width="100%" height="24" viewBox="0 0 200 24" style="margin-top:3px;">
+                <defs>
+                  <linearGradient id="vg2" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#a855f7"/>
+                    <stop offset="100%" stop-color="#06b6d4"/>
+                  </linearGradient>
+                </defs>
+                <polyline points="0,20 25,18 50,14 75,11 100,8 125,6 150,5 175,4 200,3" fill="none" stroke="url(#vg2)" stroke-width="1.5" opacity="0.8"/>
+              </svg>
+            </div>
+            <div class="viv-panel">
+              <div class="viv-panel-title">Holdings</div>
+              <div class="viv-holdings">
+                <div class="vh-item">
+                  <div class="vhi-left"><div class="vhi-dot" style="background:#58a6ff;"></div><span class="vhi-tk" style="color:#58a6ff;">AAPL</span></div>
+                  <div class="vhi-pnl" style="color:#58a6ff;">+$350</div>
+                </div>
+                <div class="vh-item">
+                  <div class="vhi-left"><div class="vhi-dot" style="background:#10b981;"></div><span class="vhi-tk" style="color:#10b981;">NVDA</span></div>
+                  <div class="vhi-pnl" style="color:#10b981;">+$980</div>
+                </div>
+                <div class="vh-item">
+                  <div class="vhi-left"><div class="vhi-dot" style="background:#f87171;"></div><span class="vhi-tk" style="color:#f87171;">TSLA</span></div>
+                  <div class="vhi-pnl" style="color:#f87171;">−$180</div>
+                </div>
+                <div class="vh-item">
+                  <div class="vhi-left"><div class="vhi-dot" style="background:#a855f7;"></div><span class="vhi-tk" style="color:#a855f7;">MSFT</span></div>
+                  <div class="vhi-pnl" style="color:#a855f7;">+$1,000</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Bottom -->
+          <div class="viv-bottom">
+            <div class="viv-mini-panel">
+              <div class="vmp-k">Portfolio Signal</div>
+              <div class="vmp-v purple">GOLDEN ↑</div>
+            </div>
+            <div class="viv-mini-panel">
+              <div class="vmp-k">MA Divergence</div>
+              <div class="vmp-v teal">+3.9%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-label">
+      <div class="card-name">V. Vivid</div>
+      <div class="card-desc">#0D0E1A · Purple + Emerald + Teal gradient cards · Revenue flow bars · Plus Jakarta Sans</div>
+    </div>
+  </div>
+
+</div><!-- end grid-bot -->
+
+<div class="selection-bar" id="sel-bar">Click to select your favorites · Tell me in the terminal</div>
+
+<script>
+const picks = new Set();
+function sel(el, id) {
+  el.classList.toggle('selected');
+  picks.has(id) ? picks.delete(id) : picks.add(id);
+  const bar = document.getElementById('sel-bar');
+  if (!picks.size) {
+    bar.textContent = 'Click to select your favorites · Tell me in the terminal';
+    bar.style.color = '';
+  } else {
+    bar.textContent = '🔥 ' + [...picks].map(s => s.toUpperCase()).join(' + ') + ' — drop it in the terminal';
+    bar.style.color = 'rgba(255,220,100,0.7)';
+  }
+  if (window.__superpowers_select) window.__superpowers_select(id, el.classList.contains('selected') ? 'select' : 'deselect');
+}
+</script>
+</body>
+</html>

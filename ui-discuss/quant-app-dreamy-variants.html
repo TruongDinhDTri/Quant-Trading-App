@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantApp — Dreamy Variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,400;0,9..144,600;1,9..144,200;1,9..144,400&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Gilda+Display&family=DM+Mono:ital,wght@0,300;0,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;1,300&family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ──────── NAV ──────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; background: rgba(249,245,239,0.97);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.tab {
+  flex: 1; padding: 14px 6px 11px;
+  border: none; border-bottom: 3px solid transparent;
+  background: transparent; cursor: pointer;
+  font-family: 'Lato', sans-serif;
+  font-size: 9.5px; font-weight: 300;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: #b0a090; transition: all 0.35s ease;
+}
+.tab.on { color: #5a3a20; border-bottom-color: #c4956a; font-weight: 400; }
+
+/* ──────── VARIANTS ──────── */
+.v { display: none; min-height: 100vh; padding-top: 48px; }
+.v.on { display: block; }
+.v3-wrap { display: flex; flex-direction: column; align-items: center; padding: 60px 20px 80px; }
+
+/* ═══════════════════════════════════════════
+   I. AFTERNOON GARDEN
+   warm cream · sage · amber · dappled light
+═══════════════════════════════════════════ */
+#v1 { background: #f7f2ea; position: relative; overflow: hidden; }
+#v1::before {
+  content: '';
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 260px 360px at 12% 18%, rgba(210,165,70,0.13) 0%, transparent 70%),
+    radial-gradient(ellipse 180px 280px at 78% 12%, rgba(210,165,70,0.09) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 200px at 55% 70%, rgba(107,143,110,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 220px 160px at 88% 80%, rgba(210,165,70,0.08) 0%, transparent 70%);
+  animation: lightdrift 14s ease-in-out infinite alternate;
+}
+@keyframes lightdrift {
+  from { opacity: 0.75; transform: translate(0,0); }
+  to   { opacity: 1;    transform: translate(18px,-12px); }
+}
+.g-inner { max-width: 740px; margin: 0 auto; padding: 64px 32px 80px; position: relative; z-index: 1; }
+.g-eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; font-weight: 400; font-style: italic;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: #b09070; margin-bottom: 6px;
+}
+.g-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 76px; font-weight: 300; color: #2e2010;
+  letter-spacing: -0.025em; line-height: 1;
+}
+.g-value sup { font-size: 34px; color: #b09070; vertical-align: 12px; font-weight: 400; }
+.g-change { font-family: 'DM Mono', monospace; font-size: 12px; color: #5a8060; margin-top: 10px; letter-spacing: 0.05em; }
+.g-divider { display: flex; align-items: center; gap: 16px; margin: 36px 0; }
+.g-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(180,140,90,0.25), transparent); }
+.g-divider-icon { font-size: 18px; color: #8fa885; line-height: 1; }
+.g-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.g-card {
+  background: rgba(255,252,248,0.88);
+  border: 1px solid rgba(180,140,90,0.14);
+  border-radius: 3px; padding: 22px 24px;
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+.g-card:hover { transform: translateY(-4px); box-shadow: 0 10px 40px rgba(90,60,20,0.1); }
+.g-card::before {
+  content: ''; position: absolute; top: 9px; left: 9px;
+  width: 8px; height: 8px;
+  border-top: 1px solid rgba(180,140,90,0.35);
+  border-left: 1px solid rgba(180,140,90,0.35);
+}
+.g-card::after {
+  content: ''; position: absolute; bottom: 9px; right: 9px;
+  width: 8px; height: 8px;
+  border-bottom: 1px solid rgba(180,140,90,0.35);
+  border-right: 1px solid rgba(180,140,90,0.35);
+}
+.gc-ticker { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: #2e2010; letter-spacing: 0.04em; }
+.gc-co { font-family: 'Lato', sans-serif; font-size: 9.5px; color: #b09070; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 300; margin-bottom: 14px; }
+.gc-price { font-family: 'DM Mono', monospace; font-size: 21px; font-weight: 300; color: #2e2010; }
+.gc-pos { font-family: 'DM Mono', monospace; font-size: 11.5px; color: #507a50; margin-top: 3px; }
+.gc-neg { font-family: 'DM Mono', monospace; font-size: 11.5px; color: #9a4a38; margin-top: 3px; }
+.gc-signal-gold { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: #7a9a78; margin-top: 10px; }
+.gc-signal-death { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: #b06050; margin-top: 10px; }
+.gc-signal-neutral { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: #b09070; margin-top: 10px; }
+
+/* ═══════════════════════════════════════════
+   II. MORNING PAGES
+   ruled journal · bookish serif · warm ink
+═══════════════════════════════════════════ */
+#v2 { background: #f6f1e9; position: relative; }
+#v2::before {
+  content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;
+  background-image: repeating-linear-gradient(
+    transparent 0px, transparent 29px,
+    rgba(190,165,130,0.18) 29px, rgba(190,165,130,0.18) 30px
+  );
+  background-size: 100% 30px; background-position: 0 48px;
+}
+#v2::after {
+  content: ''; position: fixed; top: 0; bottom: 0;
+  left: clamp(60px, 9vw, 88px); width: 1px;
+  background: rgba(215,160,130,0.28); pointer-events: none;
+}
+.m-wrap { display: flex; min-height: calc(100vh - 48px); }
+.m-margin {
+  width: clamp(60px, 9vw, 88px); flex-shrink: 0;
+  padding: 44px 8px 44px 14px;
+  display: flex; flex-direction: column; gap: 200px; align-items: flex-end;
+}
+.m-margin-text {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic; font-size: 9px;
+  color: rgba(175,115,95,0.45); writing-mode: vertical-rl;
+  transform: rotate(180deg); letter-spacing: 0.18em;
+}
+.m-body { flex: 1; padding: 44px 48px 80px 26px; }
+.m-date {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 10.5px; color: #c4956a;
+  letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 5px;
+}
+.m-heading {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 32px; font-weight: 400; font-style: italic;
+  color: #22180e; line-height: 1.25; margin-bottom: 4px;
+}
+.m-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 54px; font-weight: 300; color: #2e2010;
+  letter-spacing: -0.025em; margin: 22px 0 6px;
+}
+.m-daily-pos { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #4a7a4a; font-weight: 300; }
+.m-rule { width: 56px; height: 1px; background: rgba(196,149,106,0.45); margin: 28px 0; }
+.m-entry {
+  display: flex; align-items: baseline; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid rgba(190,165,130,0.2);
+}
+.m-num { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: rgba(175,115,95,0.38); font-weight: 300; min-width: 20px; }
+.m-tick { font-family: 'Libre Baskerville', serif; font-size: 16px; color: #22180e; min-width: 58px; }
+.m-px { font-family: 'IBM Plex Mono', monospace; font-size: 14.5px; font-weight: 300; color: #52382a; }
+.m-note-pos { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #3a6a3a; margin-left: auto; }
+.m-note-neg { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #8a3020; margin-left: auto; }
+.m-quote {
+  margin-top: 32px;
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic; font-size: 13px;
+  color: rgba(82,56,42,0.48); line-height: 1.9; max-width: 380px;
+}
+
+/* ═══════════════════════════════════════════
+   III. PRESSED DAISY
+   centered · golden · organic circle
+═══════════════════════════════════════════ */
+#v3 { background: radial-gradient(ellipse at 50% 40%, #fdfcf8 0%, #f2ede4 100%); }
+.d-eyebrow {
+  font-family: 'Fraunces', serif;
+  font-size: 10.5px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: #a09070; margin-bottom: 52px;
+  font-weight: 300;
+}
+.d-svg-wrap { position: relative; width: 320px; height: 320px; margin-bottom: 52px; }
+.d-center {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); text-align: center; z-index: 2;
+}
+.d-center-val {
+  font-family: 'Fraunces', serif;
+  font-size: 34px; font-weight: 400; color: #22180e; line-height: 1;
+}
+.d-center-lbl {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 9.5px; color: #a09070;
+  letter-spacing: 0.22em; text-transform: uppercase; margin-top: 5px;
+}
+.d-center-chg { font-family: 'DM Mono', monospace; font-size: 11.5px; color: #507a50; margin-top: 6px; font-weight: 300; }
+@keyframes petalSpin { to { transform: rotate(360deg); } }
+.d-petals { animation: petalSpin 48s linear infinite; transform-origin: 160px 160px; }
+.d-stocks { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 520px; }
+.d-pill {
+  text-align: center; width: 108px; height: 108px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.72); border-radius: 50%;
+  border: 1px solid rgba(235,185,55,0.2);
+  transition: all 0.4s ease; cursor: default;
+}
+.d-pill:hover { background: rgba(245,212,60,0.12); border-color: rgba(235,185,55,0.45); transform: scale(1.06); }
+.dp-tick { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500; color: #22180e; }
+.dp-px { font-family: 'DM Mono', monospace; font-size: 10.5px; font-weight: 300; color: #706050; margin-top: 2px; }
+.dp-pos { font-family: 'DM Mono', monospace; font-size: 10.5px; color: #508050; }
+.dp-neg { font-family: 'DM Mono', monospace; font-size: 10.5px; color: #905040; }
+
+/* ═══════════════════════════════════════════
+   IV. MOOD BOARD
+   corkboard · pinned cards · collage angles
+═══════════════════════════════════════════ */
+#v4 { background: #e8ddd0; }
+#v4::before {
+  content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='5'%3E%3Crect width='5' height='5' fill='%23e8ddd0'/%3E%3Ccircle cx='1.5' cy='1.5' r='0.6' fill='rgba(150,120,90,0.14)'/%3E%3Ccircle cx='3.8' cy='3.8' r='0.5' fill='rgba(150,120,90,0.1)'/%3E%3C/svg%3E");
+}
+.b-inner { max-width: 880px; margin: 0 auto; padding: 60px 28px 80px; position: relative; z-index: 1; }
+.b-head-label {
+  font-family: 'Playfair Display', serif; font-size: 10.5px;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: #9e7a58; margin-bottom: 6px;
+}
+.b-head-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px; font-weight: 700; color: #1e1408;
+  letter-spacing: -0.02em; margin-bottom: 44px;
+}
+.b-head-val em { font-weight: 400; font-size: 30px; color: #c09060; }
+.b-scatter { position: relative; display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.b-card { padding: 14px; position: relative; z-index: 1; }
+.b-card:hover { z-index: 20; }
+.b-inner-card {
+  background: #fff; padding: 22px;
+  box-shadow: 2px 5px 18px rgba(0,0,0,0.13), 0 1px 4px rgba(0,0,0,0.07);
+  transition: box-shadow 0.3s, transform 0.3s; position: relative;
+}
+.b-card:hover .b-inner-card { box-shadow: 5px 10px 40px rgba(0,0,0,0.2); transform: scale(1.04); }
+/* Pin */
+.b-inner-card::before {
+  content: ''; position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+  width: 15px; height: 15px; border-radius: 50%; z-index: 10;
+  background: radial-gradient(circle at 38% 35%, #f5c0c0, #b83030);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+.r1 { transform: rotate(-3.4deg); }
+.r2 { transform: rotate(2.1deg); margin-top: -14px; }
+.r3 { transform: rotate(-1.7deg); margin-top: 8px; }
+.r4 { transform: rotate(2.8deg); margin-top: -10px; }
+.r5 { transform: rotate(-0.9deg); }
+.bc-tag { font-family: 'Playfair Display', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #a08060; margin-bottom: 2px; }
+.bc-tick { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #12090a; }
+.bc-px { font-family: 'Lato', sans-serif; font-size: 20px; font-weight: 300; color: #3a2a1a; margin-top: 6px; }
+.bc-pos { font-family: 'Lato', sans-serif; font-size: 12.5px; color: #305a30; margin-top: 3px; }
+.bc-neg { font-family: 'Lato', sans-serif; font-size: 12.5px; color: #7a2828; margin-top: 3px; }
+.bc-gold-tag { display:inline-block; margin-top:10px; padding:4px 10px; background:#fffbe0; border-left:3px solid #d4a840; font-family:'Playfair Display',serif; font-style:italic; font-size:11px; color:#806010; }
+.bc-death-tag { display:inline-block; margin-top:10px; padding:4px 10px; background:#fff0f0; border-left:3px solid #b83030; font-family:'Playfair Display',serif; font-style:italic; font-size:11px; color:#7a1818; }
+.bc-neutral-tag { display:inline-block; margin-top:10px; padding:4px 10px; background:#f0f4f8; border-left:3px solid #7090b0; font-family:'Playfair Display',serif; font-style:italic; font-size:11px; color:#305070; }
+/* Sticky note */
+.sticky { background: #fefacc; padding: 22px; transform: rotate(-1.2deg); margin-top: 16px; box-shadow: 2px 5px 16px rgba(0,0,0,0.1); }
+.sticky-lbl { font-family:'Playfair Display',serif; font-style:italic; font-size:12px; color:#706020; margin-bottom:8px; }
+.sticky-body { font-family:'Playfair Display',serif; font-size:13px; color:#4a3a10; line-height:1.8; }
+
+/* ═══════════════════════════════════════════
+   V. GOLDEN AFTERNOON
+   warm amber · elegant serif · sun rays
+═══════════════════════════════════════════ */
+#v5 { background: #fef8ee; position: relative; overflow: hidden; }
+#v5::before {
+  content: ''; position: fixed; top: -220px; right: -120px;
+  width: 640px; height: 640px; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(
+    from 195deg,
+    transparent 0deg, rgba(230,165,55,0.055) 5deg, transparent 10deg,
+    rgba(230,165,55,0.04) 20deg, transparent 25deg,
+    rgba(230,165,55,0.065) 35deg, transparent 40deg,
+    rgba(230,165,55,0.035) 52deg, transparent 57deg,
+    rgba(230,165,55,0.05) 68deg, transparent 73deg,
+    transparent 360deg
+  );
+  animation: sunr 70s linear infinite;
+}
+@keyframes sunr { to { transform: rotate(360deg); } }
+#v5::after {
+  content: ''; position: fixed; bottom: -120px; left: -80px;
+  width: 480px; height: 480px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(ellipse, rgba(230,165,55,0.09) 0%, transparent 70%);
+}
+.gold-inner { max-width: 620px; margin: 0 auto; padding: 76px 40px 80px; position: relative; z-index: 1; }
+.gold-greeting { font-family:'Playfair Display',serif; font-style:italic; font-size:14px; color:rgba(196,149,106,0.8); letter-spacing:0.05em; margin-bottom:3px; }
+.gold-name { font-family:'Playfair Display',serif; font-size:12px; font-weight:700; letter-spacing:0.32em; text-transform:uppercase; color:#8b5e3c; margin-bottom:44px; }
+.gold-hero { text-align:center; padding:56px 0; position:relative; }
+.gold-hero::before {
+  content: ''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:260px; height:260px; border-radius:50%;
+  background: radial-gradient(ellipse, rgba(230,165,55,0.16) 0%, transparent 70%);
+}
+.gold-hero-lbl { font-family:'Playfair Display',serif; font-style:italic; font-size:13px; color:#c4956a; letter-spacing:0.1em; margin-bottom:8px; }
+.gold-hero-val {
+  font-family:'Playfair Display',serif;
+  font-size: 82px; font-weight: 400; color: #1e1206;
+  letter-spacing: -0.03em; line-height: 1; position: relative;
+}
+.gold-hero-val sup { font-size: 34px; font-weight: 700; color: #c4956a; vertical-align: 22px; line-height: 0; }
+.gold-chg { font-family:'IBM Plex Mono',monospace; font-size:13.5px; color:#4a7a4a; font-weight:300; margin-top:14px; letter-spacing:0.05em; }
+.gold-rows { margin-top: 44px; }
+.gold-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 0 18px 0;
+  border-bottom: 1px solid rgba(196,149,106,0.12);
+  transition: padding-left 0.3s ease, border-bottom-color 0.3s ease;
+}
+.gold-row:hover { padding-left: 8px; border-bottom-color: rgba(230,165,55,0.35); }
+.gold-dot { width: 8px; height: 8px; border-radius: 50%; background: #d4a840; flex-shrink: 0; }
+.gold-dot.d { background: #c04030; }
+.gold-dot.n { background: #c0a870; }
+.gold-tick { font-family:'Playfair Display',serif; font-size:17px; font-weight:400; color:#1e1206; min-width:68px; }
+.gold-co { font-family:'Playfair Display',serif; font-style:italic; font-size:12px; color:#c4956a; flex:1; }
+.gold-px { font-family:'IBM Plex Mono',monospace; font-size:15.5px; font-weight:300; color:#3a2010; min-width:80px; text-align:right; }
+.gold-pct-pos { font-family:'IBM Plex Mono',monospace; font-size:12px; color:#3a7a3a; min-width:55px; text-align:right; }
+.gold-pct-neg { font-family:'IBM Plex Mono',monospace; font-size:12px; color:#8a2a1a; min-width:55px; text-align:right; }
+.gold-sig { font-family:'Playfair Display',serif; font-style:italic; font-size:11px; color:#7a9a78; min-width:75px; text-align:right; }
+.gold-sig-d { font-family:'Playfair Display',serif; font-style:italic; font-size:11px; color:#8a3020; min-width:75px; text-align:right; }
+.gold-sig-n { font-family:'Playfair Display',serif; font-style:italic; font-size:11px; color:#a09070; min-width:75px; text-align:right; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="tab on"  onclick="sw(1)">I. Garden</button>
+  <button class="tab"     onclick="sw(2)">II. Morning Pages</button>
+  <button class="tab"     onclick="sw(3)">III. Daisy</button>
+  <button class="tab"     onclick="sw(4)">IV. Mood Board</button>
+  <button class="tab"     onclick="sw(5)">V. Golden Afternoon</button>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     I. AFTERNOON GARDEN
+════════════════════════════════════════════ -->
+<section id="v1" class="v on">
+  <div class="g-inner">
+    <p class="g-eyebrow">Portfolio — Spring 2026</p>
+    <div class="g-value"><sup>$</sup>24,850</div>
+    <p class="g-change">+$340.00 today &nbsp;·&nbsp; +1.4%</p>
+
+    <div class="g-divider">
+      <div class="g-divider-line"></div>
+      <span class="g-divider-icon">❧</span>
+      <div class="g-divider-line"></div>
+    </div>
+
+    <div class="g-grid">
+      <div class="g-card">
+        <div class="gc-ticker">AAPL</div>
+        <div class="gc-co">Apple Inc.</div>
+        <div class="gc-price">$185.20</div>
+        <div class="gc-pos">+2.3% &nbsp;·&nbsp; 10 shares</div>
+        <div class="gc-signal-gold">✦ Golden Cross</div>
+      </div>
+      <div class="g-card">
+        <div class="gc-ticker">NVDA</div>
+        <div class="gc-co">Nvidia Corp.</div>
+        <div class="gc-price">$492.50</div>
+        <div class="gc-pos">+5.1% &nbsp;·&nbsp; 5 shares</div>
+        <div class="gc-signal-gold">✦ Golden Cross</div>
+      </div>
+      <div class="g-card">
+        <div class="gc-ticker">TSLA</div>
+        <div class="gc-co">Tesla Inc.</div>
+        <div class="gc-price">$245.80</div>
+        <div class="gc-neg">&#8722;1.2% &nbsp;·&nbsp; 8 shares</div>
+        <div class="gc-signal-death">&#9888; Death Cross</div>
+      </div>
+      <div class="g-card">
+        <div class="gc-ticker">MSFT</div>
+        <div class="gc-co">Microsoft Corp.</div>
+        <div class="gc-price">$375.40</div>
+        <div class="gc-pos">+0.8% &nbsp;·&nbsp; 6 shares</div>
+        <div class="gc-signal-neutral">&#8212; Neutral</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     II. MORNING PAGES
+════════════════════════════════════════════ -->
+<section id="v2" class="v">
+  <div class="m-wrap">
+    <aside class="m-margin">
+      <span class="m-margin-text">April 2026</span>
+      <span class="m-margin-text">Week 14</span>
+    </aside>
+    <main class="m-body">
+      <p class="m-date">Monday, April 14th — 2026</p>
+      <h1 class="m-heading">Portfolio Morning Review</h1>
+      <div class="m-value">$24,850</div>
+      <p class="m-daily-pos">&#8593; +$340.00 &nbsp; +1.4% since yesterday</p>
+      <div class="m-rule"></div>
+
+      <div class="m-entry">
+        <span class="m-num">01</span>
+        <span class="m-tick">AAPL</span>
+        <span class="m-px">$185.20</span>
+        <span class="m-note-pos">+2.3% &nbsp; Golden Cross ✦</span>
+      </div>
+      <div class="m-entry">
+        <span class="m-num">02</span>
+        <span class="m-tick">NVDA</span>
+        <span class="m-px">$492.50</span>
+        <span class="m-note-pos">+5.1% &nbsp; Golden Cross ✦</span>
+      </div>
+      <div class="m-entry">
+        <span class="m-num">03</span>
+        <span class="m-tick">TSLA</span>
+        <span class="m-px">$245.80</span>
+        <span class="m-note-neg">&#8722;1.2% &nbsp; Death Cross &#9888;</span>
+      </div>
+      <div class="m-entry">
+        <span class="m-num">04</span>
+        <span class="m-tick">MSFT</span>
+        <span class="m-px">$375.40</span>
+        <span class="m-note-pos">+0.8% &nbsp; Neutral &#8212;</span>
+      </div>
+
+      <p class="m-quote">
+        "The market opens like a new page.<br>
+        Patient hands build patient wealth."
+      </p>
+    </main>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     III. PRESSED DAISY
+════════════════════════════════════════════ -->
+<section id="v3" class="v">
+  <div class="v3-wrap">
+    <p class="d-eyebrow">Wiganz Portfolio &nbsp;·&nbsp; Spring 2026</p>
+
+    <div class="d-svg-wrap">
+      <div class="d-center">
+        <div class="d-center-val">$24,850</div>
+        <div class="d-center-lbl">total value</div>
+        <div class="d-center-chg">+1.4% today</div>
+      </div>
+
+      <svg width="320" height="320" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="dg" cx="38%" cy="32%">
+            <stop offset="0%"   stop-color="#f9e870"/>
+            <stop offset="42%"  stop-color="#f0c635"/>
+            <stop offset="100%" stop-color="#c89418"/>
+          </radialGradient>
+          <filter id="softglow">
+            <feGaussianBlur stdDeviation="4" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Outer atmosphere ring -->
+        <circle cx="160" cy="160" r="148" fill="none" stroke="rgba(240,200,60,0.07)" stroke-width="28"/>
+
+        <!-- Slow-rotating petals -->
+        <g class="d-petals">
+          <ellipse cx="160" cy="44"  rx="21" ry="56" fill="#fef9f0" stroke="rgba(240,192,56,0.28)" stroke-width="1"/>
+          <ellipse cx="160" cy="44"  rx="21" ry="56" fill="#fef9f0" stroke="rgba(240,192,56,0.28)" stroke-width="1" transform="rotate(45  160 160)"/>
+          <ellipse cx="160" cy="44"  rx="21" ry="56" fill="#fef9f0" stroke="rgba(240,192,56,0.28)" stroke-width="1" transform="rotate(90  160 160)"/>
+          <ellipse cx="160" cy="44"  rx="21" ry="56" fill="#fef9f0" stroke="rgba(240,192,56,0.28)" stroke-width="1" transform="rotate(135 160 160)"/>
+          <ellipse cx="160" cy="44"  rx="21" ry="56" fill="#fef9f0" stroke="rgba(240,192,56,0.28)" stroke-width="1" transform="rotate(180 160 160)"/>
+          <ellipse cx="160" cy="44"  rx="21" ry="56" fill="#fef9f0" stroke="rgba(240,192,56,0.28)" stroke-width="1" transform="rotate(225 160 160)"/>
+          <ellipse cx="160" cy="44"  rx="21" ry="56" fill="#fef9f0" stroke="rgba(240,192,56,0.28)" stroke-width="1" transform="rotate(270 160 160)"/>
+          <ellipse cx="160" cy="44"  rx="21" ry="56" fill="#fef9f0" stroke="rgba(240,192,56,0.28)" stroke-width="1" transform="rotate(315 160 160)"/>
+        </g>
+
+        <!-- Static labels around the daisy (don't rotate) -->
+        <text x="160" y="22"  text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#a09070" letter-spacing="1.5">AAPL</text>
+        <text x="244" y="55"  text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#a09070" letter-spacing="1.5">NVDA</text>
+        <text x="284" y="164" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#a09070" letter-spacing="1.5">TSLA</text>
+        <text x="244" y="276" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#a09070" letter-spacing="1.5">MSFT</text>
+        <text x="78"  y="276" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#a09070" letter-spacing="1.5">+1.4%</text>
+        <text x="38"  y="164" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#a09070" letter-spacing="1.5">+5.1%</text>
+
+        <!-- Center golden disc -->
+        <circle cx="160" cy="160" r="70" fill="url(#dg)" filter="url(#softglow)"/>
+        <!-- Texture dots -->
+        <circle cx="147" cy="150" r="2.5" fill="rgba(160,100,10,0.28)"/>
+        <circle cx="161" cy="147" r="2"   fill="rgba(160,100,10,0.22)"/>
+        <circle cx="174" cy="153" r="2.5" fill="rgba(160,100,10,0.28)"/>
+        <circle cx="152" cy="163" r="2"   fill="rgba(160,100,10,0.2)"/>
+        <circle cx="168" cy="161" r="2.5" fill="rgba(160,100,10,0.24)"/>
+        <circle cx="156" cy="173" r="2"   fill="rgba(160,100,10,0.28)"/>
+        <circle cx="170" cy="171" r="2"   fill="rgba(160,100,10,0.2)"/>
+        <circle cx="143" cy="168" r="2"   fill="rgba(160,100,10,0.18)"/>
+        <circle cx="178" cy="167" r="2"   fill="rgba(160,100,10,0.22)"/>
+      </svg>
+    </div>
+
+    <div class="d-stocks">
+      <div class="d-pill">
+        <div class="dp-tick">AAPL</div>
+        <div class="dp-px">$185.20</div>
+        <div class="dp-pos">+2.3%</div>
+      </div>
+      <div class="d-pill">
+        <div class="dp-tick">NVDA</div>
+        <div class="dp-px">$492.50</div>
+        <div class="dp-pos">+5.1%</div>
+      </div>
+      <div class="d-pill">
+        <div class="dp-tick">TSLA</div>
+        <div class="dp-px">$245.80</div>
+        <div class="dp-neg">&#8722;1.2%</div>
+      </div>
+      <div class="d-pill">
+        <div class="dp-tick">MSFT</div>
+        <div class="dp-px">$375.40</div>
+        <div class="dp-pos">+0.8%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     IV. MOOD BOARD
+════════════════════════════════════════════ -->
+<section id="v4" class="v">
+  <div class="b-inner">
+    <p class="b-head-label">My Portfolio &nbsp;·&nbsp; Spring 2026</p>
+    <h1 class="b-head-val">$24,850 <em>today</em></h1>
+
+    <div class="b-scatter">
+      <!-- AAPL -->
+      <div class="b-card r1">
+        <div class="b-inner-card">
+          <div class="bc-tag">Ticker</div>
+          <div class="bc-tick">AAPL</div>
+          <div class="bc-px">$185.20</div>
+          <div class="bc-pos">&#8593; +2.3% today</div>
+          <div class="bc-pos">10 shares held</div>
+          <span class="bc-gold-tag">✦ Golden Cross</span>
+        </div>
+      </div>
+
+      <!-- NVDA -->
+      <div class="b-card r2">
+        <div class="b-inner-card" style="background:#f0f6f3;">
+          <div class="bc-tag">Ticker</div>
+          <div class="bc-tick" style="color:#1a4a38;">NVDA</div>
+          <div class="bc-px" style="color:#1a4a38;">$492.50</div>
+          <div class="bc-pos">&#8593; +5.1% today</div>
+          <div class="bc-pos">5 shares held</div>
+          <span class="bc-gold-tag">✦ Golden Cross</span>
+        </div>
+      </div>
+
+      <!-- Sticky note -->
+      <div class="b-card r3">
+        <div class="sticky">
+          <div class="sticky-lbl">Today's note —</div>
+          <div class="sticky-body">+$340 gain<br>+1.4% overall<br>NVDA leading &#127807;</div>
+        </div>
+      </div>
+
+      <!-- TSLA -->
+      <div class="b-card r4">
+        <div class="b-inner-card" style="background:#fdf4f3;">
+          <div class="bc-tag">Ticker</div>
+          <div class="bc-tick" style="color:#4a1a18;">TSLA</div>
+          <div class="bc-px" style="color:#4a1a18;">$245.80</div>
+          <div class="bc-neg">&#8595; &#8722;1.2% today</div>
+          <div class="bc-neg">8 shares held</div>
+          <span class="bc-death-tag">&#9888; Death Cross</span>
+        </div>
+      </div>
+
+      <!-- MSFT -->
+      <div class="b-card r5">
+        <div class="b-inner-card">
+          <div class="bc-tag">Ticker</div>
+          <div class="bc-tick">MSFT</div>
+          <div class="bc-px">$375.40</div>
+          <div class="bc-pos">&#8593; +0.8% today</div>
+          <div class="bc-pos">6 shares held</div>
+          <span class="bc-neutral-tag">&#8212; Neutral</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     V. GOLDEN AFTERNOON
+════════════════════════════════════════════ -->
+<section id="v5" class="v">
+  <div class="gold-inner">
+    <p class="gold-greeting">good afternoon,</p>
+    <p class="gold-name">Wiganz Portfolio</p>
+
+    <div class="gold-hero">
+      <p class="gold-hero-lbl">total value</p>
+      <div class="gold-hero-val"><sup>$</sup>24,850</div>
+      <p class="gold-chg">&#8593; +$340.00 &nbsp;&middot;&nbsp; +1.4% today</p>
+    </div>
+
+    <div class="gold-rows">
+      <div class="gold-row">
+        <span class="gold-dot"></span>
+        <span class="gold-tick">AAPL</span>
+        <span class="gold-co">Apple Inc.</span>
+        <span class="gold-px">$185.20</span>
+        <span class="gold-pct-pos">+2.3%</span>
+        <span class="gold-sig">✦ Golden</span>
+      </div>
+      <div class="gold-row">
+        <span class="gold-dot"></span>
+        <span class="gold-tick">NVDA</span>
+        <span class="gold-co">Nvidia Corp.</span>
+        <span class="gold-px">$492.50</span>
+        <span class="gold-pct-pos">+5.1%</span>
+        <span class="gold-sig">✦ Golden</span>
+      </div>
+      <div class="gold-row">
+        <span class="gold-dot d"></span>
+        <span class="gold-tick">TSLA</span>
+        <span class="gold-co">Tesla Inc.</span>
+        <span class="gold-px">$245.80</span>
+        <span class="gold-pct-neg">&#8722;1.2%</span>
+        <span class="gold-sig-d">&#9888; Death</span>
+      </div>
+      <div class="gold-row">
+        <span class="gold-dot n"></span>
+        <span class="gold-tick">MSFT</span>
+        <span class="gold-co">Microsoft Corp.</span>
+        <span class="gold-px">$375.40</span>
+        <span class="gold-pct-pos">+0.8%</span>
+        <span class="gold-sig-n">&#8212; Neutral</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function sw(n) {
+  document.querySelectorAll('.v').forEach((el, i) => el.classList.toggle('on', i + 1 === n));
+  document.querySelectorAll('.tab').forEach((el, i) => el.classList.toggle('on', i + 1 === n));
+}
+</script>
+</body>
+</html>

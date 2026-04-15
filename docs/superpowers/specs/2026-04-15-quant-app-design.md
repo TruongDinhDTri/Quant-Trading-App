@@ -3,9 +3,11 @@
 **Author:** Wiganz + Hadriel (brainstorming session)
 **Status:** ✅ Approved — ready for implementation planning
 
-> **FOR ANY FUTURE SESSION (Claude or Hadriel):** Read this entire document before doing anything.
-> This spec defines WHAT we're building, HOW we're building it, WHICH phase we're in,
-> and what the learning goals are. Every implementation decision flows from this document.
+> **FOR ANY FUTURE SESSION (Claude or Hadriel):** Read ALL 4 docs before doing anything:
+> 1. This spec — scope, models, UI, SDLC contract, Wiganz's learning profile
+> 2. `docs/superpowers/plans/2026-04-15-quant-app-plan.md` — find the first unchecked `- [ ]`
+> 3. `docs/learning-guides/sdlc-thinking-guide.md` — Socratic teaching guide for all 9 SDLC phases
+> 4. `docs/learning-guides/vertical-slices-guide.md` — vertical slice execution and done gates
 
 ---
 

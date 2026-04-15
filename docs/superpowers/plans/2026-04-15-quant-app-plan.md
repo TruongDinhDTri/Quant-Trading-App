@@ -2,9 +2,12 @@
 
 > **For Wiganz + Hadriel sessions:** This is the roadmap. Do NOT execute this alone.
 > Every task is done together: Wiganz writes the code, Hadriel teaches the reasoning.
-> Before starting any task, Hadriel calls the SDLC phase banner and asks Socratic questions.
-> Reference spec: `docs/superpowers/specs/2026-04-15-quant-app-design.md`
-> Reference learning guides: `docs/learning-guides/`
+>
+> **REQUIRED: Read ALL 4 docs before starting any session:**
+> 1. `docs/superpowers/specs/2026-04-15-quant-app-design.md` — scope, models, UI aesthetic, SDLC contract
+> 2. `docs/superpowers/plans/2026-04-15-quant-app-plan.md` — this file, find the first unchecked `- [ ]`
+> 3. `docs/learning-guides/sdlc-thinking-guide.md` — how to teach each SDLC phase Socratically
+> 4. `docs/learning-guides/vertical-slices-guide.md` — vertical slice mindset, done gates, execution loop
 
 **Goal:** Build a stock portfolio tracker (QuantApp) with Golden/Death Cross signals — full stack, fully deployed, fully understood.
 

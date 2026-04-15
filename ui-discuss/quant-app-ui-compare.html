@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantApp — So sánh UI Styles 🎨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #FdfcF6;
+            color: #4A453E;
+            line-height: 1.6;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .hero h1 { font-family: 'Lora', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+        .hero p { color: #a0aec0; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        /* ─── TABS ─── */
+        .tab-row {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin: 2rem 0 1rem;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 0.7rem 1.8rem;
+            border-radius: 30px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: all 0.25s;
+            color: #4A453E;
+        }
+        .tab-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .tab-btn.active-a { background: #8A9A5B; color: white; border-color: #8A9A5B; }
+        .tab-btn.active-b { background: #1a202c; color: white; border-color: #1a202c; }
+        .tab-btn.active-c { background: #2563eb; color: white; border-color: #2563eb; }
+
+        /* ─── COMPARE GRID ─── */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .style-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        .style-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+        .style-card.selected-a { border-color: #8A9A5B; box-shadow: 0 0 0 4px rgba(138,154,91,0.2); }
+        .style-card.selected-b { border-color: #4ade80; box-shadow: 0 0 0 4px rgba(74,222,128,0.2); }
+        .style-card.selected-c { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,0.2); }
+
+        .style-label {
+            text-align: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0.6rem;
+        }
+
+        /* ══════════════════════════════
+           STYLE A: GHIBLI COZY
+        ══════════════════════════════ */
+        .demo-a {
+            background: #FdfcF6;
+            padding: 1.2rem;
+            min-height: 340px;
+            font-family: 'Nunito', sans-serif;
+        }
+        .a-header {
+            background: white;
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #F0ECE1;
+            box-shadow: 4px 4px 0 rgba(138,154,91,0.12);
+            margin-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .a-logo { font-family: 'Lora', serif; font-size: 1rem; color: #8A9A5B; font-weight: 600; }
+        .a-nav { display: flex; gap: 0.5rem; }
+        .a-nav span {
+            font-size: 0.7rem;
+            background: #E3E8D6;
+            color: #5a6a3b;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        .a-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+        .a-stat {
+            background: white;
+            border-radius: 12px;
+            padding: 0.8rem;
+            border: 1px solid #F0ECE1;
+            box-shadow: 3px 3px 0 rgba(138,154,91,0.1);
+        }
+        .a-stat .lbl { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #8A9A5B; font-weight: 700; }
+        .a-stat .val { font-size: 1.1rem; font-weight: 800; color: #4A453E; margin-top: 0.1rem; }
+        .a-stat .chg { font-size: 0.72rem; }
+        .a-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #F0ECE1;
+            box-shadow: 3px 3px 0 rgba(138,154,91,0.1);
+        }
+        .a-table-head {
+            background: #E3E8D6;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #5a6a3b;
+        }
+        .a-table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 0.55rem 0.8rem;
+            font-size: 0.78rem;
+            border-top: 1px solid #F0ECE1;
+            align-items: center;
+        }
+        .a-badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+        .a-badge.g { background: #E3E8D6; color: #5a6a3b; }
+        .a-badge.r { background: #F2DCD3; color: #a65c40; }
+
+        /* ══════════════════════════════
+           STYLE B: FINANCE DARK
+        ══════════════════════════════ */
+        .demo-b {
+            background: #0f1117;
+            padding: 1.2rem;
+            min-height: 340px;
+            font-family: 'Inter', 'Courier New', monospace;
+        }
+        .b-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid #1e2533;
+        }
+        .b-logo { color: #4ade80; font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; }
+        .b-time { color: #4a5568; font-size: 0.7rem; font-family: 'Courier New', monospace; }
+        .b-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .b-stat {
+            background: #161b27;
+            border: 1px solid #1e2a3a;
+            border-radius: 8px;
+            padding: 0.7rem;
+        }
+        .b-stat .lbl { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; color: #4a5568; margin-bottom: 0.2rem; }
+        .b-stat .val { font-size: 1.1rem; font-weight: 700; font-family: 'Courier New', monospace; color: #e2e8f0; }
+        .b-stat .chg { font-size: 0.7rem; }
+        /* Chart lines */
+        .b-chart {
+            background: #161b27;
+            border: 1px solid #1e2a3a;
+            border-radius: 8px;
+            padding: 0.7rem;
+            margin-bottom: 0.8rem;
+            height: 65px;
+            position: relative;
+            overflow: hidden;
+        }
+        .b-chart-label { font-size: 0.6rem; color: #4a5568; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
+        .b-table {
+            background: #161b27;
+            border: 1px solid #1e2a3a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .b-table-head {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #4a5568;
+            border-bottom: 1px solid #1e2a3a;
+        }
+        .b-table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 0.45rem 0.8rem;
+            font-size: 0.75rem;
+            border-top: 1px solid #1a2030;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+            color: #e2e8f0;
+        }
+        .b-badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.62rem;
+            font-weight: 700;
+        }
+        .b-badge.g { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .b-badge.r { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+
+        /* ══════════════════════════════
+           STYLE C: CLEAN MINIMAL
+        ══════════════════════════════ */
+        .demo-c {
+            background: #f8fafc;
+            padding: 1.2rem;
+            min-height: 340px;
+            font-family: 'Inter', sans-serif;
+        }
+        .c-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .c-logo { font-weight: 700; font-size: 0.95rem; color: #1e293b; letter-spacing: -0.5px; }
+        .c-logo span { color: #2563eb; }
+        .c-nav { display: flex; gap: 0.4rem; }
+        .c-nav span {
+            font-size: 0.68rem;
+            color: #64748b;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .c-nav span.active { background: #eff6ff; color: #2563eb; font-weight: 600; }
+        .c-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+        .c-stat {
+            background: white;
+            border-radius: 10px;
+            padding: 0.8rem;
+            border: 1px solid #e2e8f0;
+        }
+        .c-stat .lbl { font-size: 0.65rem; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.2rem; }
+        .c-stat .val { font-size: 1.15rem; font-weight: 700; color: #0f172a; }
+        .c-stat .chg { font-size: 0.7rem; }
+        .c-table {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+        .c-table-head {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 0.45rem 0.8rem;
+            font-size: 0.62rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .c-table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.78rem;
+            border-top: 1px solid #f1f5f9;
+            align-items: center;
+            color: #1e293b;
+        }
+        .c-badge {
+            display: inline-block;
+            padding: 0.12rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.62rem;
+            font-weight: 600;
+        }
+        .c-badge.g { background: #f0fdf4; color: #16a34a; }
+        .c-badge.r { background: #fef2f2; color: #dc2626; }
+
+        /* ─── TRADE-OFFS SECTION ─── */
+        .tradeoff-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .tradeoff-card {
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+        }
+        .tradeoff-card.winner { border-color: #8A9A5B; background: #f8faf5; }
+        .tc-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .tc-pros, .tc-cons { margin-bottom: 0.8rem; }
+        .tc-pros h5, .tc-cons h5 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem; }
+        .tc-pros h5 { color: #16a34a; }
+        .tc-cons h5 { color: #dc2626; }
+        .tc-item { font-size: 0.85rem; color: #4A453E; margin-bottom: 0.3rem; padding-left: 0.3rem; }
+        .winner-badge {
+            display: inline-block;
+            background: #8A9A5B;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: auto;
+        }
+
+        /* ─── HADRIEL RECOMMENDATION ─── */
+        .recommendation {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            color: white;
+            margin: 2rem 0;
+        }
+        .rec-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: #a0aec0; margin-bottom: 0.5rem; }
+        .rec-title { font-family: 'Lora', serif; font-size: 1.6rem; margin-bottom: 1rem; }
+        .rec-title span { color: #8A9A5B; }
+        .rec-body { color: #cbd5e0; font-size: 0.95rem; line-height: 1.8; }
+        .rec-body strong { color: white; }
+        .rec-highlight {
+            background: rgba(138,154,91,0.2);
+            border-left: 4px solid #8A9A5B;
+            border-radius: 0 12px 12px 0;
+            padding: 1rem 1.5rem;
+            margin: 1.2rem 0;
+            font-style: italic;
+            color: #e2e8f0;
+        }
+        .rec-tags { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.2rem; }
+        .rec-tag {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #e2e8f0;
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        /* ─── SECTION LABEL ─── */
+        .sec-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #D68C70;
+            font-weight: 800;
+            margin-bottom: 0.6rem;
+            margin-top: 2rem;
+        }
+
+        /* SVG chart for option B */
+        .b-chart-svg { width: 100%; height: 42px; }
+
+        @media (max-width: 768px) {
+            .compare-grid, .tradeoff-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>🎨 QuantApp — Chọn UI Style</h1>
+    <p>So sánh 3 hướng thiết kế · Hadriel suggest cuối trang 👇</p>
+</div>
+
+<div class="container">
+
+    <!-- MINI DEMO MOCKUPS -->
+    <div class="sec-label">Nhìn trực tiếp — 3 style khác nhau</div>
+    <div class="compare-grid">
+
+        <!-- OPTION A -->
+        <div class="style-card" onclick="selectStyle('a')">
+            <div class="style-label" style="background: #E3E8D6; color: #5a6a3b;">Option A — Ghibli Cozy 🌿</div>
+            <div class="demo-a">
+                <div class="a-header">
+                    <div class="a-logo">📊 QuantApp</div>
+                    <div class="a-nav">
+                        <span>Portfolio</span>
+                        <span>Signals</span>
+                    </div>
+                </div>
+                <div class="a-stats">
+                    <div class="a-stat">
+                        <div class="lbl">💰 Tổng P&L</div>
+                        <div class="val" style="color: #5a6a3b;">+$2,150</div>
+                        <div class="chg" style="color: #8A9A5B;">↑ +20.8%</div>
+                    </div>
+                    <div class="a-stat">
+                        <div class="lbl">📊 Danh mục</div>
+                        <div class="val">$12,450</div>
+                        <div class="chg" style="color: #8A9A5B;">4 cổ phiếu</div>
+                    </div>
+                </div>
+                <div class="a-table">
+                    <div class="a-table-head">
+                        <span>Ticker</span><span>P&L</span><span>Signal</span>
+                    </div>
+                    <div class="a-table-row">
+                        <span style="font-weight:800;">AAPL</span>
+                        <span style="color:#5a6a3b; font-weight:700;">+$350</span>
+                        <span><div class="a-badge g">🟢 Golden</div></span>
+                    </div>
+                    <div class="a-table-row">
+                        <span style="font-weight:800;">NVDA</span>
+                        <span style="color:#5a6a3b; font-weight:700;">+$980</span>
+                        <span><div class="a-badge g">🟢 Golden</div></span>
+                    </div>
+                    <div class="a-table-row">
+                        <span style="font-weight:800;">TSLA</span>
+                        <span style="color:#a65c40; font-weight:700;">-$180</span>
+                        <span><div class="a-badge r">🔴 Death</div></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OPTION B -->
+        <div class="style-card" onclick="selectStyle('b')">
+            <div class="style-label" style="background: #1a202c; color: #4ade80;">Option B — Finance Dark 💹</div>
+            <div class="demo-b">
+                <div class="b-header">
+                    <div class="b-logo">QUANT//APP</div>
+                    <div class="b-time">14:32:07 EDT</div>
+                </div>
+                <div class="b-stats">
+                    <div class="b-stat">
+                        <div class="lbl">TOTAL P&L</div>
+                        <div class="val" style="color: #4ade80;">+$2,150</div>
+                        <div class="chg" style="color: #4ade80;">▲ 20.8%</div>
+                    </div>
+                    <div class="b-stat">
+                        <div class="lbl">PORTFOLIO</div>
+                        <div class="val">$12,450</div>
+                        <div class="chg" style="color: #4a5568;">4 positions</div>
+                    </div>
+                </div>
+                <div class="b-chart">
+                    <div class="b-chart-label">AAPL — 6M PRICE CHART</div>
+                    <svg class="b-chart-svg" viewBox="0 0 300 40" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="bGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#4ade80" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <polygon points="0,35 30,28 60,30 90,22 120,18 150,12 180,8 210,10 240,5 270,3 300,2 300,40 0,40" fill="url(#bGrad)"/>
+                        <polyline points="0,35 30,28 60,30 90,22 120,18 150,12 180,8 210,10 240,5 270,3 300,2" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linejoin="round"/>
+                        <polyline points="0,34 30,32 60,30 90,28 120,25 150,22 180,20 210,18 240,16 270,14 300,13" fill="none" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,2" opacity="0.7"/>
+                    </svg>
+                </div>
+                <div class="b-table">
+                    <div class="b-table-head">
+                        <span>SYMBOL</span><span>P&L</span><span>SIGNAL</span>
+                    </div>
+                    <div class="b-table-row">
+                        <span style="color:#4ade80; font-weight:700;">AAPL</span>
+                        <span style="color:#4ade80;">+350.00</span>
+                        <span><div class="b-badge g">● GOLDEN</div></span>
+                    </div>
+                    <div class="b-table-row">
+                        <span style="color:#4ade80; font-weight:700;">NVDA</span>
+                        <span style="color:#4ade80;">+980.00</span>
+                        <span><div class="b-badge g">● GOLDEN</div></span>
+                    </div>
+                    <div class="b-table-row">
+                        <span style="color:#e2e8f0; font-weight:700;">TSLA</span>
+                        <span style="color:#f87171;">-180.00</span>
+                        <span><div class="b-badge r">● DEATH</div></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OPTION C -->
+        <div class="style-card" onclick="selectStyle('c')">
+            <div class="style-label" style="background: #eff6ff; color: #2563eb;">Option C — Clean Minimal 🧊</div>
+            <div class="demo-c">
+                <div class="c-header">
+                    <div class="c-logo">Quant<span>App</span></div>
+                    <div class="c-nav">
+                        <span class="active">Dashboard</span>
+                        <span>Signals</span>
+                    </div>
+                </div>
+                <div class="c-stats">
+                    <div class="c-stat">
+                        <div class="lbl">Total P&L</div>
+                        <div class="val" style="color: #16a34a;">+$2,150</div>
+                        <div class="chg" style="color: #16a34a; font-size: 0.72rem;">↑ 20.8% overall</div>
+                    </div>
+                    <div class="c-stat">
+                        <div class="lbl">Portfolio Value</div>
+                        <div class="val">$12,450</div>
+                        <div class="chg" style="color: #94a3b8; font-size: 0.72rem;">4 positions</div>
+                    </div>
+                </div>
+                <div class="c-table">
+                    <div class="c-table-head">
+                        <span>Ticker</span><span>P&L</span><span>Signal</span>
+                    </div>
+                    <div class="c-table-row">
+                        <span style="font-weight:600; color:#0f172a;">AAPL</span>
+                        <span style="color:#16a34a; font-weight:600;">+$350</span>
+                        <span><div class="c-badge g">🟢 Golden</div></span>
+                    </div>
+                    <div class="c-table-row">
+                        <span style="font-weight:600; color:#0f172a;">NVDA</span>
+                        <span style="color:#16a34a; font-weight:600;">+$980</span>
+                        <span><div class="c-badge g">🟢 Golden</div></span>
+                    </div>
+                    <div class="c-table-row">
+                        <span style="font-weight:600; color:#0f172a;">TSLA</span>
+                        <span style="color:#dc2626; font-weight:600;">-$180</span>
+                        <span><div class="c-badge r">🔴 Death</div></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TRADE-OFFS -->
+    <div class="sec-label">Trade-offs của từng option</div>
+    <div class="tradeoff-grid">
+
+        <div class="tradeoff-card">
+            <div class="tc-title">🌿 Option A — Ghibli Cozy</div>
+            <div class="tc-pros">
+                <h5>✅ Pros</h5>
+                <div class="tc-item">✔ Cực kỳ độc đáo — không ai có cái này</div>
+                <div class="tc-item">✔ Memorable — interviewer nhớ mày</div>
+                <div class="tc-item">✔ Match với roadmap của mày (consistent)</div>
+                <div class="tc-item">✔ Mày đã có palette sẵn rồi</div>
+            </div>
+            <div class="tc-cons">
+                <h5>❌ Cons</h5>
+                <div class="tc-item">✖ Có thể trông không "serious" với finance</div>
+                <div class="tc-item">✖ Interviewer expect finance app = dark/clean</div>
+            </div>
+        </div>
+
+        <div class="tradeoff-card">
+            <div class="tc-title">💹 Option B — Finance Dark</div>
+            <div class="tc-pros">
+                <h5>✅ Pros</h5>
+                <div class="tc-item">✔ Trông như Bloomberg Terminal — rất pro</div>
+                <div class="tc-item">✔ Domain-appropriate (finance app = dark)</div>
+                <div class="tc-item">✔ Chart trên nền tối = rất impressive</div>
+            </div>
+            <div class="tc-cons">
+                <h5>❌ Cons</h5>
+                <div class="tc-item">✖ Nhiều app finance demo dùng dark → generic</div>
+                <div class="tc-item">✖ Khó đọc hơn khi demo (contrast issue)</div>
+                <div class="tc-item">✖ Tốn công CSS hơn một chút</div>
+            </div>
+        </div>
+
+        <div class="tradeoff-card">
+            <div class="tc-title">🧊 Option C — Clean Minimal</div>
+            <div class="tc-pros">
+                <h5>✅ Pros</h5>
+                <div class="tc-item">✔ Dễ build nhất — Tailwind CSS là xong</div>
+                <div class="tc-item">✔ Timeless, professional</div>
+                <div class="tc-item">✔ Readable, dễ demo nhất</div>
+            </div>
+            <div class="tc-cons">
+                <h5>❌ Cons</h5>
+                <div class="tc-item">✖ Boring — trông như mọi demo project khác</div>
+                <div class="tc-item">✖ Không có "wow factor"</div>
+                <div class="tc-item">✖ Interviewer sẽ không nhớ mày</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECOMMENDATION -->
+    <div class="recommendation">
+        <div class="rec-label">🔥 Hadriel's Recommendation</div>
+        <div class="rec-title">Chọn <span>Option B</span> — nhưng có twist</div>
+        <div class="rec-body">
+            <strong>Finance Dark (Option B)</strong> là cái impressive nhất cho một trading app. Khi mày mở live URL trong phòng phỏng vấn, interviewer thấy dark theme + green charts → ngay lập tức cảm giác "cái này trông real."<br><br>
+            <strong>Nhưng đây là twist:</strong> Thêm vào màu <strong style="color: #8A9A5B;">sage green (#8A9A5B)</strong> — màu riêng của mày — làm accent color thay vì neon green thuần túy. Như vậy nó vừa có finance dark vibe, vừa có dấu ấn cá nhân của mày. Không ai có cái đó.
+            <div class="rec-highlight">
+                "Dark finance dashboard + subtle Ghibli sage accent" = đẹp, professional, memorable, và unique. Best of both worlds. 🔥
+            </div>
+            Option C quá safe → không memorable. Option A quá cozy → có thể mất điểm với interviewer finance. Option B + twist là sweet spot.
+        </div>
+        <div class="rec-tags">
+            <div class="rec-tag">Dark bg #0f1117</div>
+            <div class="rec-tag">Sage accent #8A9A5B</div>
+            <div class="rec-tag">Green P&L #4ade80</div>
+            <div class="rec-tag">Red signal #f87171</div>
+            <div class="rec-tag">Charts: Recharts</div>
+        </div>
+    </div>
+
+    <p style="text-align:center; color: #6D665E; font-size: 0.95rem; margin-bottom: 3rem;">
+        Mày thích cái nào? A, B, hay B-with-twist? Nói cho Hadriel biết rồi mình spec tiếp 🔥
+    </p>
+
+</div>
+
+<script>
+    function selectStyle(style) {
+        document.querySelectorAll('.style-card').forEach(c => {
+            c.classList.remove('selected-a', 'selected-b', 'selected-c');
+        });
+        document.querySelectorAll('.style-card')[['a','b','c'].indexOf(style)].classList.add('selected-' + style);
+    }
+</script>
+
+</body>
+</html>

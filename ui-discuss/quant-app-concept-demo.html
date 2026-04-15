@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantApp — Giải thích siêu dễ hiểu 🔥</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FdfcF6;
+            --text: #4A453E;
+            --text-light: #6D665E;
+            --sage: #8A9A5B;
+            --sage-light: #E3E8D6;
+            --clay: #D68C70;
+            --clay-light: #F2DCD3;
+            --sky: #8AB0C0;
+            --sky-light: #DFE9ED;
+            --shadow: 6px 6px 0px rgba(138,154,91,0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .hero h1 { font-family: 'Lora', serif; font-size: 2.2rem; margin-bottom: 0.5rem; }
+        .hero p { color: #a0aec0; font-size: 1.05rem; }
+
+        .container { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        /* ─── CHAPTER CARDS ─── */
+        .chapter {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid #F0ECE1;
+            position: relative;
+            overflow: hidden;
+        }
+        .chapter::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 5px;
+        }
+        .ch1::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .ch2::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .ch3::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .ch4::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .ch5::before { background: linear-gradient(90deg, var(--clay), #e8a080); }
+
+        .chapter-num {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--clay);
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+        }
+        .chapter h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--text);
+        }
+
+        /* ─── ANALOGY BOX ─── */
+        .story-box {
+            background: #fffbeb;
+            border: 2px solid #fde68a;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-size: 1rem;
+        }
+        .story-box .story-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+
+        /* ─── SIMPLE ILLUSTRATION ─── */
+        .illustration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .ill-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            min-width: 130px;
+            font-size: 0.95rem;
+        }
+        .ill-box .ill-icon { font-size: 2rem; display: block; margin-bottom: 0.4rem; }
+        .ill-box .ill-label { font-size: 0.8rem; color: var(--text-light); }
+        .ill-box .ill-value { font-weight: 800; font-size: 1.1rem; }
+        .arrow { font-size: 1.8rem; color: var(--sage); }
+
+        /* ─── TICKER EXPLAINER ─── */
+        .ticker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1.2rem 0;
+        }
+        .ticker-card {
+            background: #f8f9fa;
+            border-radius: 14px;
+            padding: 1.2rem;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.2s;
+            cursor: default;
+        }
+        .ticker-card:hover { border-color: var(--sage); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(138,154,91,0.15); }
+        .ticker-card .company-logo { font-size: 2.5rem; display: block; margin-bottom: 0.4rem; }
+        .ticker-card .company-name { font-size: 0.85rem; color: var(--text-light); }
+        .ticker-card .ticker-code { font-size: 1.4rem; font-weight: 800; color: var(--sage); font-family: 'Courier New', monospace; }
+        .ticker-card .ticker-arrow { font-size: 0.8rem; color: var(--clay); margin: 0.2rem 0; }
+
+        /* ─── BUY SELL INTERACTIVE ─── */
+        .sim-box {
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        .sim-box h4 { color: #15803d; margin-bottom: 1rem; font-size: 1rem; }
+        .sim-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .sim-item { }
+        .sim-item label { font-size: 0.8rem; color: var(--text-light); display: block; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 1px; }
+        .sim-item input, .sim-item select {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 2px solid #d1fae5;
+            border-radius: 10px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            background: white;
+            color: var(--text);
+        }
+        .result-row {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            border: 1px solid #d1fae5;
+        }
+        .result-item { text-align: center; }
+        .result-item .r-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; }
+        .result-item .r-value { font-size: 1.2rem; font-weight: 800; }
+        .profit { color: #16a34a; }
+        .loss { color: #dc2626; }
+
+        /* ─── GOLDEN CROSS SIMPLE ─── */
+        .gc-story {
+            margin: 1.2rem 0;
+        }
+        .gc-step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 14px;
+        }
+        .gc-step .step-num {
+            background: var(--sage);
+            color: white;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+        .gc-step .step-text { font-size: 0.95rem; }
+        .gc-step .step-text strong { color: var(--text); }
+        .gc-step .step-text .mini-calc {
+            display: inline-block;
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 0.1rem 0.6rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin: 0.2rem 0;
+        }
+
+        .signal-result {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.2rem 0;
+        }
+        .sig-box {
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        .sig-box.golden { background: #f0fdf4; border-color: #86efac; }
+        .sig-box.death { background: #fef2f2; border-color: #fca5a5; }
+        .sig-box .sig-icon { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+        .sig-box .sig-title { font-weight: 800; font-size: 1rem; margin-bottom: 0.4rem; }
+        .sig-box.golden .sig-title { color: #16a34a; }
+        .sig-box.death .sig-title { color: #dc2626; }
+        .sig-box .sig-desc { font-size: 0.85rem; color: var(--text-light); }
+        .sig-box .sig-code {
+            display: inline-block;
+            background: rgba(0,0,0,0.05);
+            border-radius: 8px;
+            padding: 0.3rem 0.8rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        /* ─── APP SUMMARY ─── */
+        .app-is {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 1.2rem 0;
+        }
+        .app-feature {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        .app-feature .feat-icon { font-size: 2.2rem; display: block; margin-bottom: 0.7rem; }
+        .app-feature .feat-title { font-weight: 800; margin-bottom: 0.4rem; }
+        .app-feature .feat-simple { font-size: 0.85rem; color: var(--text-light); }
+        .app-feature .feat-example {
+            margin-top: 0.8rem;
+            background: white;
+            border-radius: 10px;
+            padding: 0.6rem;
+            font-size: 0.82rem;
+            border: 1px solid #dee2e6;
+        }
+
+        /* ─── FLOW ─── */
+        .simple-flow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+        .flow-node {
+            background: white;
+            border: 2px solid var(--sage-light);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 3px 3px 0 rgba(138,154,91,0.1);
+        }
+        .flow-node .fn-icon { font-size: 1.5rem; display: block; margin-bottom: 0.3rem; }
+        .flow-node .fn-what { font-size: 0.75rem; color: var(--text-light); font-weight: 400; }
+        .flow-arr { font-size: 1.5rem; color: var(--sage); }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            text-align: center;
+            padding: 2.5rem;
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 600px) {
+            .sim-row { grid-template-columns: 1fr; }
+            .signal-result { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>QuantApp là cái gì?</h1>
+    <p>Giải thích siêu dễ hiểu · Không có thuật ngữ phức tạp 🔥</p>
+</div>
+
+<div class="container">
+
+    <!-- ═══ CHƯƠNG 1: CỔ PHIẾU LÀ GÌ ═══ -->
+    <div class="chapter ch1" style="margin-top: 2rem;">
+        <div class="chapter-num">Chương 1 · Nền tảng</div>
+        <h2>🍕 Cổ phiếu là gì?</h2>
+
+        <div class="story-box">
+            <span class="story-icon">🍕</span>
+            <strong>Tưởng tượng Apple là một cái bánh pizza khổng lồ.</strong><br><br>
+            Apple cần tiền để làm iPhone mới. Họ cắt cái bánh đó thành <strong>1,000,000 miếng nhỏ</strong> và bán cho mọi người. Mỗi miếng gọi là <strong>một cổ phiếu</strong>.<br><br>
+            Mày mua 10 miếng → mày đang sở hữu <strong>1 phần cực nhỏ của công ty Apple</strong>. Nếu Apple làm ăn tốt → miếng bánh của mày ngon hơn → giá trị tăng lên → mày bán lại kiếm tiền.
+        </div>
+
+        <div class="illustration">
+            <div class="ill-box" style="border-color: #fde68a; background: #fffbeb;">
+                <span class="ill-icon">🍕</span>
+                <div class="ill-label">Mày mua</div>
+                <div class="ill-value">10 miếng</div>
+                <div class="ill-label" style="margin-top: 0.3rem;">giá $150/miếng</div>
+            </div>
+            <div class="arrow">⏳</div>
+            <div class="ill-box" style="border-color: #fde68a; background: #fffbeb;">
+                <span class="ill-icon">📱</span>
+                <div class="ill-label">Apple ra iPhone mới</div>
+                <div class="ill-value">Làm ăn tốt!</div>
+                <div class="ill-label" style="margin-top: 0.3rem;">Mọi người mua nhiều hơn</div>
+            </div>
+            <div class="arrow">🎉</div>
+            <div class="ill-box" style="border-color: #86efac; background: #f0fdf4;">
+                <span class="ill-icon">💰</span>
+                <div class="ill-label">Giờ mỗi miếng</div>
+                <div class="ill-value" style="color: #16a34a;">$185</div>
+                <div class="ill-label" style="margin-top: 0.3rem;">Mày bán → lời $350!</div>
+            </div>
+        </div>
+
+        <p style="color: var(--text-light); font-size: 0.95rem; text-align: center;">Đó là tất cả. <strong>Mua rẻ → chờ → bán đắt = lời.</strong> Mua đắt → giá giảm = lỗ.</p>
+    </div>
+
+    <!-- ═══ CHƯƠNG 2: MÃ CỔ PHIẾU ═══ -->
+    <div class="chapter ch2">
+        <div class="chapter-num">Chương 2 · Mã cổ phiếu (Ticker)</div>
+        <h2>🏷️ Mã cổ phiếu là gì?</h2>
+
+        <div class="story-box">
+            <span class="story-icon">🏷️</span>
+            <strong>Giống như tên Facebook thay thành Meta — thị trường chứng khoán dùng tên viết tắt.</strong><br><br>
+            Thay vì gõ "Apple Inc." → mày gõ <strong>AAPL</strong>. Đơn giản vậy thôi. Đây gọi là <strong>ticker symbol</strong> (mã cổ phiếu).
+        </div>
+
+        <div class="ticker-grid">
+            <div class="ticker-card">
+                <span class="company-logo">🍎</span>
+                <div class="company-name">Apple</div>
+                <div class="ticker-arrow">↓ tên viết tắt</div>
+                <div class="ticker-code">AAPL</div>
+            </div>
+            <div class="ticker-card">
+                <span class="company-logo">🚗</span>
+                <div class="company-name">Tesla</div>
+                <div class="ticker-arrow">↓ tên viết tắt</div>
+                <div class="ticker-code">TSLA</div>
+            </div>
+            <div class="ticker-card">
+                <span class="company-logo">🎮</span>
+                <div class="company-name">NVIDIA</div>
+                <div class="ticker-arrow">↓ tên viết tắt</div>
+                <div class="ticker-code">NVDA</div>
+            </div>
+            <div class="ticker-card">
+                <span class="company-logo">🪟</span>
+                <div class="company-name">Microsoft</div>
+                <div class="ticker-arrow">↓ tên viết tắt</div>
+                <div class="ticker-code">MSFT</div>
+            </div>
+        </div>
+
+        <p style="color: var(--text-light); font-size: 0.95rem; text-align: center;">Trong app của mày, mày gõ <strong>AAPL</strong> → app tự hiểu là Apple → gọi API lấy giá về.</p>
+    </div>
+
+    <!-- ═══ CHƯƠNG 3: MUA BÁN & LỜI LỖ ═══ -->
+    <div class="chapter ch3">
+        <div class="chapter-num">Chương 3 · Interactive</div>
+        <h2>💰 Mua/bán trông như thế nào trong app?</h2>
+
+        <p style="margin-bottom: 1.2rem; color: var(--text-light);">Tự thử đi! Thay đổi giá mua và giá hiện tại để thấy mày lời hay lỗ bao nhiêu 👇</p>
+
+        <div class="sim-box">
+            <h4>🧪 Thử tự tính lời/lỗ</h4>
+            <div class="sim-row">
+                <div class="sim-item">
+                    <label>Mày mua (cổ phiếu)</label>
+                    <input type="number" id="qty" value="10" min="1" oninput="calcPnL()" />
+                </div>
+                <div class="sim-item">
+                    <label>Giá lúc mua ($)</label>
+                    <input type="number" id="buy_price" value="150" min="1" oninput="calcPnL()" />
+                </div>
+                <div class="sim-item">
+                    <label>Giá hiện tại ($)</label>
+                    <input type="number" id="curr_price" value="185" min="1" oninput="calcPnL()" />
+                </div>
+            </div>
+            <div class="result-row">
+                <div class="result-item">
+                    <div class="r-label">Mày bỏ ra</div>
+                    <div class="r-value" id="invested">$1,500</div>
+                </div>
+                <div class="r-item" style="font-size: 1.5rem; color: #94a3b8;">→</div>
+                <div class="result-item">
+                    <div class="r-label">Giờ trị giá</div>
+                    <div class="r-value" id="current_val">$1,850</div>
+                </div>
+                <div class="r-item" style="font-size: 1.5rem; color: #94a3b8;">=</div>
+                <div class="result-item">
+                    <div class="r-label">Lời / Lỗ</div>
+                    <div class="r-value" id="pnl">+$350</div>
+                </div>
+                <div class="result-item">
+                    <div class="r-label">Phần trăm</div>
+                    <div class="r-value" id="pnl_pct">+23.3%</div>
+                </div>
+            </div>
+            <p style="font-size: 0.82rem; color: #6b7280; margin-top: 0.8rem; text-align: center;">
+                💡 Đây chính xác là những gì app của mày tính — Django làm mấy phép tính này tự động
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══ CHƯƠNG 4: GOLDEN CROSS ═══ -->
+    <div class="chapter ch4">
+        <div class="chapter-num">Chương 4 · Tín hiệu "thông minh"</div>
+        <h2>🟢 Golden Cross là gì?</h2>
+
+        <div class="story-box">
+            <span class="story-icon">🌡️</span>
+            <strong>Hãy tưởng tượng nhiệt độ của bệnh nhân trong 200 ngày.</strong><br><br>
+            Nếu nhiệt độ <strong>50 ngày gần đây</strong> cao hơn nhiệt độ <strong>200 ngày qua</strong> → bệnh nhân đang khỏe dần lên.<br>
+            Nếu 50 ngày gần đây thấp hơn → bệnh nhân đang yếu đi.<br><br>
+            Golden Cross áp dụng logic đó vào giá cổ phiếu. Đơn giản vậy thôi!
+        </div>
+
+        <div class="gc-story">
+            <div class="gc-step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    Alpha Vantage API cho mày <strong>lịch sử giá 200 ngày</strong> của AAPL<br>
+                    <span class="mini-calc">[$150, $152, $148, $155, ... (200 số)]</span>
+                </div>
+            </div>
+            <div class="gc-step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    Django tính <strong>trung bình 50 ngày gần nhất</strong><br>
+                    <span class="mini-calc">sum(prices[-50:]) / 50 = $185</span>
+                </div>
+            </div>
+            <div class="gc-step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    Django tính <strong>trung bình 200 ngày</strong><br>
+                    <span class="mini-calc">sum(prices[-200:]) / 200 = $178</span>
+                </div>
+            </div>
+            <div class="gc-step">
+                <div class="step-num">4</div>
+                <div class="step-text">
+                    So sánh: <strong>$185 > $178?</strong><br>
+                    Có → 🟢 Golden Cross &nbsp;|&nbsp; Không → 🔴 Death Cross
+                </div>
+            </div>
+        </div>
+
+        <div class="signal-result">
+            <div class="sig-box golden">
+                <span class="sig-icon">🟢</span>
+                <div class="sig-title">Golden Cross</div>
+                <div class="sig-desc">Giá gần đây đang cao hơn giá cũ → cổ phiếu đang tốt dần lên → tín hiệu <strong>tích cực</strong></div>
+                <div class="sig-code">ma_50 > ma_200</div>
+            </div>
+            <div class="sig-box death">
+                <span class="sig-icon">🔴</span>
+                <div class="sig-title">Death Cross</div>
+                <div class="sig-desc">Giá gần đây đang thấp hơn giá cũ → cổ phiếu đang yếu đi → tín hiệu <strong>cảnh báo</strong></div>
+                <div class="sig-code">ma_50 &lt; ma_200</div>
+            </div>
+        </div>
+
+        <div style="background: #f0fdf4; border-radius: 14px; padding: 1.2rem; border: 1px solid #86efac; text-align: center; margin-top: 0.5rem;">
+            💡 <strong>Toàn bộ "thuật toán" phức tạp" đó chỉ là 3 dòng Python.</strong> Hadriel hứa. 🔥
+        </div>
+    </div>
+
+    <!-- ═══ CHƯƠNG 5: APP LÀM GÌ ═══ -->
+    <div class="chapter ch5">
+        <div class="chapter-num">Chương 5 · App của mày</div>
+        <h2>📱 QuantApp của mày làm gì?</h2>
+
+        <p style="margin-bottom: 1.2rem; color: var(--text-light);">Tổng hợp lại — app của mày tự động làm 3 thứ mà mày vừa học:</p>
+
+        <div class="app-is">
+            <div class="app-feature">
+                <span class="feat-icon">📊</span>
+                <div class="feat-title">Lấy giá tự động</div>
+                <div class="feat-simple">Mày gõ tên cổ phiếu → app gọi API → lấy giá thật về</div>
+                <div class="feat-example">Gõ: <strong>AAPL</strong><br>App trả về: <strong style="color: #16a34a;">$185.20</strong></div>
+            </div>
+            <div class="app-feature">
+                <span class="feat-icon">💰</span>
+                <div class="feat-title">Tính lời/lỗ tự động</div>
+                <div class="feat-simple">Mày nhập "mua bao nhiêu, giá bao nhiêu" → app tự tính</div>
+                <div class="feat-example">10 AAPL @ $150<br>Lời: <strong style="color: #16a34a;">+$350 (+23%)</strong></div>
+            </div>
+            <div class="app-feature">
+                <span class="feat-icon">🟢</span>
+                <div class="feat-title">Tín hiệu Golden Cross</div>
+                <div class="feat-simple">App tính MA rồi báo nên giữ hay cẩn thận</div>
+                <div class="feat-example">AAPL: <strong style="color: #16a34a;">🟢 Golden Cross</strong><br>TSLA: <strong style="color: #dc2626;">🔴 Death Cross</strong></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+            <p style="font-weight: 700; margin-bottom: 1rem; color: var(--text-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Data đi từ đâu tới đâu?</p>
+            <div class="simple-flow">
+                <div class="flow-node">
+                    <span class="fn-icon">🌐</span>
+                    Alpha Vantage
+                    <div class="fn-what">Nguồn giá thật</div>
+                </div>
+                <div class="flow-arr">→</div>
+                <div class="flow-node">
+                    <span class="fn-icon">🐍</span>
+                    Django
+                    <div class="fn-what">Tính toán + lưu</div>
+                </div>
+                <div class="flow-arr">→</div>
+                <div class="flow-node">
+                    <span class="fn-icon">🗄️</span>
+                    PostgreSQL
+                    <div class="fn-what">Database</div>
+                </div>
+                <div class="flow-arr">→</div>
+                <div class="flow-node">
+                    <span class="fn-icon">⚛️</span>
+                    React
+                    <div class="fn-what">Hiển thị đẹp</div>
+                </div>
+                <div class="flow-arr">→</div>
+                <div class="flow-node">
+                    <span class="fn-icon">🎤</span>
+                    Interview
+                    <div class="fn-what">Mày kể hay cực!</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #fffbeb; border: 2px solid #fde68a; border-radius: 16px; padding: 1.5rem; margin-top: 1.5rem;">
+            <p style="font-weight: 800; color: #92400e; margin-bottom: 0.8rem;">🎤 Mày sẽ nói gì trong phỏng vấn:</p>
+            <p style="font-style: italic; color: #78350f; font-size: 0.95rem;">"Tôi build một app theo dõi cổ phiếu với Django REST và React. Nó tự động lấy giá thật từ Alpha Vantage API, tính lời/lỗ cho danh mục, và implement thuật toán Golden Cross — so sánh giá trung bình 50 ngày với 200 ngày để báo tín hiệu mua/bán. Deploy trên Railway và Vercel."</p>
+            <p style="font-size: 0.85rem; color: #92400e; margin-top: 0.8rem;">→ Nghe <strong>cực kỳ impressive</strong>. Mà mày vừa hiểu hết tất cả rồi 🔥</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    "Those who hope in the Lord will renew their strength." — Isaiah 40:31 💪<br>
+    <span style="font-size: 0.85rem; margin-top: 0.5rem; display: block;">Hadriel's Super Simple Guide · For Wiganz · April 2026</span>
+</div>
+
+<script>
+    function calcPnL() {
+        const qty = parseFloat(document.getElementById('qty').value) || 0;
+        const buy = parseFloat(document.getElementById('buy_price').value) || 0;
+        const curr = parseFloat(document.getElementById('curr_price').value) || 0;
+
+        const invested = qty * buy;
+        const currentVal = qty * curr;
+        const pnl = currentVal - invested;
+        const pnlPct = buy > 0 ? ((curr - buy) / buy * 100) : 0;
+
+        document.getElementById('invested').textContent = '$' + invested.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        document.getElementById('current_val').textContent = '$' + currentVal.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+
+        const pnlEl = document.getElementById('pnl');
+        const pctEl = document.getElementById('pnl_pct');
+
+        if (pnl >= 0) {
+            pnlEl.textContent = '+$' + pnl.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            pnlEl.className = 'r-value profit';
+            pctEl.textContent = '+' + pnlPct.toFixed(1) + '%';
+            pctEl.className = 'r-value profit';
+        } else {
+            pnlEl.textContent = '-$' + Math.abs(pnl).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            pnlEl.className = 'r-value loss';
+            pctEl.textContent = pnlPct.toFixed(1) + '%';
+            pctEl.className = 'r-value loss';
+        }
+    }
+</script>
+</body>
+</html>
